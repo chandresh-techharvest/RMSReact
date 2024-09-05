@@ -1,37 +1,110 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function Login() {
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    })
+
+    const [message, setMessage] = useState({
+        success: '',
+        danger: ''
+    })
+
+    const handleValue = (e) => {
+        e.preventDefault();
+
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await axios.post('/login', formData)
+
+            setFormData({
+                email: '',
+                password: ''
+            })
+
+            localStorage.setItem('token', res.data.token)
+
+            setMessage({
+                ...message,
+                success: res.data.message
+            })
+
+        } catch (error) {
+
+            setMessage({
+                ...message,
+                danger: 'Please try again!'
+            })
+            console.log("error ", error);
+
+        }
+        finally {
+            setTimeout(() => setMessage({
+                success: '',
+                danger: ''
+            }), 3000)
+        }
+    }
+
     return (
-        <div class="wrapper">
-            <div class="title">
-                Login Form
+        <>
+            <div class="wrapper">
+                <div class="title">
+                    Login Form
+                </div>
+                <form onSubmit={handleSubmit}>
+                    <div class="field">
+                        <input type="email" name='email' value={formData.email} onChange={handleValue} required />
+                        <label>Email Address</label>
+                    </div>
+                    <div class="field">
+                        <input type="password" name='password' value={formData.password} onChange={handleValue} required />
+                        <label>Password</label>
+                    </div>
+                    <div class="content">
+                        <div class="checkbox">
+                            <input type="checkbox" id="remember-me" />
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                        <div class="pass-link">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input type="submit" value="Login" />
+                    </div>
+                    <div class="signup-link">
+                        Not a member? <Link to='register'>Signup now</Link>
+                    </div>
+                </form>
             </div>
-            <form action="#">
-                <div class="field">
-                    <input type="text" required />
-                    <label>Email Address</label>
-                </div>
-                <div class="field">
-                    <input type="password" required />
-                    <label>Password</label>
-                </div>
-                <div class="content">
-                    <div class="checkbox">
-                        <input type="checkbox" id="remember-me" />
-                        <label for="remember-me">Remember me</label>
+            {
+                message.success && (
+                    <div class="alert alert-success" role="alert">
+                        {message.success}
                     </div>
-                    <div class="pass-link">
-                        <a href="#">Forgot password?</a>
+                )
+            }
+            {
+                message.danger && (
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {message.danger}
                     </div>
-                </div>
-                <div class="field">
-                    <input type="submit" value="Login" />
-                </div>
-                <div class="signup-link">
-                    Not a member? <a href="#">Signup now</a>
-                </div>
-            </form>
-        </div>
+                )
+            }
+        </>
 
     )
 }
