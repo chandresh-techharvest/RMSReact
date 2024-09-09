@@ -4,7 +4,7 @@ import axios from 'axios'
 
 function Register() {
 
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const [formdata, setFormData] = useState({
     email: '',
@@ -37,7 +37,11 @@ function Register() {
         success: res.data.message
       })
 
-      navigate('/');
+      setTimeout(() => {
+        navigate('/')
+      }, 3000)
+
+
 
     } catch (error) {
       setMessage({
@@ -50,7 +54,7 @@ function Register() {
       setFormData({
         email: '',
         password: ''
-      }) 
+      })
 
       setTimeout(() => setMessage({
         success: '',

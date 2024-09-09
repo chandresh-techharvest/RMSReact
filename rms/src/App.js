@@ -1,8 +1,9 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
+import Home from "./Pages/Home";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
@@ -10,6 +11,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route
+          path="home"
+          element={
+            <ProtectedRoute >
+            <Home/>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

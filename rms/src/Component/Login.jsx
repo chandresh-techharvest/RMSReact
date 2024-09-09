@@ -1,8 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom'
+import { setAuthenticated } from '../Redux/Slice/userSlice';
 
 function Login() {
+
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -32,14 +38,20 @@ function Login() {
             setFormData({
                 email: '',
                 password: ''
-            })
+            })            
 
             localStorage.setItem('token', res.data.token)
+
+            dispatch(setAuthenticated({isAuthenticated:!!res.data.token}))
 
             setMessage({
                 ...message,
                 success: res.data.message
             })
+
+            setTimeout(() => {
+                navigate('/home')
+            }, 3000);
 
         } catch (error) {
 
