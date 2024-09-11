@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
 import Home from "./Pages/Home";
+import Layout from './Layout'
 import ProtectedRoute from "./ProtectedRoute";
+import AddProduct from './Component/AddProduct'
 
 function App() {
   return (
@@ -15,10 +17,12 @@ function App() {
           path="home"
           element={
             <ProtectedRoute >
-            <Home/>
+            <Layout/>
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="addproduct" element={<AddProduct />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
