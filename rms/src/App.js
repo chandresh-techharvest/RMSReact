@@ -1,10 +1,9 @@
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
 import Home from "./Pages/Home";
 import ProtectedRoute from "./ProtectedRoute";
-import Layout from "./Layout";
-import Product from "./Component/AddProduct";
 
 function App() {
   return (
@@ -13,15 +12,13 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route
-          path="dashboard"
+          path="home"
           element={
-            <ProtectedRoute>
-              <Layout />
+            <ProtectedRoute >
+            <Home/>
             </ProtectedRoute>
           }
-        >
-          <Route path="addproduct" element={<Product />} />
-        </Route>
+        />
       </Routes>
     </BrowserRouter>
   );
