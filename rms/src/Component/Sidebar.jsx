@@ -73,7 +73,7 @@ function Sidebar() {
                     <circle cx="20" cy="21" r="1"></circle>
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                   </svg>
-                  <span className="ml-4">Products</span>
+                  <span className="ml-4">OwnerMaster</span>
                   <svg
                     className="svg-icon iq-arrow-right arrow-active"
                     width="20"
@@ -98,13 +98,13 @@ function Sidebar() {
                   <li className="">
                     <a href="../backend/page-list-product.html">
                       <i className="las la-minus"></i>
-                      <Link to="listproduct">List Product</Link>
+                      <Link to="listownermaster">List OwnerMaster</Link>
                     </a>
                   </li>
                   <li className="">
                     <a href="../backend/page-add-product.html">
                       <i className="las la-minus"></i>
-                      <Link to="addproduct">Add Product</Link>
+                      <Link to="addownermaster">Add OwnerMaster</Link>
                     </a>
                   </li>
                 </ul>

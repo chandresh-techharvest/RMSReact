@@ -38,11 +38,11 @@ function Login() {
             setFormData({
                 email: '',
                 password: ''
-            })            
+            })
 
             localStorage.setItem('token', res.data.token)
 
-            dispatch(setAuthenticated({isAuthenticated:!!res.data.token}))
+            dispatch(setAuthenticated({ isAuthenticated: !!res.data.token }))
 
             setMessage({
                 ...message,
@@ -58,9 +58,8 @@ function Login() {
             setMessage({
                 ...message,
                 danger: 'Please try again!'
-            })
-            console.log("error ", error);
 
+            })
         }
         finally {
             setTimeout(() => setMessage({

@@ -1,0 +1,1 @@
+ "set HTTPS=true&&set SSL_CRT_FILE=C:/Users/Sansar Tiwari/cert.crt&&set SSL_KEY_FILE=C:/Users/Sansar Tiwari/cert.key&&react-scripts start"

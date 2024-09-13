@@ -2,17 +2,10 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
-import Home from "./Pages/Home";
 import Layout from './Layout'
 import ProtectedRoute from "./ProtectedRoute";
-
-import Layout from "./Layout";
-
-import AddProduct from "./Component/AddProduct";
-import ListProduct from "./Component/ListProduct";
-
-
-
+import AddOwnerMaster from "./Component/AddOwnerMaster";
+import ListOwnerMaster from "./Component/ListOwnerMaster";
 
 function App() {
   return (
@@ -21,20 +14,16 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route
-          path="home"
+          path="dashboard"
           element={
             <ProtectedRoute >
             <Layout/>
             </ProtectedRoute>
           }
         >
-          <Route path="addproduct" element={<AddProduct />} />
-
-          <Route path="listproduct" element={<ListProduct />}/>  
-
-
-        </Route>
-        
+          <Route path="addownermaster" element={<AddOwnerMaster />} />
+          <Route path="listownermaster" element={<ListOwnerMaster />}/>  
+        </Route> 
       </Routes>
     </BrowserRouter>
   );
