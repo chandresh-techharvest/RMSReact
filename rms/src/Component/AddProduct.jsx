@@ -1,7 +1,10 @@
 import React, {useState, useEffect } from "react";
 import axios from 'axios'
 
-function Product() {
+
+function AddProduct() {
+
+
 
   const [formdata, setformData] = useState({
     name: '',
@@ -43,6 +46,7 @@ function Product() {
 
     }
   }
+
 
   return (
     <div className="content-page">
@@ -144,4 +148,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default AddProduct;

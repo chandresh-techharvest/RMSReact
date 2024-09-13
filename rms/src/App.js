@@ -5,7 +5,14 @@ import Register from "./Component/Register";
 import Home from "./Pages/Home";
 import Layout from './Layout'
 import ProtectedRoute from "./ProtectedRoute";
-import AddProduct from './Component/AddProduct'
+
+import Layout from "./Layout";
+
+import AddProduct from "./Component/AddProduct";
+import ListProduct from "./Component/ListProduct";
+
+
+
 
 function App() {
   return (
@@ -22,7 +29,12 @@ function App() {
           }
         >
           <Route path="addproduct" element={<AddProduct />} />
+
+          <Route path="listproduct" element={<ListProduct />}/>  
+
+
         </Route>
+        
       </Routes>
     </BrowserRouter>
   );
