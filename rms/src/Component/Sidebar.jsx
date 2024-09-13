@@ -98,7 +98,7 @@ function Sidebar() {
                   <li className="">
                     <a href="../backend/page-list-product.html">
                       <i className="las la-minus"></i>
-                      <span>List Product</span>
+                      <Link to="listproduct">List Product</Link>
                     </a>
                   </li>
                   <li className="">

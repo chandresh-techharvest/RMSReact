@@ -1,6 +1,6 @@
 import React from "react";
 
-function Product() {
+function AddProduct() {
   return (
     <div className="content-page">
     <div className="container-fluid add-form-list">
@@ -93,4 +93,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default AddProduct;

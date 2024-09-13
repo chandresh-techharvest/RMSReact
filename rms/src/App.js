@@ -5,6 +5,8 @@ import Home from "./Pages/Home";
 import ProtectedRoute from "./ProtectedRoute";
 import Layout from "./Layout";
 import Product from "./Component/AddProduct";
+import AddProduct from "./Component/AddProduct";
+import ListProduct from "./Component/ListProduct";
 
 function App() {
   return (
@@ -20,8 +22,11 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="addproduct" element={<Product />} />
+          <Route path="addproduct" element={<AddProduct />} />
+          <Route path="listproduct" element={<ListProduct />}/>  
+
         </Route>
+        
       </Routes>
     </BrowserRouter>
   );
