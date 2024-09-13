@@ -1,12 +1,18 @@
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
 import Home from "./Pages/Home";
+import Layout from './Layout'
 import ProtectedRoute from "./ProtectedRoute";
+
 import Layout from "./Layout";
-import Product from "./Component/AddProduct";
+
 import AddProduct from "./Component/AddProduct";
 import ListProduct from "./Component/ListProduct";
+
+
+
 
 function App() {
   return (
@@ -15,15 +21,17 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route
-          path="dashboard"
+          path="home"
           element={
-            <ProtectedRoute>
-              <Layout />
+            <ProtectedRoute >
+            <Layout/>
             </ProtectedRoute>
           }
         >
           <Route path="addproduct" element={<AddProduct />} />
+
           <Route path="listproduct" element={<ListProduct />}/>  
+
 
         </Route>
         
