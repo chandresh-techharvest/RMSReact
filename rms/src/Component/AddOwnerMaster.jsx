@@ -50,6 +50,12 @@ function AddOwnerMaster() {
         danger: 'Error, While saving ownermaster'
       })
     }
+    finally {
+      setTimeout(() => setMessage({
+        success: '',
+        danger: ''
+      }), 3000);
+    }
   }
 
 

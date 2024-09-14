@@ -6,10 +6,7 @@ import { setAuthenticated } from './Redux/Slice/userSlice';
 function ProtectedRoute({ children }) {
 
   const user = useSelector((state) => state.user)
-
-  console.log("user ",user.user.isAuthenticated);
   
-
   const dispatch = useDispatch();
 
   useEffect(() => {

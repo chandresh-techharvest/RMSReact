@@ -15916,6 +15916,7 @@ button.badge-secondary:focus {
 .bg-success {
   color: #fff !important;
   background-color: #78C091 !important;
+  border: none;
 }
 
 a.bg-success:hover,

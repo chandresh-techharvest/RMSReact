@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ListOwnerMaster() {
 
   const [data, setData] = useState([]);
+
+  const navigate = useNavigate();
 
   const [message, setMessage] = useState({
     success: '',
@@ -14,7 +16,6 @@ function ListOwnerMaster() {
   })
 
   useEffect(() => {
-
     const getData = async () => {
       try {
         const res = await axios.get('/ownermaster')
@@ -31,6 +32,22 @@ function ListOwnerMaster() {
     getData();
   }, [])
 
+  const handleUpdate = (id) => {
+    navigate(`/dashboard/update/${id}`)
+  }
+
+  const handleDelete = async (id) => {
+    try {
+
+      await axios.delete(`/ownermaster/${id}`)
+
+      setData(data.filter(data => data._id !== id))
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div class="content-page">
       <div className="container-fluid">
@@ -40,12 +57,7 @@ function ListOwnerMaster() {
               <div>
                 <h4 className="mb-3">OwnerMaster List</h4>
               </div>
-              <a
-                className="btn btn-primary add-list"
-                href="/dashboard/addsupplier"
-              >
-                <Link to='ownermaster'> <i className="las la-plus mr-3"></i>Add OwnerMaster</Link>
-              </a>
+              <Link className="btn btn-primary add-list" to='/dashboard/addownermaster' style={{ color: "white" }}> <i className="las la-plus mr-3"></i>Add OwnerMaster</Link>
             </div>
           </div>
           <div className="col-lg-12">
@@ -78,23 +90,20 @@ function ListOwnerMaster() {
                 <tbody className="ligth-body">
                   {
                     data.map((item, index) => (
-                      <tr>
+                      <tr key={index}>
                         <td>
                           <Link>{item.name}</Link>
                         </td>
                         <td>{item.emailaddress}</td>
                         <td>{item.password}</td>
                         <td>{item.phone}</td>
-                        <td>{item.createdAt}</td>
+                        <td>{item.createdAt.slice(0,10)}</td>
                         <td>
                           <div className="d-flex align-items-center list-action">
-                            <Link
-                              className="badge bg-success mr-2"
-                              href="/dashboard/supplier/update/667eaf1e032b36eef4714754"
-                            >
+                            <button className="badge bg-success mr-2" onClick={() => handleUpdate(item._id)}>
                               <ModeOutlinedIcon />
-                            </Link >
-                            <button className="badge bg-warning mr-2">
+                            </button >
+                            <button className="badge bg-warning mr-2" onClick={() => handleDelete(item._id)}>
                               <DeleteOutlineOutlinedIcon />
                             </button>
                           </div>

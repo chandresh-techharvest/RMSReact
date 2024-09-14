@@ -1,6 +1,16 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
+
+  const navigate = useNavigate();
+
+  const handlelogout = (e) => {
+    e.preventDefault();
+
+    localStorage.removeItem('token')
+    navigate('/')
+  }
   return (
     <div className="iq-top-navbar">
       <div className="iq-navbar-custom">
@@ -437,9 +447,9 @@ function Header() {
                             >
                               Profile
                             </a>
-                            <a href="auth-sign-in.html" className="btn border">
+                            <Link className="btn border" onClick={handlelogout}>
                               Sign Out
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>
