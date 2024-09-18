@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import profile from '../assets/images/user/1.png'
+import profilebg from '../assets/images/page-img/profile-bg.jpg'
 
 function Header() {
 
@@ -413,7 +415,7 @@ function Header() {
                     aria-expanded="false"
                   >
                     <img
-                      src="../assets/images/user/1.png"
+                      src={profile}
                       className="img-fluid rounded"
                       alt="user"
                     />
@@ -425,14 +427,14 @@ function Header() {
                     <div className="card shadow-none m-0">
                       <div className="card-body p-0 text-center">
                         <div className="media-body profile-detail text-center">
-                          //{" "}
+                      
                           <img
-                            src="../assets/images/page-img/profile-bg.jpg"
+                            src={profilebg}
                             alt="profile-bg"
                             className="rounded-top img-fluid mb-4"
                           />
                           <img
-                            src="../assets/images/user/1.png"
+                            src={profile}
                             alt="profile-img"
                             className="rounded profile-img img-fluid avatar-70"
                           />

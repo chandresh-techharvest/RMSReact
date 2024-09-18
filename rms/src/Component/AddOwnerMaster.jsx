@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import { useSelector } from "react-redux";
 
 
 function AddOwnerMaster() {
+
+  const user = useSelector(state => state.user)
+
+  console.log("user ",user);
+  
 
   const [formdata, setformData] = useState({
     name: '',
     emailaddress: '',
     password: '',
-    phone: ''
+    phone: '',
+    createdBy:''
   })
 
   const [message, setMessage] = useState({

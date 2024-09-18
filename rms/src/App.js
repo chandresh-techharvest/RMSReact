@@ -7,13 +7,16 @@ import ProtectedRoute from "./ProtectedRoute";
 import AddOwnerMaster from "./Component/AddOwnerMaster";
 import ListOwnerMaster from "./Component/ListOwnerMaster";
 import Update from "./Component/Update";
+import persistor from  './Redux/Store/store'
+import { PersistGate } from "redux-persist/integration/react";
+
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="register" element={<Register />} />    
         <Route
           path="dashboard"
           element={

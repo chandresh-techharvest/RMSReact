@@ -34,15 +34,17 @@ function Login() {
 
         try {
             const res = await axios.post('/login', formData)
-
+            
             setFormData({
                 email: '',
                 password: ''
             })
 
+            localStorage.setItem('userId',res.data.user._id)
+
             localStorage.setItem('token', res.data.token)
 
-            dispatch(setAuthenticated({ isAuthenticated: !!res.data.token }))
+            dispatch(setAuthenticated({userId:res.data.user._id, isAuthenticated: !!res.data.token }))
 
             setMessage({
                 ...message,
