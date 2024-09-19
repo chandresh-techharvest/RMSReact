@@ -1,6 +1,9 @@
-import React from 'react'
+import React,{useState} from 'react'
+import axios from 'axios'
 
 function AddPropertyMaster() {
+
+    const ownerId = localStorage.getItem('ownerId')
 
     const [formdata, setformData] = useState({
         propertyId: '',
@@ -9,7 +12,7 @@ function AddPropertyMaster() {
         city: '',
         address1: '',
         state: '',
-        ownerMasters: ''
+        ownerMasters: ownerId
     })
 
     const [message, setMessage] = useState({

@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Sidebar() {
+
+  const role = localStorage.getItem('role');
   return (
     <div className="iq-sidebar  sidebar-default ">
       <div className="iq-sidebar-logo d-flex align-items-center justify-content-between">
@@ -49,7 +51,9 @@ function Sidebar() {
                   <span className="ml-4">Dashboards</span>
                 </a>
               </li>
-              <li className=" ">
+              {
+                      role === "SuperAdmin" ? (
+                        <li className=" ">
                 <a
                   href="#ownermaster"
                   className="collapsed"
@@ -109,7 +113,8 @@ function Sidebar() {
                   </li>
                 </ul>
               </li>
-              <li className=" ">
+                      ):(
+                        <li className=" ">
                 <a
                   href="#propertymaster"
                   className="collapsed"
@@ -169,6 +174,8 @@ function Sidebar() {
                   </li>
                 </ul>
               </li>
+                      )
+              }
             </ul>
           </nav>
          

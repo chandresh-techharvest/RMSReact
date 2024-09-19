@@ -30,7 +30,7 @@ function Register() {
 
     try {
 
-      const res = await axios.post('/register', formdata)
+      const res = await axios.post('https://rsmapi.vercel.app/register', formdata)
 
       setMessage({
         ...message,

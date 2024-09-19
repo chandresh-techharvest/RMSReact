@@ -24,7 +24,7 @@ function Update() {
 
         const retriveData = async () => {
             try {
-                const res = await axios.get(`/ownermaster/${id}`)
+                const res = await axios.get(`https://rsmapi.vercel.app/ownermaster/${id}`)
 
                 setformData(await res.data)
 

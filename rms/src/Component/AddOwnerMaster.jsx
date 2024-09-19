@@ -5,17 +5,14 @@ import { useSelector } from "react-redux";
 
 function AddOwnerMaster() {
 
-  const user = useSelector(state => state.user)
-
-  console.log("user ",user);
-  
+  const userId = localStorage.getItem('userId');
 
   const [formdata, setformData] = useState({
     name: '',
-    emailaddress: '',
+    email: '',
     password: '',
     phone: '',
-    createdBy:''
+    createdBy:userId
   })
 
   const [message, setMessage] = useState({
@@ -36,11 +33,11 @@ function AddOwnerMaster() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('/ownermaster', formdata)
+      const res = await axios.post('https://rsmapi.vercel.app/ownermaster', formdata)
 
       setformData({
         name: '',
-        emailaddress: '',
+        email: '',
         password: '',
         phone: ''
       })
@@ -64,7 +61,6 @@ function AddOwnerMaster() {
       }), 3000);
     }
   }
-
 
   return (
     <>
@@ -109,8 +105,8 @@ function AddOwnerMaster() {
                             className="form-control"
                             placeholder="Enter Email"
                             data-errors="Please Enter Email."
-                            name="emailaddress"
-                            value={formdata.emailaddress}
+                            name="email"
+                            value={formdata.email}
                             onChange={handleData}
                             required=""
                           />

@@ -33,33 +33,59 @@ function Login() {
         e.preventDefault();
 
         try {
-            const res = await axios.post('/login', formData)
-            
+            const res = await axios.post('https://rsmapi.vercel.app/login', formData)
+
+            console.log("role ", res.data.owner.role);
+
+
             setFormData({
                 email: '',
                 password: ''
             })
 
-            localStorage.setItem('userId',res.data.user._id)
+            if (res.data.user) {
+                if (res.data.user.role === "SuperAdmin") {
+                    localStorage.setItem('userId', res.data.user._id)
+                    localStorage.setItem('role', res.data.user.role)
+                    localStorage.setItem('token', res.data.token)
 
-            localStorage.setItem('token', res.data.token)
+                    dispatch(setAuthenticated({ userId: res.data.user._id, isAuthenticated: !!res.data.token }))
 
-            dispatch(setAuthenticated({userId:res.data.user._id, isAuthenticated: !!res.data.token }))
+                    setMessage({
+                        ...message,
+                        success: res.data.message
+                    })
 
-            setMessage({
-                ...message,
-                success: res.data.message
-            })
+                    setTimeout(() => {
+                        navigate('/dashboard')
+                    }, 3000);
+                }
+            }
+            else if (res.data.owner) {
+                if (res.data.owner.role === "Owner") {
+                    localStorage.setItem('ownerId', res.data.owner._id)
+                    localStorage.setItem('role', res.data.owner.role)
+                    localStorage.setItem('token', res.data.token)
 
-            setTimeout(() => {
-                navigate('/dashboard')
-            }, 3000);
+                    dispatch(setAuthenticated({ ownerId: res.data.owner._id, isAuthenticated: !!res.data.token }))
+
+                    setMessage({
+                        ...message,
+                        success: res.data.message
+                    })
+
+                    setTimeout(() => {
+                        navigate('/dashboard')
+                    }, 3000);
+                }
+            }
 
         } catch (error) {
+            console.log(error);
 
             setMessage({
                 ...message,
-                danger: 'Please try again!'
+                danger: error.message
 
             })
         }

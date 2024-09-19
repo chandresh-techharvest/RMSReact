@@ -9,11 +9,11 @@ function ProtectedRoute({ children }) {
   
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const userId = localStorage.getItem('userId')
-    const token = localStorage.getItem('token');
-    dispatch(setAuthenticated({userId:userId, isAuthenticated: !!token }));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const userId = localStorage.getItem('userId')
+  //   const token = localStorage.getItem('token');
+  //   dispatch(setAuthenticated({userId:userId, isAuthenticated: !!token }));
+  // }, [dispatch]);
 
   return user.user.isAuthenticated ? children : <Navigate to='/' />
 }

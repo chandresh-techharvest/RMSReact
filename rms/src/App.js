@@ -7,8 +7,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import AddOwnerMaster from "./Component/AddOwnerMaster";
 import ListOwnerMaster from "./Component/ListOwnerMaster";
 import Update from "./Component/Update";
-import persistor from  './Redux/Store/store'
-import { PersistGate } from "redux-persist/integration/react";
+import AddPropertyMaster from "./Component/AddPropertyMaster";
+import ListPropertyMaster from "./Component/ListPropertyMaster";
 
 
 function App() {
@@ -27,6 +27,8 @@ function App() {
         >
           <Route path="addownermaster" element={<AddOwnerMaster />} />
           <Route path="listownermaster" element={<ListOwnerMaster />}/>
+          <Route path="addpropertymaster" element={<AddPropertyMaster/>}/>
+          <Route path="listpropertymaster" element={<ListPropertyMaster/>}/>
           <Route path="update/:id" element={<Update />} />
         </Route>
       </Routes>
