@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { getData } from '../Redux/Slice/userSlice';
 import axios from "axios";
 
 function ListPropertyMaster() {
@@ -98,13 +100,14 @@ function ListPropertyMaster() {
                     </tr>
                   </thead>
                   <tbody className="ligth-body">
-                    {
-                      data.map((item, index) => (
+                    {/* {
+                     retriveData && retriveData.map((item, index) => (
                         <tr key={index}>
                           <td>
                             <Link>{item.address1}</Link>
                           </td>
                           <td>{item.address2}</td>
+                          <td>{item.pincode && item.pincode}</td>
                           <td>{item.city}</td>
                           <td>{item.state}</td>
                           <td>{item.owner && item.owner.name}</td>
@@ -120,7 +123,7 @@ function ListPropertyMaster() {
                           </td>
                         </tr>
                       ))
-                    }
+                    } */}
                   </tbody>
                 </table>
               </div>

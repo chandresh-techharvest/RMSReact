@@ -24,7 +24,7 @@ function Sidebar() {
         data-scroll="1"
         data-scrollbar="true"
         tabindex="-1"
-        // style="overflow: hidden; outline: none;"
+      // style="overflow: hidden; outline: none;"
       >
         <div className="scroll-content">
           <nav className="iq-sidebar-menu">
@@ -52,133 +52,195 @@ function Sidebar() {
                 </a>
               </li>
               {
-                      role === "SuperAdmin" ? (
-                        <li className=" ">
-                <a
-                  href="#ownermaster"
-                  className="collapsed"
-                  data-toggle="collapse"
-                  aria-expanded="false"
-                >
-                  <svg
-                    className="svg-icon"
-                    id="p-dash2"
-                    width="20"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                  </svg>
-                  <span className="ml-4">OwnerMaster</span>
-                  <svg
-                    className="svg-icon iq-arrow-right arrow-active"
-                    width="20"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="10 15 15 20 20 15"></polyline>
-                    <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                  </svg>
-                </a>
-                <ul
-                  id="ownermaster"
-                  className="iq-submenu collapse"
-                  data-parent="#iq-sidebar-toggle"
-                >
-                  <li className="">
-                    <a href="../backend/page-list-product.html">
-                      <i className="las la-minus"></i>
-                      <Link to="listownermaster">List OwnerMaster</Link>
+                role === "SuperAdmin" ? (
+                  <li className=" ">
+                    <a
+                      href="#ownermaster"
+                      className="collapsed"
+                      data-toggle="collapse"
+                      aria-expanded="false"
+                    >
+                      <svg
+                        className="svg-icon"
+                        id="p-dash2"
+                        width="20"
+                        height="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span className="ml-4">OwnerMaster</span>
+                      <svg
+                        className="svg-icon iq-arrow-right arrow-active"
+                        width="20"
+                        height="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="10 15 15 20 20 15"></polyline>
+                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                      </svg>
                     </a>
+                    <ul
+                      id="ownermaster"
+                      className="iq-submenu collapse"
+                      data-parent="#iq-sidebar-toggle"
+                    >
+                      <li className="">
+                        <a href="../backend/page-list-product.html">
+                          <i className="las la-minus"></i>
+                          <Link to="listownermaster">List OwnerMaster</Link>
+                        </a>
+                      </li>
+                      <li className="">
+                        <a href="../backend/page-add-product.html">
+                          <i className="las la-minus"></i>
+                          <Link to="addownermaster">Add OwnerMaster</Link>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li className="">
-                    <a href="../backend/page-add-product.html">
-                      <i className="las la-minus"></i>
-                      <Link to="addownermaster">Add OwnerMaster</Link>
+                ) : (
+                  <>
+                  <li className=" ">
+                    <a
+                      href="#propertymaster"
+                      className="collapsed"
+                      data-toggle="collapse"
+                      aria-expanded="false"
+                    >
+                      <svg
+                        className="svg-icon"
+                        id="p-dash2"
+                        width="20"
+                        height="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span className="ml-4">PropertyMaster</span>
+                      <svg
+                        className="svg-icon iq-arrow-right arrow-active"
+                        width="20"
+                        height="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="10 15 15 20 20 15"></polyline>
+                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                      </svg>
                     </a>
+                    <ul
+                      id="propertymaster"
+                      className="iq-submenu collapse"
+                      data-parent="#iq-sidebar-toggle"
+                    >
+                      <li className="">
+                        <a href="../backend/page-list-product.html">
+                          <i className="las la-minus"></i>
+                          <Link to="listpropertymaster">List PropertyMaster</Link>
+                        </a>
+                      </li>
+                      <li className="">
+                        <a href="../backend/page-add-product.html">
+                          <i className="las la-minus"></i>
+                          <Link to="addpropertymaster">Add PropertyMaster</Link>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                </ul>
-              </li>
-                      ):(
-                        <li className=" ">
-                <a
-                  href="#propertymaster"
-                  className="collapsed"
-                  data-toggle="collapse"
-                  aria-expanded="false"
-                >
-                  <svg
-                    className="svg-icon"
-                    id="p-dash2"
-                    width="20"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                  </svg>
-                  <span className="ml-4">PropertyMaster</span>
-                  <svg
-                    className="svg-icon iq-arrow-right arrow-active"
-                    width="20"
-                    height="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="10 15 15 20 20 15"></polyline>
-                    <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                  </svg>
-                </a>
-                <ul
-                  id="propertymaster"
-                  className="iq-submenu collapse"
-                  data-parent="#iq-sidebar-toggle"
-                >
-                  <li className="">
-                    <a href="../backend/page-list-product.html">
-                      <i className="las la-minus"></i>
-                      <Link to="listpropertymaster">List PropertyMaster</Link>
+                  <li className=" ">
+                    <a
+                      href="#rentmaster"
+                      className="collapsed"
+                      data-toggle="collapse"
+                      aria-expanded="false"
+                    >
+                      <svg
+                        className="svg-icon"
+                        id="p-dash2"
+                        width="20"
+                        height="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                      <span className="ml-4">RentMaster</span>
+                      <svg
+                        className="svg-icon iq-arrow-right arrow-active"
+                        width="20"
+                        height="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="10 15 15 20 20 15"></polyline>
+                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                      </svg>
                     </a>
+                    <ul
+                      id="rentmaster"
+                      className="iq-submenu collapse"
+                      data-parent="#iq-sidebar-toggle"
+                    >
+                      <li className="">
+                        <a href="../backend/page-list-product.html">
+                          <i className="las la-minus"></i>
+                          <Link to="listrentmaster">List RentMaster</Link>
+                        </a>
+                      </li>
+                      <li className="">
+                        <a href="../backend/page-add-product.html">
+                          <i className="las la-minus"></i>
+                          <Link to="addrentmaster">Add RentMaster</Link>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li className="">
-                    <a href="../backend/page-add-product.html">
-                      <i className="las la-minus"></i>
-                      <Link to="addpropertymaster">Add PropertyMaster</Link>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-                      )
+                  </>
+                )
               }
             </ul>
           </nav>
-         
+
         </div>
       </div>
     </div>

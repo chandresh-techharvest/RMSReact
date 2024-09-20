@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
-import { useSelector } from "react-redux";
 
 
 function AddOwnerMaster() {
@@ -51,7 +50,7 @@ function AddOwnerMaster() {
     } catch (error) {
       setMessage({
         ...message,
-        danger: 'Error, While saving ownermaster'
+        danger: `${error.message}, While saving PropertyMaster`
       })
     }
     finally {

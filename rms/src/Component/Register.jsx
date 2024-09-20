@@ -5,7 +5,7 @@ import axios from 'axios'
 function Register() {
 
   const navigate = useNavigate();
-
+  
   const [formdata, setFormData] = useState({
     email: '',
     password: ''
@@ -86,7 +86,7 @@ function Register() {
               <label for="remember-me">Remember me</label>
             </div>
             <div class="pass-link">
-              <a href="#">Forgot password?</a>
+              <a >Forgot password?</a>
             </div>
           </div>
           <div class="field">

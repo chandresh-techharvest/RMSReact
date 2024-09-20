@@ -6,7 +6,6 @@ function AddPropertyMaster() {
     const ownerId = localStorage.getItem('ownerId')
 
     const [formdata, setformData] = useState({
-        propertyId: '',
         pincode: '',
         address2: '',
         city: '',
@@ -33,10 +32,9 @@ function AddPropertyMaster() {
         e.preventDefault();
 
         try {
-            const res = await axios.post('/ownermaster', formdata)
+            const res = await axios.post('https://rsmapi.vercel.app/propertymaster', formdata)
 
             setformData({
-                propertyId: '',
                 pincode: '',
                 address2: '',
                 city: '',
@@ -85,22 +83,6 @@ function AddPropertyMaster() {
                                         <div className="row">
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                    <label>PropertyId *</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        placeholder="Enter PropertyId"
-                                                        name="propertyId"
-                                                        data-errors="Please Enter PropertyId."
-                                                        value={formdata.propertyId}
-                                                        onChange={handleData}
-                                                        required=""
-                                                    />
-                                                    <div className="help-block with-errors"></div>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <div className="form-group">
                                                     <label>Pincode *</label>
                                                     <input
                                                         type="text"
@@ -139,7 +121,7 @@ function AddPropertyMaster() {
                                                         className="form-control"
                                                         placeholder="Enter Address2"
                                                         data-errors="Please Enter Address2."
-                                                        name="phone"
+                                                        name="address2"
                                                         value={formdata.address2}
                                                         onChange={handleData}
                                                         required=""
@@ -155,7 +137,7 @@ function AddPropertyMaster() {
                                                         className="form-control"
                                                         placeholder="Enter City"
                                                         data-errors="Please Enter City."
-                                                        name="phone"
+                                                        name="city"
                                                         value={formdata.city}
                                                         onChange={handleData}
                                                         required=""
@@ -171,7 +153,7 @@ function AddPropertyMaster() {
                                                         className="form-control"
                                                         placeholder="Enter State"
                                                         data-errors="Please Enter State."
-                                                        name="phone"
+                                                        name="state"
                                                         value={formdata.state}
                                                         onChange={handleData}
                                                         required=""
