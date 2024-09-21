@@ -35,9 +35,6 @@ function Login() {
         try {
             const res = await axios.post('https://rsmapi.vercel.app/login', formData)
 
-            console.log("role ", res.data.owner.role);
-
-
             setFormData({
                 email: '',
                 password: ''

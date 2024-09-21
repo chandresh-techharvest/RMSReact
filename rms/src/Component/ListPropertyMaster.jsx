@@ -1,47 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { getData } from '../Redux/Slice/userSlice';
+import { Link, useNavigate } from "react-router-dom";
+import {useSelector } from 'react-redux';
 import axios from "axios";
+import { selectAllPropertyMaster} from '../Redux/Slice/userSlice'
 
 function ListPropertyMaster() {
 
-  const [data, setData] = useState([]);
-
   const navigate = useNavigate();
 
+  const propertymaster = useSelector(selectAllPropertyMaster)
+  
   const [message, setMessage] = useState({
     success: '',
     danger: ''
   })
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get('https://rsmapi.vercel.app/propertymaster')
-
-        if (res.statusText == 'OK') {
-          setData(await res.data)
-        }
-
-      } catch (error) {
-        setMessage({
-          ...message,
-          danger: `${error.message}, While retriving PropertyMaster`
-        })
-      }
-      finally {
-        setTimeout(() => setMessage({
-          success: '',
-          danger: ''
-        }), 3000);
-      }
-    }
-
-    getData();
-  }, [])
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/update/${id}`)
@@ -52,7 +26,7 @@ function ListPropertyMaster() {
 
       await axios.delete(`https://rsmapi.vercel.app/propertymaster/${id}`)
 
-      setData(data.filter(data => data._id !== id))
+      // setData(data.filter(data => data._id !== id))
 
     } catch (error) {
       console.log(error);
@@ -61,7 +35,7 @@ function ListPropertyMaster() {
 
   return (
     <>
-      <div class="content-page">
+      <div className="content-page">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12">
@@ -94,23 +68,24 @@ function ListPropertyMaster() {
                     <tr className="ligth ligth-data">
                       <th>Address1</th>
                       <th>Address2</th>
+                      <th>Pincode</th>
                       <th>City</th>
                       <th>State</th>
                       <th>Property CreatedBy</th>
                     </tr>
                   </thead>
                   <tbody className="ligth-body">
-                    {/* {
-                     retriveData && retriveData.map((item, index) => (
+                    {
+                     propertymaster && propertymaster.map((item, index) => (
                         <tr key={index}>
                           <td>
                             <Link>{item.address1}</Link>
                           </td>
                           <td>{item.address2}</td>
-                          <td>{item.pincode && item.pincode}</td>
+                          <td>{item.pincode && item.pincode.$numberDecimal}</td>
                           <td>{item.city}</td>
                           <td>{item.state}</td>
-                          <td>{item.owner && item.owner.name}</td>
+                          <td>{item.ownerMasters && item.ownerMasters.name}</td>
                           <td>
                             <div className="d-flex align-items-center list-action">
                               <button className="badge bg-success mr-2" onClick={() => handleUpdate(item._id)}>
@@ -123,7 +98,7 @@ function ListPropertyMaster() {
                           </td>
                         </tr>
                       ))
-                    } */}
+                    }
                   </tbody>
                 </table>
               </div>
