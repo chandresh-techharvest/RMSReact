@@ -32,7 +32,7 @@ function App() {
           <Route path="listpropertymaster" element={<ListPropertyMaster />} />
           <Route path="addrentmaster" element={<AddRentMaster />} />
           <Route path="listrentmaster" element={<ListRentMaster />} />
-          <Route path="update/:id" element={<Update />} />
+          <Route path= ":whichroute/:id" element={<Update />} />
         </Route>
       </Routes>
     </BrowserRouter>

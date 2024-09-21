@@ -20,7 +20,7 @@ function ListOwnerMaster() {
       try {
         const res = await axios.get('https://rsmapi.vercel.app/ownermaster')
 
-        if (res.statusText == 'OK') {
+        if (res.status == 200) {
           setData(await res.data)
         }
 
@@ -42,7 +42,7 @@ function ListOwnerMaster() {
   }, [])
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/update/${id}`)
+    navigate(`/dashboard/ownermaster/Id?=${id}`)
   }
 
   const handleDelete = async (id) => {
@@ -59,7 +59,7 @@ function ListOwnerMaster() {
 
   return (
     <>
-      <div class="content-page">
+      <div className="content-page">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12">
@@ -92,7 +92,7 @@ function ListOwnerMaster() {
                     <tr className="ligth ligth-data">
                       <th>Name</th>
                       <th>EmailAddress</th>
-                      <th>Password</th>
+                      {/* <th>Password</th> */}
                       <th>Phone</th>
                       <th>CreatedAt</th>
                     </tr>
@@ -104,8 +104,8 @@ function ListOwnerMaster() {
                           <td>
                             <Link>{item.name}</Link>
                           </td>
-                          <td>{item.emailaddress}</td>
-                          <td>{item.password}</td>
+                          <td>{item.email}</td>
+                          {/* <td>{item.password}</td> */}
                           <td>{item.phone}</td>
                           <td>{item.createdAt.slice(0, 10)}</td>
                           <td>
