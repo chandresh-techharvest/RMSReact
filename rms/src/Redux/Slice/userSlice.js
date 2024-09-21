@@ -20,6 +20,16 @@ export const fetchPropertyMaster = createAsyncThunk(
   }
 );
 
+export const deleteMaster = createAsyncThunk('delete/deleteMaster',async(id)=>{
+  try {
+    const res = await axios.delete(`https://rsmapi.vercel.app/propertymaster/${id}`)
+    if (res?.status === 200) return id;
+    return `${res.status} : ${res.statusText}`;
+  } catch (error) {
+    return error.message
+  }
+})
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -42,13 +52,17 @@ const userSlice = createSlice({
       .addCase(fetchPropertyMaster.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      });
+      }).addCase(deleteMaster.fulfilled,(state,action)=>{
+        
+         state.propertyMaster = state.propertyMaster.filter(item=>item._id !== action.payload)
+        
+      })
   },
 });
 
 export const selectAllPropertyMaster = (state)=>state.user.propertyMaster
-export const getPropertyMasterStatus = (state)=>state.user.propertyMaster
-export const getPropertyMasterError = (state)=>state.user.propertyMaster
+export const getPropertyMasterStatus = (state)=>state.user.status
+export const getPropertyMasterError = (state)=>state.user.error
 
 export const { setAuthenticated } = userSlice.actions;
 

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Link, useNavigate } from "react-router-dom";
-import {useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
-import { selectAllPropertyMaster} from '../Redux/Slice/userSlice'
+import { selectAllPropertyMaster,deleteMaster } from '../Redux/Slice/userSlice'
 
 function ListPropertyMaster() {
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const propertymaster = useSelector(selectAllPropertyMaster)
   
@@ -21,15 +23,14 @@ function ListPropertyMaster() {
     navigate(`/dashboard/update/${id}`)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id)=>{
     try {
-
-      await axios.delete(`https://rsmapi.vercel.app/propertymaster/${id}`)
-
-      // setData(data.filter(data => data._id !== id))
-
+      dispatch(deleteMaster(id))
     } catch (error) {
-      console.log(error);
+      setMessage({
+        ...message,
+        danger: `${error.message}`
+      })
     }
   }
 
@@ -43,7 +44,7 @@ function ListPropertyMaster() {
                 <div>
                   <h4 className="mb-3">PropertyMaster List</h4>
                 </div>
-                <Link className="btn btn-primary add-list" to='/dashboard/addownermaster' style={{ color: "white" }}> <i className="las la-plus mr-3"></i>Add PropertyMaster</Link>
+                <Link className="btn btn-primary add-list" to='/dashboard/addpropertymaster' style={{ color: "white" }}> <i className="las la-plus mr-3"></i>Add PropertyMaster</Link>
               </div>
             </div>
             <div className="col-lg-12">
@@ -91,7 +92,7 @@ function ListPropertyMaster() {
                               <button className="badge bg-success mr-2" onClick={() => handleUpdate(item._id)}>
                                 <ModeOutlinedIcon />
                               </button >
-                              <button className="badge bg-warning mr-2" onClick={() => handleDelete(item._id)}>
+                              <button className="badge bg-warning mr-2" onClick={()=>handleDelete(item._id)}>
                                 <DeleteOutlineOutlinedIcon />
                               </button>
                             </div>
