@@ -4,13 +4,7 @@ import Login from "./Component/Login";
 import Register from "./Component/Register";
 import Layout from "./Layout";
 import ProtectedRoute from "./ProtectedRoute";
-//import AddOwnerMaster from "./Component/AddOwnerMaster";
-//import ListOwnerMaster from "./Component/ListOwnerMaster";
 import Update from "./Component/Update";
-//import AddPropertyMaster from "./Component/AddPropertyMaster";
-//import ListPropertyMaster from "./Component/ListPropertyMaster";
-//import AddRentMaster from "./Component/AddRentMaster";
-//import ListRentMaster from "./Component/ListRentMaster";
 import AddPropertyMasters from "./Pages/PropertyMaster/AddPropertyMasters"
 import ListPropertyMasters from "./Pages/PropertyMaster/ListPropertyMasters";
 import AddRentMasters from "./Pages/RentMaster/AddRentMasters";
@@ -32,6 +26,7 @@ function App() {
             </ProtectedRoute>
           }
         >
+
           <Route path="addownermaster" element={<AddOwnerMasters />} />
           <Route path="listownermaster" element={<ListOwnerMasters />} />
           <Route path="addpropertymaster" element={<AddPropertyMasters />} />
@@ -39,6 +34,7 @@ function App() {
           <Route path="addrentmaster" element={<AddRentMasters />} />
           <Route path="listrentmaster" element={<ListRentMasters />} />
           <Route path="update/:id" element={<Update />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

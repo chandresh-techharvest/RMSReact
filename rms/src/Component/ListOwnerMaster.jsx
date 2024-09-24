@@ -19,8 +19,10 @@ function ListOwnerMaster() {
       try {
         const res = await axios.get("https://rsmapi.vercel.app/ownermaster");
 
-        if (res.statusText == "OK") {
-          setData(await res.data);
+
+        if (res.status == 200) {
+          setData(await res.data)
+
         }
       } catch (error) {
         setMessage({
@@ -43,8 +45,8 @@ function ListOwnerMaster() {
   }, []);
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/update/${id}`);
-  };
+    navigate(`/dashboard/ownermaster/Id?=${id}`)
+  }
 
   const handleDelete = async (id) => {
     try {
@@ -58,6 +60,7 @@ function ListOwnerMaster() {
 
   return (
     <>
+
       <table className="data-table table mb-0 tbl-server-info">
         <thead className="bg-white text-uppercase">
           <tr className="ligth ligth-data">
@@ -102,7 +105,6 @@ function ListOwnerMaster() {
       {message.success && (
         <div class="alert alert-success" role="alert">
           {message.success}
-        </div>
       )}
       {message.danger && (
         <div class="alert alert-danger mt-3" role="alert">

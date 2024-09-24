@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import axios from 'axios'
+import { useSearchParams } from 'react-router-dom';
 
 function Update() {
 
-    const { id } = useParams();
+    const  id  = useParams();
 
     const navigate = useNavigate();
 
@@ -127,7 +128,7 @@ function Update() {
                                                         placeholder="Enter Email"
                                                         data-errors="Please Enter Email."
                                                         name="emailaddress"
-                                                        value={formdata.emailaddress}
+                                                        value={formdata.email}
                                                         onChange={handleData}
                                                         required=""
                                                     />

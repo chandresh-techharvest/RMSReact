@@ -1,3 +1,4 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -7,10 +8,19 @@ const initialState = {
     ownerId: null,
     isAuthenticated: false,
   },
+  routes:['ownermaster','propertymaster','rentmaster','clientmaster'],
   propertyMaster: [],
   status: "idle",
   error: "",
 };
+
+export const UpdateMaster = createAsyncThunk("updatemaster/UpdateMaster",async()=>{
+  try {
+    const res = axios.get('')
+  } catch (error) {
+    return error.message
+  }
+})
 
 export const fetchPropertyMaster = createAsyncThunk(
   "propertyMaster/fetchPropertyMaster",
