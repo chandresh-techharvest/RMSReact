@@ -60,7 +60,6 @@ function ListOwnerMaster() {
 
   return (
     <>
-
       <table className="data-table table mb-0 tbl-server-info">
         <thead className="bg-white text-uppercase">
           <tr className="ligth ligth-data">
@@ -101,16 +100,20 @@ function ListOwnerMaster() {
           ))}
         </tbody>
       </table>
-
-      {message.success && (
-        <div class="alert alert-success" role="alert">
-          {message.success}
-      )}
-      {message.danger && (
-        <div class="alert alert-danger mt-3" role="alert">
-          {message.danger}
-        </div>
-      )}
+      {
+        message.success && (
+          <div className="alert alert-success" role="alert">
+            {message.success}
+          </div>
+        )
+      }
+      {
+        message.danger && (
+          <div className="alert alert-danger mt-3">
+            {message.danger}
+          </div>
+        )
+      }
     </>
   );
 }
