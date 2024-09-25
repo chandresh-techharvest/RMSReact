@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import axios from 'axios'
 
 function Detail() {
@@ -10,55 +10,135 @@ function Detail() {
 
     const { whichroute } = useParams();
 
+    const navigate = useNavigate()
+
     const id = url.get('Id')
+
+    const [message, setMessage] = useState({
+        success: '',
+        danger: ''
+    })
 
     useEffect(() => {
         const getData = async () => {
-            const res = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`)
-            setData(await res.data)
-            console.log(res.data);
-
+            try {
+                const res = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`)
+                setData(await res.data)
+                console.log(res.data);
+            } catch (error) {
+                setMessage({
+                    ...message,
+                    danger: `${error.message}, While retriving Data`,
+                });
+            } finally {
+                setTimeout(
+                    () =>
+                        setMessage({
+                            success: "",
+                            danger: "",
+                        }),
+                    3000
+                );
+            }
         }
 
         getData();
-    }, [])
+    }, [id])
 
     return (
-        <div className="content-page">
-            <div className="container-fluid add-form-list">
-                <div className="row">
-                    <div className="col-sm-12">
-                        <div className="card">
-                            <div className="card-header d-flex justify-content-between">
-                                <div className="header-title">
-                                    <h4 className="card-title">{whichroute.charAt(0).toUpperCase() + whichroute.slice(1)}Detail</h4>
+        <>
+            <div className="content-page">
+                <div className="container-fluid add-form-list">
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="card">
+                                <div className="card-header d-flex justify-content-between">
+                                    <div className="header-title">
+                                        <h4 className="card-title">{whichroute.charAt(0).toUpperCase() + whichroute.slice(1)}Detail</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="card-body">
-                                <div className='row'>
-                                    {
-                                        data && Object.keys(data).map((item, index) => (
-                                            item != '_v' && item != 'ownerMasters' && item!='pincode' ? (
-                                                <div className="col-md-6" key={index}>
-                                                    <div className="form-group">
-                                                        <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
-                                                        <div className="help-block">{data[item]}</div>
-                                                    </div>
-                                                </div>
+                                <div className="card-body">
+                                    <div className='row'>
+                                        {
+                                            whichroute === 'propertymaster' ? (
+                                                data && Object.keys(data).map((item, index) => (
+                                                    (item !== '__v' && item !== 'ownerMasters' && item !== 'pincode') ? (
+                                                        <div className="col-md-6" key={index}>
+                                                            <div className="form-group">
+                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                <div className="help-block">{data[item]}</div>
+                                                            </div>
+                                                        </div>
+                                                    ) : (item !== '__v' && item !== 'ownerMasters') ? (
+                                                        <div className="col-md-6" key={index}>
+                                                            <div className="form-group">
+                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                <div className="help-block">{data[item].$numberDecimal}</div>
+                                                            </div>
+                                                        </div>
+                                                    ) : (item !== 'ownerMasters' && item === 'createdAt' || item === 'updatedAt') ? (
+                                                        item !== '__v' && (
+                                                            <div className="col-md-6" key={index}>
+                                                                <div className="form-group">
+                                                                    <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                    <div className="help-block">{data[item]}</div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    ) : item === 'ownerMasters' && (
+                                                        <div className="col-md-6" key={index}>
+                                                            <div className="form-group">
+                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                <div className="help-block">{data[item].name}</div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                ))
+                                            ) : whichroute === 'clientmaster' ? (
+                                                data && Object.keys(data).map((item, index) => (
+                                                    (item !== '__v' && item !== 'ownerMasters') ? (
+                                                        <div className="col-md-6" key={index}>
+                                                            <div className="form-group">
+                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                <div className="help-block">{data[item]}</div>
+                                                            </div>
+                                                        </div>
+                                                    ) : (item !== 'ownerMasters' && item === 'createdAt' || item === 'updatedAt') ? (
+                                                        <div className="col-md-6" key={index}>
+                                                            <div className="form-group">
+                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                <div className="help-block">{data[item]}</div>
+                                                            </div>
+                                                        </div>
+                                                    ) : item === 'ownerMasters' && (
+                                                        <div className="col-md-6" key={index}>
+                                                            <div className="form-group">
+                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                <div className="help-block">{data[item].name}</div>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                )
                                             ) : (null)
-                                        ))
-                                    }
+                                        }
+                                    </div>                   
+                                    <button className="btn btn-primary mr-2" onClick={()=>navigate(-1)}>Back</button>
                                 </div>
-                                {/* <Link to={`/dashboard/list${whichRoute === "products" ? whichRoute.slice(0, -1) : whichRoute}`}>
-                                    <button className="btn btn-primary mr-2">Back</button>
-                                </Link> */}
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
+                    </div >
                 </div >
+                {
+                    message.danger && (
+                        <div className="alert alert-danger mt-3">
+                            {message.danger}
+                        </div>
+                    )
+                }
             </div >
-        </div >
+
+        </>
     )
 }
 
