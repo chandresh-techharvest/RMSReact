@@ -22,7 +22,7 @@ function ListPropertyMaster() {
   });
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/update/${id}`);
+    navigate(`/dashboard/propertymaster/update?Id=${id}`);
   };
 
   const handleDelete = (id) => {
@@ -54,7 +54,7 @@ function ListPropertyMaster() {
             propertymaster.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <Link>{item.address1}</Link>
+                  <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>{item.address1}</Link>
                 </td>
                 <td>{item.address2}</td>
                 <td>{item.pincode && item.pincode.$numberDecimal}</td>

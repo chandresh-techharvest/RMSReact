@@ -10,9 +10,11 @@ import ListPropertyMasters from "./Pages/PropertyMaster/ListPropertyMasters";
 import AddRentMasters from "./Pages/RentMaster/AddRentMasters";
 import ListRentMasters from "./Pages/RentMaster/ListRentMasters";
 import AddOwnerMasters from "./Pages/OwnerMaster/AddOwnerMasters";
+
 import ListOwnerMasters from "./Pages/OwnerMaster/ListOwnerMasters";
 import AddClientMasters from "./Pages/ClientMaster/AddClientMasters";
 import ListClientMasters from "./Pages/ClientMaster/ListClientMasters";
+import Detail from "./Component/Detail";
 
 
 function App() {
@@ -29,7 +31,6 @@ function App() {
             </ProtectedRoute>
           }
         >
-
           <Route path="addownermaster" element={<AddOwnerMasters />} />
           <Route path="listownermaster" element={<ListOwnerMasters />} />
           <Route path="addpropertymaster" element={<AddPropertyMasters />} />
@@ -38,7 +39,9 @@ function App() {
           <Route path="listrentmaster" element={<ListRentMasters />} />
           <Route path="addclientmaster" element={<AddClientMasters/>} />
           <Route path="listclientmaster" element={<ListClientMasters/>} />
-          <Route path="update/:id" element={<Update />} />
+          <Route path=":?/:whichroute/detail" element={<Detail />} />
+          <Route path=":?/:whichroute/update" element={<Update />} />
+
 
         </Route>
       </Routes>
