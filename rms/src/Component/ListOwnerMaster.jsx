@@ -71,7 +71,7 @@ function ListOwnerMaster() {
           </tr>
         </thead>
         <tbody className="ligth-body">
-          {data.map((item, index) => (
+          {data && data.map((item, index) => (
             <tr key={index}>
               <td>
                 <Link>{item.name}</Link>
@@ -100,6 +100,8 @@ function ListOwnerMaster() {
           ))}
         </tbody>
       </table>
+
+
       {
         message.success && (
           <div className="alert alert-success" role="alert">
@@ -114,6 +116,7 @@ function ListOwnerMaster() {
           </div>
         )
       }
+
     </>
   );
 }
