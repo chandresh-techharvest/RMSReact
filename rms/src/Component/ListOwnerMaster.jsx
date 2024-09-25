@@ -19,10 +19,8 @@ function ListOwnerMaster() {
       try {
         const res = await axios.get("https://rsmapi.vercel.app/ownermaster");
 
-
         if (res.status == 200) {
           setData(await res.data)
-
         }
       } catch (error) {
         setMessage({
