@@ -30,7 +30,7 @@ function Sidebar() {
           <nav className="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" className="iq-menu">
               <li className="active">
-                <a href="../backend/index.html" className="svg-icon">
+                <Link to='/dashboard' className="svg-icon">
                   <svg
                     className="svg-icon"
                     id="p-dash1"
@@ -49,7 +49,7 @@ function Sidebar() {
                     <line x1="12" y1="22.08" x2="12" y2="12"></line>
                   </svg>
                   <span className="ml-4">Dashboards</span>
-                </a>
+                </Link>
               </li>
               {
                 role === "SuperAdmin" ? (

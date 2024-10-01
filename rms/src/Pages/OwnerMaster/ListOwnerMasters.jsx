@@ -2,10 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ListOwnerMaster from "../../Component/ListOwnerMaster";
 
- function ListOwnerMasters() {
+function ListOwnerMasters() {
+  const role = localStorage.getItem('role')
+  if (role !== 'SuperAdmin') {
+    window.location.href = `${window.location.origin}/dashboard`
+  }
   return (
     <>
-      <div class="content-page">
+      {role === 'SuperAdmin' && <div class="content-page">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12">
@@ -45,7 +49,7 @@ import ListOwnerMaster from "../../Component/ListOwnerMaster";
             </div>
           </div>
         </div>
-      </div>
+      </div>}
     </>
   );
 }

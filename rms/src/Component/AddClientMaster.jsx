@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 function AddClientMaster() {
   const ownerId = localStorage.getItem("ownerId");
-
+console.log(window.location)
   const [formData, setformData] = useState({
     name: "",
     gender: "",

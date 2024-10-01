@@ -17,7 +17,9 @@ function ListOwnerMaster() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("https://rsmapi.vercel.app/ownermaster");
+        const res = await axios.get("https://rsmapi.vercel.app/ownermaster", {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
 
         if (res.status == 200) {
           setData(await res.data)
@@ -43,12 +45,16 @@ function ListOwnerMaster() {
   }, []);
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/ownermaster/Id?=${id}`)
+    navigate(`/dashboard/ownermaster/Id?=${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
   }
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://rsmapi.vercel.app/ownermaster/${id}`);
+      await axios.delete(`https://rsmapi.vercel.app/ownermaster/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
 
       setData(data.filter((data) => data._id !== id));
     } catch (error) {

@@ -2,9 +2,14 @@ import React from "react";
 import AddOwnerMaster from "../../Component/AddOwnerMaster";
 
 function AddOwnerMasters() {
+  const role = localStorage.getItem('role')
+  if(role!=='SuperAdmin')
+  {
+    window.location.href=`${window.location.origin}/dashboard`
+  }
   return (
     <>
-      <div className="content-page">
+      {role === 'SuperAdmin' && (<div className="content-page">
         <div className="container-fluid add-form-list">
           <div className="row">
             <div className="col-sm-12">
@@ -22,7 +27,7 @@ function AddOwnerMasters() {
             </div>
           </div>
         </div>
-      </div>
+      </div>)}
     </>
   );
 }
