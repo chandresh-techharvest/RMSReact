@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,8 +10,7 @@ import {
 } from "../Redux/Slice/userSlice";
 
 function ListPropertyMaster() {
-
-  const ownerId = localStorage.getItem('ownerId')
+  const ownerId = localStorage.getItem("ownerId");
 
   const navigate = useNavigate();
 
@@ -18,7 +18,9 @@ function ListPropertyMaster() {
 
   const propertymaster = useSelector(selectAllPropertyMaster);
 
-  const propertyData = propertymaster.filter((item) => item.ownerMasters._id === ownerId)
+  const propertyData = propertymaster.filter(
+    (item) => item.ownerMasters._id === ownerId
+  );
 
   const [message, setMessage] = useState({
     success: "",
@@ -27,7 +29,7 @@ function ListPropertyMaster() {
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/propertymaster/update?Id=${id}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
   };
 
@@ -60,13 +62,20 @@ function ListPropertyMaster() {
             propertyData.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>{item.address1}</Link>
+                  <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>
+                    {item.address1}
+                  </Link>
                 </td>
                 <td>{item.address2}</td>
                 <td>{item.pincode && item.pincode.$numberDecimal}</td>
                 <td>{item.city}</td>
                 <td>{item.state}</td>
                 <td>{item.ownerMasters && item.ownerMasters.name}</td>
+                <td>
+                  <Button variant="contained" color="success" onClick={()=>navigate(`/dashboard/addrentmaster/?Id=${item._id}`)}>
+                    Add Rented
+                  </Button>
+                </td>
                 <td>
                   <div className="d-flex align-items-center list-action">
                     <button

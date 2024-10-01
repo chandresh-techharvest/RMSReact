@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectAllPropertyMaster } from "../Redux/Slice/userSlice";
+import { useParams } from "react-router";
 function AddRentMaster() {
   const [formdata, setformData] = useState({
     electricityMeterNumber: "",
@@ -12,11 +13,19 @@ function AddRentMaster() {
     incrementSchedule: "",
     propertymaster: "",
   });
+  const url = new URLSearchParams(window.location.search)
+  const id = url.get('Id')
+  console.log(id);
 
   const propertymaster = useSelector(selectAllPropertyMaster);
 
+  const propertyData = propertymaster.filter(
+    (item) => item.ownerMasters._id === localStorage.getItem('ownerId')
+  );
+
   const [message, setMessage] = useState({
     success: "",
+
     danger: "",
   });
 
@@ -190,13 +199,27 @@ function AddRentMaster() {
                 value={formdata.propertymaster}
                 onChange={handleData}
               >
-                <option value="Select">Select</option>
-                {propertymaster &&
-                  propertymaster.map((item, index) => (
+                {
+                  propertyData && propertyData.map((item, index) => (
+                    item._id === id ? (
+                      <option key={index} value={item._id} selected='true' disabled>{item.pincode.$numberDecimal} - {item.address2}</option>
+                    ) : (
+                      <>
+                        <option value="Select">Select</option>
+                        <option key={index} value={item.id}>
+                          {item.pincode.$numberDecimal} - {item.address2}
+                        </option>
+                      </>
+                    )
+                  ))
+                }
+                {/* <option value="Select">Select</option>
+                {propertyData &&
+                  propertyData.map((item, index) => (
                     <option key={index} value={item.id}>
-                      {item.address1} - {item.address2}
+                      {item.pincode.$numberDecimal} - {item.address2}
                     </option>
-                  ))}
+                  ))} */}
               </select>
               {/* <input
                             type="text"
@@ -214,9 +237,6 @@ function AddRentMaster() {
         </div>
         <button type="submit" className="btn btn-primary mr-2">
           Add
-        </button>
-        <button type="reset" className="btn btn-danger">
-          Reset
         </button>
       </form>
       {message.success && (
