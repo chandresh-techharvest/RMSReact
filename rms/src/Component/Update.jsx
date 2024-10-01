@@ -11,7 +11,7 @@ function Update() {
     const id = url.get('Id')
 
     console.log(whichroute);
-    
+
 
     const navigate = useNavigate();
 
@@ -43,8 +43,9 @@ function Update() {
 
         const retriveData = async () => {
             try {
-                const res = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`)
-
+                const res = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                })
                 setformData(await res.data)
 
             } catch (error) {
@@ -67,7 +68,9 @@ function Update() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`https://rsmapi.vercel.app/${whichroute}/${id}`, formdata)
+            await axios.put(`https://rsmapi.vercel.app/${whichroute}/${id}`, formdata, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
 
             setMessage({
                 ...message,
@@ -595,21 +598,21 @@ function Update() {
                         </div>
                     </div>
                 </div>
+                {
+                    message.success && (
+                        <div class="alert alert-success" role="alert">
+                            {message.success}
+                        </div>
+                    )
+                }
+                {
+                    message.danger && (
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {message.danger}
+                        </div>
+                    )
+                }
             </div>
-            {
-                message.success && (
-                    <div class="alert alert-success" role="alert">
-                        {message.success}
-                    </div>
-                )
-            }
-            {
-                message.danger && (
-                    <div class="alert alert-danger mt-3" role="alert">
-                        {message.danger}
-                    </div>
-                )
-            }
         </>
     )
 }

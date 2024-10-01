@@ -10,7 +10,6 @@ import ListPropertyMasters from "./Pages/PropertyMaster/ListPropertyMasters";
 import AddRentMasters from "./Pages/RentMaster/AddRentMasters";
 import ListRentMasters from "./Pages/RentMaster/ListRentMasters";
 import AddOwnerMasters from "./Pages/OwnerMaster/AddOwnerMasters";
-
 import ListOwnerMasters from "./Pages/OwnerMaster/ListOwnerMasters";
 import AddClientMasters from "./Pages/ClientMaster/AddClientMasters";
 import ListClientMasters from "./Pages/ClientMaster/ListClientMasters";

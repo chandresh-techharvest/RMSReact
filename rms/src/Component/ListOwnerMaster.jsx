@@ -74,7 +74,7 @@ function ListOwnerMaster() {
               <td>
                 <Link>{item.name}</Link>
               </td>
-              <td>{item.emailaddress}</td>
+              <td>{item.email}</td>
               <td>{item.password}</td>
               <td>{item.phone}</td>
               <td>{item.createdAt.slice(0, 10)}</td>

@@ -16,10 +16,9 @@ function ListClientMasters(){
           </div>
           <Link
             className="btn btn-primary add-list"
-            to="/dashboard/addownermaster"
+            to="/dashboard/listclientmaster"
             style={{ color: "white" }}
           >
-            {" "}
             <i className="las la-plus mr-3"></i>Add ClientMaster
           </Link>
         </div>

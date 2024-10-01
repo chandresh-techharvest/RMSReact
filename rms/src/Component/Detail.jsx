@@ -22,7 +22,9 @@ function Detail() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`)
+                const res = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                })
                 setData(await res.data)
                 console.log(res.data);
             } catch (error) {
@@ -104,12 +106,14 @@ function Detail() {
                                                             </div>
                                                         </div>
                                                     ) : (item !== 'ownerMasters' && item === 'createdAt' || item === 'updatedAt') ? (
-                                                        <div className="col-md-6" key={index}>
-                                                            <div className="form-group">
-                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
-                                                                <div className="help-block">{data[item]}</div>
+                                                        item !== '__v' && (
+                                                            <div className="col-md-6" key={index}>
+                                                                <div className="form-group">
+                                                                    <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                    <div className="help-block">{data[item]}</div>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        )
                                                     ) : item === 'ownerMasters' && (
                                                         <div className="col-md-6" key={index}>
                                                             <div className="form-group">
@@ -121,8 +125,8 @@ function Detail() {
                                                 )
                                             ) : (null)
                                         }
-                                    </div>                   
-                                    <button className="btn btn-primary mr-2" onClick={()=>navigate(-1)}>Back</button>
+                                    </div>
+                                    <button className="btn btn-primary mr-2" onClick={() => navigate(-1)}>Back</button>
                                 </div>
 
                             </div>

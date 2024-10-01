@@ -35,7 +35,9 @@ function AddRentMaster() {
     try {
       const res = await axios.post(
         "https://rsmapi.vercel.app/ownermaster",
-        formdata
+        formdata, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      }
       );
 
       setformData({
@@ -218,10 +220,10 @@ function AddRentMaster() {
         </button>
       </form>
       {message.success && (
-      <div class="alert alert-success" role="alert">
-        {message.success}
-      </div>
-      ) }
+        <div class="alert alert-success" role="alert">
+          {message.success}
+        </div>
+      )}
       {message.danger && (
         <div class="alert alert-danger mt-3" role="alert">
           {message.danger}

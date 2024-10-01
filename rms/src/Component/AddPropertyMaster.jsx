@@ -33,7 +33,9 @@ function AddPropertyMaster() {
     try {
       const res = await axios.post(
         "https://rsmapi.vercel.app/propertymaster",
-        formdata
+        formdata, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      }
       );
 
       setformData({

@@ -3,18 +3,22 @@ import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import {
   selectAllPropertyMaster,
   deleteMaster,
 } from "../Redux/Slice/userSlice";
 
 function ListPropertyMaster() {
+
+  const ownerId = localStorage.getItem('ownerId')
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const propertymaster = useSelector(selectAllPropertyMaster);
+
+  const propertyData = propertymaster.filter((item) => item.ownerMasters._id === ownerId)
 
   const [message, setMessage] = useState({
     success: "",
@@ -22,7 +26,9 @@ function ListPropertyMaster() {
   });
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/propertymaster/update?Id=${id}`);
+    navigate(`/dashboard/propertymaster/update?Id=${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
   };
 
   const handleDelete = (id) => {
@@ -50,8 +56,8 @@ function ListPropertyMaster() {
           </tr>
         </thead>
         <tbody className="ligth-body">
-          {propertymaster &&
-            propertymaster.map((item, index) => (
+          {propertyData &&
+            propertyData.map((item, index) => (
               <tr key={index}>
                 <td>
                   <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>{item.address1}</Link>
