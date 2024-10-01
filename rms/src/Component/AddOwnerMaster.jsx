@@ -33,7 +33,10 @@ function AddOwnerMaster() {
     try {
       const res = await axios.post(
         "https://rsmapi.vercel.app/ownermaster",
-        formdata
+        formdata,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        }
       );
 
       setformData({
@@ -148,7 +151,6 @@ function AddOwnerMaster() {
           Reset
         </button>
       </form>
-
       {message.success && (
         <div class="alert alert-success" role="alert">
           {message.success}
@@ -159,6 +161,7 @@ function AddOwnerMaster() {
           {message.danger}
         </div>
       )}
+
     </>
   );
 }
