@@ -32,7 +32,9 @@ function AddClientMaster() {
     try {
       const res = await axios.post(
         "https://rsmapi.vercel.app/clientmaster",
-        formData
+        formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      }
       );
       setformData({
         name: "",

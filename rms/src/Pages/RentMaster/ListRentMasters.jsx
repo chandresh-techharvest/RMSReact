@@ -1,6 +1,7 @@
 import React from "react";
-import ListRentMaster from "../../Component/ListRentMaster";
+
 import { Link } from "react-router-dom";
+import ListRentMaster from "../../Component/ListRentMaster";
 
 function ListRentMasters() {
   return (
@@ -18,7 +19,6 @@ function ListRentMasters() {
               to="/dashboard/addrentmaster"
               style={{ color: "white" }}
             >
-              {" "}
               <i className="las la-plus mr-3"></i>Add RentMaster
             </Link>
           </div>
@@ -40,7 +40,7 @@ function ListRentMasters() {
                 </div>
               </div>
             </div>
-         <ListRentMaster/>
+       <ListRentMaster/>
           </div>
         </div>
       </div>

@@ -12,8 +12,10 @@ function Login() {
 
     const [formData, setFormData] = useState({
         email: '',
-        password: ''
+        password: '',
     })
+
+    const [check, setCheck] = useState('SuperAdmin');
 
     const [message, setMessage] = useState({
         success: '',
@@ -33,57 +35,94 @@ function Login() {
         e.preventDefault();
 
         try {
-            const res = await axios.post('https://rsmapi.vercel.app/login', formData)
 
-            setFormData({
-                email: '',
-                password: ''
-            })
+            if (check === 'SuperAdmin') {
+                const res = await axios.post('https://rsmapi.vercel.app/login', formData)
 
-            if (res.data.user) {
-                if (res.data.user.role === "SuperAdmin") {
-                    localStorage.setItem('userId', res.data.user._id)
-                    localStorage.setItem('role', res.data.user.role)
-                    localStorage.setItem('token', res.data.token)
+                setFormData({
+                    email: '',
+                    password: ''
+                })
 
-                    dispatch(setAuthenticated({ userId: res.data.user._id, isAuthenticated: !!res.data.token }))
+                if (res.data.user) {
+                    if (res.data.user.role === "SuperAdmin") {
+                        localStorage.setItem('userId', res.data.user._id)
+                        localStorage.setItem('role', res.data.user.role)
+                        localStorage.setItem('token', res.data.token)
 
-                    setMessage({
-                        ...message,
-                        success: res.data.message
-                    })
+                        dispatch(setAuthenticated({ userId: res.data.user._id, isAuthenticated: !!res.data.token }))
 
-                    setTimeout(() => {
-                        navigate('/dashboard')
-                    }, 3000);
+                        setMessage({
+                            ...message,
+                            success: res.data.message
+                        })
+
+                        setTimeout(() => {
+                            navigate('/dashboard')
+                        }, 3000);
+                    }
+                }
+
+                if (res.data.owner) {
+                    if (res.data.owner.role === "Owner") {
+                        localStorage.setItem('ownerId', res.data.owner._id)
+                        localStorage.setItem('role', res.data.owner.role)
+                        localStorage.setItem('token', res.data.token)
+
+                        dispatch(setAuthenticated({ ownerId: res.data.owner._id, isAuthenticated: !!res.data.token }))
+
+                        setMessage({
+                            ...message,
+                            success: res.data.message
+                        })
+
+                        setTimeout(() => {
+                            navigate('/dashboard')
+                        }, 3000);
+                    }
                 }
             }
-            else if (res.data.owner) {
-                if (res.data.owner.role === "Owner") {
-                    localStorage.setItem('ownerId', res.data.owner._id)
-                    localStorage.setItem('role', res.data.owner.role)
-                    localStorage.setItem('token', res.data.token)
+            // else if (check === 'OwnerMaster') {
 
-                    dispatch(setAuthenticated({ ownerId: res.data.owner._id, isAuthenticated: !!res.data.token }))
+            //     const res = await axios.post('https://rsmapi.vercel.app/login', formData)
 
-                    setMessage({
-                        ...message,
-                        success: res.data.message
-                    })
+            //     setFormData({
+            //         name: '',
+            //         email: '',
+            //         password: ''
+            //     })
 
-                    setTimeout(() => {
-                        navigate('/dashboard')
-                    }, 3000);
-                }
-            }
+            //     if (res.data.owner) {
+            //         if (res.data.owner.role === "Owner") {
+            //             localStorage.setItem('ownerId', res.data.owner._id)
+            //             localStorage.setItem('role', res.data.owner.role)
+            //             localStorage.setItem('token', res.data.token)
+
+            //             dispatch(setAuthenticated({ ownerId: res.data.owner._id, isAuthenticated: !!res.data.token }))
+
+            //             setMessage({
+            //                 ...message,
+            //                 success: res.data.message
+            //             })
+
+            //             setTimeout(() => {
+            //                 navigate('/dashboard')
+            //             }, 3000);
+            //         }
+            //     }
+            // }
 
         } catch (error) {
-            console.log(error);
 
             setMessage({
                 ...message,
                 danger: error.message
 
+            })
+
+            setFormData({
+                email: '',
+                password: ''
             })
         }
         finally {
@@ -96,46 +135,78 @@ function Login() {
 
     return (
         <>
-            <div class="wrapper">
-                <div class="title">
+            <input type='radio' value='SuperAdmin' checked={check === 'SuperAdmin'} onChange={() => setCheck('SuperAdmin')} style={{ margin: '10px' }} /> SuperAdmin
+
+            <input type='radio' value="OwnerMaster" checked={check === 'OwnerMaster'} onChange={() => setCheck('OwnerMaster')} /> OwnerMaster
+            <div className="wrapper">
+                <div className="title">
                     Login Form
                 </div>
-                <form onSubmit={handleSubmit}>
-                    <div class="field">
-                        <input type="email" name='email' value={formData.email} onChange={handleValue} required />
-                        <label>Email Address</label>
-                    </div>
-                    <div class="field">
-                        <input type="password" name='password' value={formData.password} onChange={handleValue} required />
-                        <label>Password</label>
-                    </div>
-                    <div class="content">
-                        <div class="checkbox">
-                            <input type="checkbox" id="remember-me" />
-                            <label for="remember-me">Remember me</label>
+                {
+                    check === 'SuperAdmin' ? (<form onSubmit={handleSubmit}>
+                        <div className="field">
+                            <input type="email" name='email' value={formData.email} onChange={handleValue} required />
+                            <label>Email Address</label>
                         </div>
-                        <div class="pass-link">
-                            <a href="#">Forgot password?</a>
+                        <div className="field">
+                            <input type="password" name='password' value={formData.password} onChange={handleValue} required />
+                            <label>Password</label>
                         </div>
-                    </div>
-                    <div class="field">
-                        <input type="submit" value="Login" />
-                    </div>
-                    <div class="signup-link">
-                        Not a member? <Link to='register'>Signup now</Link>
-                    </div>
-                </form>
+                        <div className="content">
+                            <div className="checkbox">
+                                <input type="checkbox" id="remember-me" />
+                                <label for="remember-me">Remember me</label>
+                            </div>
+                            <div className="pass-link">
+                                <a href="#">Forgot password?</a>
+                            </div>
+                        </div>
+                        <div className="field">
+                            <input type="submit" value="Login" />
+                        </div>
+                        <div className="signup-link">
+                            Not a member? <Link to='register'>Signup now</Link>
+                        </div>
+                    </form>) : (
+                        <form onSubmit={handleSubmit}>
+                            <div className="field">
+                                <input type="text" name='name' value={formData.name} onChange={handleValue} required />
+                                <label>Name</label>
+                            </div>
+                            <div className="field">
+                                <input type="email" name='email' value={formData.email} onChange={handleValue} required />
+                                <label>Email Address</label>
+                            </div>
+                            <div className="field">
+                                <input type="password" name='password' value={formData.password} onChange={handleValue} required />
+                                <label>Password</label>
+                            </div>
+                            <div className="content">
+                                <div className="checkbox">
+                                    <input type="checkbox" id="remember-me" />
+                                    <label for="remember-me">Remember me</label>
+                                </div>
+                                <div className="pass-link">
+                                    <a href="#">Forgot password?</a>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <input type="submit" value="Login" />
+                            </div>
+                        </form>
+                    )
+                }
             </div>
             {
                 message.success && (
-                    <div class="alert alert-success" role="alert">
+                    <div className="alert alert-success" role="alert">
                         {message.success}
                     </div>
                 )
             }
             {
                 message.danger && (
-                    <div class="alert alert-danger mt-3" role="alert">
+                    <div className="alert alert-danger mt-3" role="alert">
                         {message.danger}
                     </div>
                 )

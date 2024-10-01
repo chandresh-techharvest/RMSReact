@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function AddOwnerMaster() {
+
   const userId = localStorage.getItem("userId");
 
   const [formdata, setformData] = useState({
@@ -47,9 +48,17 @@ function AddOwnerMaster() {
         success: res.data.message,
       });
     } catch (error) {
+
       setMessage({
         ...message,
-        danger: `${error.message}, While saving PropertyMaster`,
+        danger: `${error.message}, While saving OwnerMaster`,
+      });
+
+      setformData({
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
       });
     } finally {
       setTimeout(

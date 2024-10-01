@@ -7,6 +7,8 @@ import axios from "axios";
 function ListClientMaster() {
   const [data, setData] = useState([]);
 
+  const ownerId = localStorage.getItem('ownerId')
+
   const navigate = useNavigate();
 
   const [message, setMessage] = useState({
@@ -17,9 +19,13 @@ function ListClientMaster() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("https://rsmapi.vercel.app/clientmaster");
+        const res = await axios.get("https://rsmapi.vercel.app/clientmaster",
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          });
         if (res.status === 200) {
-          setData(await res.data);
+
+          setData(await res.data.filter((item) => item.ownerMasters._id === ownerId));
         }
       } catch (error) {
         setMessage({
@@ -41,12 +47,16 @@ function ListClientMaster() {
   }, []);
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/clientmaster/Id?=${id}`);
+    navigate(`/dashboard/clientmaster/Id?=${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://rsmapi.vercel.app/clientmaster/${id}`);
+      await axios.delete(`https://rsmapi.vercel.app/clientmaster/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
       setData(data.filter((data) => data._id !== id));
     } catch (error) {
       console.log(error);
@@ -64,6 +74,7 @@ function ListClientMaster() {
             <th>Phone</th>
             <th>Address1</th>
             <th>Address2</th>
+            <th>CreatedBy</th>
           </tr>
         </thead>
         <tbody className="ligth-body">
@@ -71,11 +82,11 @@ function ListClientMaster() {
             data.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <Link>{item.name}</Link>
+                  <Link to={`/dashboard/clientmaster/detail?Id=${item._id}`}>{item.name}</Link>
                 </td>
                 <td>{item.fatherName}</td>
                 <td>{item.gender}</td>
-                <td>{item.phone}</td>
+                <td>{item.mobileNumber}</td>
                 <td>{item.address1}</td>
                 <td>{item.address2}</td>
                 <td>{item.createdAt.slice(0, 10)}</td>
