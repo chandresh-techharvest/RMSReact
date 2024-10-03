@@ -38,6 +38,7 @@ function App() {
           <Route path="addrentmaster" element={<AddRentMasters />} />
           <Route path="listrentmaster" element={<ListRentMasters />} />
           <Route path="addclientmaster" element={<AddClientMasters/>} />
+          <Route path="addclientmaster/:id" element={<AddClientMasters/>} />
           <Route path="listclientmaster" element={<ListClientMasters/>} />
           <Route path="renttransactionform" element={<RentTransactionForm/>} />
           <Route path=":?/:whichroute/detail" element={<Detail />} />

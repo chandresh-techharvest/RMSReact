@@ -10,13 +10,20 @@ function AddRentMaster() {
     securityDepositAmount: "",
     monthlyRent: "",
     incrementSchedule: "",
-    propertymaster: "",
+    propertymaster: '',
   });
+  const url = new URLSearchParams(window.location.search)
+  const id = url.get('Id')
 
   const propertymaster = useSelector(selectAllPropertyMaster);
 
+  const propertyData = propertymaster.filter(
+    (item) => item.ownerMasters._id === localStorage.getItem('ownerId')
+  );
+
   const [message, setMessage] = useState({
     success: "",
+
     danger: "",
   });
 
@@ -34,7 +41,7 @@ function AddRentMaster() {
 
     try {
       const res = await axios.post(
-        "https://rsmapi.vercel.app/ownermaster",
+        "https://rsmapi.vercel.app/rentmaster",
         formdata, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       }
@@ -187,36 +194,30 @@ function AddRentMaster() {
               <select
                 className="form-control"
                 name="propertymaster"
-                value={formdata.propertymaster}
+                value={id ? formdata.propertymaster = id : formdata.propertymaster}
                 onChange={handleData}
               >
-                <option value="Select">Select</option>
-                {propertymaster &&
-                  propertymaster.map((item, index) => (
-                    <option key={index} value={item.id}>
-                      {item.address1} - {item.address2}
-                    </option>
-                  ))}
+                {
+                  propertyData && propertyData.map((item, index) => (
+                    item._id === id ? (
+                      <option key={index} value={item._id} selected='true' disabled>{item.pincode.$numberDecimal} - {item.address2}</option>
+                    ) : (
+                      <>
+                        <option value="Select">Select</option>
+                        <option key={index} value={item.id}>
+                          {item.pincode.$numberDecimal} - {item.address2}
+                        </option>
+                      </>
+                    )
+                  ))
+                }
               </select>
-              {/* <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter Phone"
-                            data-errors="Please Enter Phone."
-                            name="propertymaster"
-                            value={formdata.propertymaster}
-                            onChange={handleData}
-                            required=""
-                          /> */}
               <div className="help-block with-errors"></div>
             </div>
           </div>
         </div>
         <button type="submit" className="btn btn-primary mr-2">
           Add
-        </button>
-        <button type="reset" className="btn btn-danger">
-          Reset
         </button>
       </form>
       {message.success && (

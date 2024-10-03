@@ -89,7 +89,7 @@ function ListClientMaster() {
                 <td>{item.mobileNumber}</td>
                 <td>{item.address1}</td>
                 <td>{item.address2}</td>
-                <td>{item.createdAt.slice(0, 10)}</td>
+                <td>{item.ownerMasters.name}</td>
                 <td>
                   <div className="d-flex align-items-center list-action">
                     <button

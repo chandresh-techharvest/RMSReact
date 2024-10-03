@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
+import { useDispatch, useSelector } from "react-redux";
+import {
+    selectAllPropertyMaster,
+} from "../Redux/Slice/userSlice";
 import axios from 'axios'
 
 function Update() {
@@ -10,10 +14,9 @@ function Update() {
 
     const id = url.get('Id')
 
-    console.log(whichroute);
-
-
     const navigate = useNavigate();
+
+    const propertymaster = useSelector(selectAllPropertyMaster);
 
     const [formdata, setformData] = useState({
         name: '',
@@ -31,7 +34,8 @@ function Update() {
         incrementPercentage: '',
         securityDepositAmount: '',
         monthlyRent: '',
-        incrementSchedule: ''
+        incrementSchedule: '',
+        propertymaster: ''
     })
 
     const [message, setMessage] = useState({
@@ -490,7 +494,7 @@ function Update() {
                                                                         placeholder="Enter IncrementPercentage"
                                                                         data-errors="Please Enter IncrementPercentage."
                                                                         name="incrementPercentage"
-                                                                        value={formdata.incrementPercentage}
+                                                                        value={formdata.incrementPercentage.$numberDecimal}
                                                                         onChange={handleData}
                                                                         required=""
                                                                     />
@@ -506,7 +510,7 @@ function Update() {
                                                                         placeholder="Enter SecurityDepositAmount"
                                                                         data-errors="Please Enter SecurityDepositAmount."
                                                                         name="securityDepositAmount"
-                                                                        value={formdata.securityDepositAmount}
+                                                                        value={formdata.securityDepositAmount.$numberDecimal}
                                                                         onChange={handleData}
                                                                         required=""
                                                                     />
@@ -522,7 +526,7 @@ function Update() {
                                                                         placeholder="Enter MonthlyRent"
                                                                         data-errors="Please Enter MonthlyRent."
                                                                         name="monthlyRent"
-                                                                        value={formdata.monthlyRent}
+                                                                        value={formdata.monthlyRent.$numberDecimal}
                                                                         onChange={handleData}
                                                                         required=""
                                                                     />
@@ -538,21 +542,9 @@ function Update() {
                                                                         placeholder="Enter IncrementSchedule"
                                                                         data-errors="Please Enter IncrementSchedule."
                                                                         name="incrementSchedule"
-                                                                        value={formdata.incrementSchedule}
+                                                                        value={formdata.incrementSchedule.$numberDecimal}
                                                                         onChange={handleData}
                                                                         required=""
-                                                                    />
-                                                                    <div className="help-block with-errors"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-md-6">
-                                                                <div className="form-group">
-                                                                    <label>CreatedAt *</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        className="form-control"
-                                                                        value={formdata.createdAt}
-                                                                        onChange={handleData}
                                                                     />
                                                                     <div className="help-block with-errors"></div>
                                                                 </div>
@@ -565,18 +557,31 @@ function Update() {
                                                                         className="form-control"
                                                                         value={formdata.clientId && formdata.clientId}
                                                                         onChange={handleData}
-                                                                        disabled
                                                                     />
                                                                     <div className="help-block with-errors"></div>
                                                                 </div>
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <div className="form-group">
-                                                                    <label>CreatedBy *</label>
+                                                                    <label>Property *</label>
+                                                                    <select className='form-control' name='propertymaster' value={formdata.propertymaster} onChange={handleData} required>
+                                                                        <option value="Select">Select</option>
+                                                                        {
+                                                                            propertymaster && propertymaster.map((item, index) => (
+                                                                                <option key={index} value={item._id} required>{formdata.propertymaster.address1}, {formdata.propertymaster.address2},{formdata.propertymaster.pincode.$numberDecimal}, {formdata.propertymaster.city}, {formdata.propertymaster.state}</option>
+                                                                            ))
+                                                                        }
+                                                                    </select>
+                                                                    <div className="help-block with-errors"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                    <label>CreatedAt *</label>
                                                                     <input
                                                                         type="text"
                                                                         className="form-control"
-                                                                        value={formdata.propertymaster && formdata.propertymaster.name}
+                                                                        value={formdata.createdAt && formdata.createdAt.slice(0,10)}
                                                                         onChange={handleData}
                                                                         disabled
                                                                     />
