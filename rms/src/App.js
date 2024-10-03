@@ -13,6 +13,7 @@ import AddOwnerMasters from "./Pages/OwnerMaster/AddOwnerMasters";
 import ListOwnerMasters from "./Pages/OwnerMaster/ListOwnerMasters";
 import AddClientMasters from "./Pages/ClientMaster/AddClientMasters";
 import ListClientMasters from "./Pages/ClientMaster/ListClientMasters";
+import RentTransactionForm from "./Pages/RentMaster/RentTransactionForm";
 import Detail from "./Component/Detail";
 
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="listrentmaster" element={<ListRentMasters />} />
           <Route path="addclientmaster" element={<AddClientMasters/>} />
           <Route path="listclientmaster" element={<ListClientMasters/>} />
+          <Route path="renttransactionform" element={<RentTransactionForm/>} />
           <Route path=":?/:whichroute/detail" element={<Detail />} />
           <Route path=":?/:whichroute/update" element={<Update />} />
 
