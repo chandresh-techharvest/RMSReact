@@ -26,7 +26,6 @@ function Detail() {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
                 setData(await res.data)
-                console.log(res.data);
             } catch (error) {
                 setMessage({
                     ...message,
@@ -123,6 +122,43 @@ function Detail() {
                                                         </div>
                                                     ))
                                                 )
+                                            ) : whichroute === 'rentmaster' ? (
+                                                data && Object.keys(data).map((item, index) => (
+                                                    (item === 'electricityMeterNumber' || item === 'clientId') ? (
+                                                        <div className="col-md-6" key={index}>
+                                                            <div className="form-group">
+                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                <div className="help-block">{data[item]}</div>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        item === 'incrementPercentage' || item === 'securityDepositAmount' || item === 'monthlyRent' || item === 'incrementSchedule' ?
+                                                            (
+                                                                (item !== '__v' && item !== 'propertymaster') && (
+                                                                    <div className="col-md-6" key={index}>
+                                                                        <div className="form-group">
+                                                                            <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                            <div className="help-block">{data[item].$numberDecimal}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            ) : item === 'propertymaster' ? (
+                                                                <div className="col-md-6" key={index}>
+                                                                    <div className="form-group">
+                                                                        <h5>Property</h5>
+                                                                        <div className="help-block">{data[item].address1},{data[item].address2},{data[item].pincode.$numberDecimal},{data[item].city},{data[item].state}</div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (item === 'createdAt' || item === 'updatedAt') && (
+                                                                <div className="col-md-6" key={index}>
+                                                                    <div className="form-group">
+                                                                        <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                        <div className="help-block">{data[item].slice(0, 10)}</div>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                    )
+                                                ))
                                             ) : (null)
                                         }
                                     </div>

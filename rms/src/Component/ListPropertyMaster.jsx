@@ -72,12 +72,10 @@ function ListPropertyMaster() {
                 <td>{item.state}</td>
                 <td>{item.ownerMasters && item.ownerMasters.name}</td>
                 <td>
-                  <Button variant="contained" color="success" onClick={()=>navigate(`/dashboard/addrentmaster/?Id=${item._id}`)}>
-                    Add Rented
-                  </Button>
-                </td>
-                <td>
                   <div className="d-flex align-items-center list-action">
+                    <Button variant="contained" className="mr-2" color="success" onClick={() => navigate(`/dashboard/addrentmaster/?Id=${item._id}`)}>
+                      Add Rent
+                    </Button>
                     <button
                       className="badge bg-success mr-2"
                       onClick={() => handleUpdate(item._id)}

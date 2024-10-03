@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectAllPropertyMaster } from "../Redux/Slice/userSlice";
-import { useParams } from "react-router";
 function AddRentMaster() {
   const [formdata, setformData] = useState({
     electricityMeterNumber: "",
@@ -11,11 +10,10 @@ function AddRentMaster() {
     securityDepositAmount: "",
     monthlyRent: "",
     incrementSchedule: "",
-    propertymaster: "",
+    propertymaster: '',
   });
   const url = new URLSearchParams(window.location.search)
   const id = url.get('Id')
-  console.log(id);
 
   const propertymaster = useSelector(selectAllPropertyMaster);
 
@@ -43,7 +41,7 @@ function AddRentMaster() {
 
     try {
       const res = await axios.post(
-        "https://rsmapi.vercel.app/ownermaster",
+        "https://rsmapi.vercel.app/rentmaster",
         formdata, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       }
@@ -196,7 +194,7 @@ function AddRentMaster() {
               <select
                 className="form-control"
                 name="propertymaster"
-                value={formdata.propertymaster}
+                value={id ? formdata.propertymaster = id : formdata.propertymaster}
                 onChange={handleData}
               >
                 {
@@ -213,24 +211,7 @@ function AddRentMaster() {
                     )
                   ))
                 }
-                {/* <option value="Select">Select</option>
-                {propertyData &&
-                  propertyData.map((item, index) => (
-                    <option key={index} value={item.id}>
-                      {item.pincode.$numberDecimal} - {item.address2}
-                    </option>
-                  ))} */}
               </select>
-              {/* <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter Phone"
-                            data-errors="Please Enter Phone."
-                            name="propertymaster"
-                            value={formdata.propertymaster}
-                            onChange={handleData}
-                            required=""
-                          /> */}
               <div className="help-block with-errors"></div>
             </div>
           </div>

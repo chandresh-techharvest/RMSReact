@@ -1,15 +1,64 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
+import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 function ListRentMaster() {
 
-  const[data,setData] = useState([])
+  const [data, setData] = useState([])
+  const navigate = useNavigate();
 
   const [message, setMessage] = useState({
     success: "",
     danger: "",
   });
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axios.get("https://rsmapi.vercel.app/rentmaster", {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        })
+        if (res.status == 200) {
+          setData(await res.data)
+        }
+      } catch (error) {
+        setMessage({
+          ...message,
+          danger: `${error.message}, While retriving RentMaster`,
+        });
+      } finally {
+        setTimeout(
+          () =>
+            setMessage({
+              success: "",
+              danger: "",
+            }),
+          3000
+        );
+      }
+    }
+    getData();
+  }, [])
+
+  const handleUpdate = (id) => {
+    navigate(`/dashboard/rentmaster/update?Id=${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://rsmapi.vercel.app/rentmaster/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      setData(data.filter((data) => data._id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <table className="data-table table mb-0 tbl-server-info">
@@ -21,21 +70,22 @@ function ListRentMaster() {
             <th>SecurityDepositAmount</th>
             <th>MonthlyRent</th>
             <th>IncrementSchedule</th>
-            <th>Rent CreatedBy</th>
+            <th>Rent CreatedFror</th>
           </tr>
         </thead>
         <tbody className="ligth-body">
-          {/* {data &&
+          {data &&
             data.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>{item.address1}</Link>
+                  <Link to={`/dashboard/rentmaster/detail?Id=${item._id}`}>{item.electricityMeterNumber}</Link>
                 </td>
-                <td>{item.address2}</td>
-                <td>{item.pincode && item.pincode.$numberDecimal}</td>
-                <td>{item.city}</td>
-                <td>{item.state}</td>
-                <td>{item.ownerMasters && item.ownerMasters.name}</td>
+                <td>{item.clientId}</td>
+                <td>{item.incrementPercentage.$numberDecimal}%</td>
+                <td>{item.securityDepositAmount.$numberDecimal}%</td>
+                <td>{item.monthlyRent.$numberDecimal}%</td>
+                <td>{item.incrementSchedule.$numberDecimal}%</td>
+                <td>{item.propertymaster && item.propertymaster.pincode.$numberDecimal}</td>
                 <td>
                   <div className="d-flex align-items-center list-action">
                     <button
@@ -53,7 +103,7 @@ function ListRentMaster() {
                   </div>
                 </td>
               </tr>
-            ))} */}
+            ))}
         </tbody>
       </table>
       {message.danger && (
