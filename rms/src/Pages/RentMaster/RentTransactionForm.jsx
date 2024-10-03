@@ -13,7 +13,6 @@ function RentTransactionForm() {
                 <h4 className="card-title">Rent Transaction</h4>
               </div>
             </div>
-
             <div className="card-body">
             <RentTransaction/>
             </div>
