@@ -199,7 +199,7 @@ function Login() {
             </div>
             {
                 message.success && (
-                    <div className="alert alert-success" role="alert">
+                    <div className="alert alert-success mt-3" role="alert">
                         {message.success}
                     </div>
                 )

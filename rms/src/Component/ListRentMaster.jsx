@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import Button from "@mui/material/Button";
 
 function ListRentMaster() {
 
@@ -88,6 +89,9 @@ function ListRentMaster() {
                 <td>{item.propertymaster && item.propertymaster.pincode.$numberDecimal}</td>
                 <td>
                   <div className="d-flex align-items-center list-action">
+                  <Button variant="contained" className="mr-2" color="success" onClick={() => navigate(`/dashboard/rentmaster/transcation?Id=${item._id}`)}>
+                      Rent Reciept
+                    </Button>
                     <button
                       className="badge bg-success mr-2"
                       onClick={() => handleUpdate(item._id)}
