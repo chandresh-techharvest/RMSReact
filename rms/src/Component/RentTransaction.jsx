@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  selectAllPropertyMaster,
-} from "../Redux/Slice/userSlice";
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import axios from 'axios';
 
 function RentTransaction() {
@@ -18,10 +15,13 @@ function RentTransaction() {
     propertymaster: "",
     ownerMasters: '',
     monthlyRent: "",
+    paymentThreshold: ''
   })
   const url = new URLSearchParams(window.location.search)
 
   const id = url.get('Id')
+
+  const navigate = useNavigate();
 
   const { whichroute } = useParams();
 
@@ -37,10 +37,10 @@ function RentTransaction() {
         const response = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
-        if (response.status == 200) {
+        if (response.status === 200) {
           setFormData(await response.data)
         }
-        console.log(response);
+        console.log(response.data);
       } catch (error) {
         setMessage({
           ...message,
@@ -100,6 +100,36 @@ function RentTransaction() {
                 value={formData.rentTo}
                 onChange={handleData}
                 required=""
+              />
+              <div className="help-block with-errors"></div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label>Payment Threshold*</label>
+              <input
+                type="date"
+                className="form-control"
+                placeholder="Enter Payment Threshold"
+                name="paymentThreshold"
+                data-errors="paymentThreshold."
+                value={formData.paymentThreshold}
+                onChange={handleData}
+                required=""
+              />
+              <div className="help-block with-errors"></div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label>MonthlyRent*</label>
+              <input
+                type="text"
+                className="form-control"
+                name="monthlyRent"
+                value={formData.monthlyRent.$numberDecimal}
+                onChange={handleData}
+                disabled
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -177,26 +207,12 @@ function RentTransaction() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>MonthlyRent*</label>
-              <input
-                type="text"
-                className="form-control"
-                name="monthlyRent"
-                value={formData.monthlyRent.$numberDecimal}
-                onChange={handleData}
-                disabled
-              />
-              <div className="help-block with-errors"></div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="form-group">
               <label>OwnerMaster*</label>
               <input
                 type="text"
                 className="form-control"
                 name="ownermaster"
-                value={formData.propertymaster && formData.propertymaster.ownerMasters}
+                value={formData.propertymaster.ownerMasters && formData.propertymaster.ownerMasters}
                 onChange={handleData}
                 disabled
               />
@@ -206,6 +222,9 @@ function RentTransaction() {
         </div>
         <button type="submit" className="btn btn-primary mr-2">
           Add
+        </button>
+        <button type='reset' className="btn btn-danger" onClick={() => navigate(-1)}>
+          Back
         </button>
       </form>
     </>

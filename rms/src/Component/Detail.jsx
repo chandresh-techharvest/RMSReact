@@ -164,7 +164,6 @@ function Detail() {
                                     </div>
                                     <button className="btn btn-primary mr-2" onClick={() => navigate(-1)}>Back</button>
                                 </div>
-
                             </div>
                         </div>
                     </div >
