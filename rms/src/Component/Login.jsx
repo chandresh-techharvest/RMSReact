@@ -11,6 +11,7 @@ function Login() {
     const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
+        name:'',
         email: '',
         password: '',
     })
@@ -62,14 +63,24 @@ function Login() {
                         }, 3000);
                     }
                 }
+            }
+            else if (check === 'OwnerMaster') {
 
-                if (res.data.owner) {
-                    if (res.data.owner.role === "Owner") {
-                        localStorage.setItem('ownerId', res.data.owner._id)
-                        localStorage.setItem('role', res.data.owner.role)
+                const res = await axios.post('https://rsmapi.vercel.app/ownermasterlogin', formData)
+
+                setFormData({
+                    name: '',
+                    email: '',
+                    password: ''
+                })
+
+                if (res.data.OwnerMaster) {
+                    if (res.data.OwnerMaster.role === "Owner") {
+                        localStorage.setItem('ownerId', res.data.OwnerMaster._id)
+                        localStorage.setItem('role', res.data.OwnerMaster.role)
                         localStorage.setItem('token', res.data.token)
 
-                        dispatch(setAuthenticated({ ownerId: res.data.owner._id, isAuthenticated: !!res.data.token }))
+                        dispatch(setAuthenticated({ ownerId: res.data.OwnerMaster._id, isAuthenticated: !!res.data.token }))
 
                         setMessage({
                             ...message,
@@ -82,35 +93,6 @@ function Login() {
                     }
                 }
             }
-            // else if (check === 'OwnerMaster') {
-
-            //     const res = await axios.post('https://rsmapi.vercel.app/login', formData)
-
-            //     setFormData({
-            //         name: '',
-            //         email: '',
-            //         password: ''
-            //     })
-
-            //     if (res.data.owner) {
-            //         if (res.data.owner.role === "Owner") {
-            //             localStorage.setItem('ownerId', res.data.owner._id)
-            //             localStorage.setItem('role', res.data.owner.role)
-            //             localStorage.setItem('token', res.data.token)
-
-            //             dispatch(setAuthenticated({ ownerId: res.data.owner._id, isAuthenticated: !!res.data.token }))
-
-            //             setMessage({
-            //                 ...message,
-            //                 success: res.data.message
-            //             })
-
-            //             setTimeout(() => {
-            //                 navigate('/dashboard')
-            //             }, 3000);
-            //         }
-            //     }
-            // }
 
         } catch (error) {
 
@@ -121,6 +103,7 @@ function Login() {
             })
 
             setFormData({
+                name:'',
                 email: '',
                 password: ''
             })
@@ -135,7 +118,7 @@ function Login() {
 
     return (
         <>
-            <input type='radio' value='SuperAdmin' checked={check === 'SuperAdmin'} onChange={() => setCheck('SuperAdmin')} style={{ margin: '10px' }} /> SuperAdmin
+            <input type='radio' value='SuperAdmin' checked={check === 'SuperAdmin'} onChange={() => setCheck('SuperAdmin')} style={{ margin: '5px' }} /> SuperAdmin &nbsp;
 
             <input type='radio' value="OwnerMaster" checked={check === 'OwnerMaster'} onChange={() => setCheck('OwnerMaster')} /> OwnerMaster
             <div className="wrapper">

@@ -38,14 +38,6 @@ function AddPropertyMaster() {
       }
       );
 
-      setformData({
-        pincode: "",
-        address2: "",
-        city: "",
-        address1: "",
-        state: "",
-      });
-
       setMessage({
         ...message,
         success: res.data.message,
@@ -56,6 +48,13 @@ function AddPropertyMaster() {
         danger: "Error, While saving ownermaster",
       });
     } finally {
+      setformData({
+        pincode: "",
+        address2: "",
+        city: "",
+        address1: "",
+        state: "",
+      });
       setTimeout(
         () =>
           setMessage({

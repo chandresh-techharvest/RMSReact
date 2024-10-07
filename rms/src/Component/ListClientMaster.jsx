@@ -7,8 +7,6 @@ import axios from "axios";
 function ListClientMaster() {
   const [data, setData] = useState([]);
 
-  const ownerId = localStorage.getItem('ownerId')
-
   const navigate = useNavigate();
 
   const [message, setMessage] = useState({
@@ -25,7 +23,7 @@ function ListClientMaster() {
           });
         if (res.status === 200) {
 
-          setData(await res.data.filter((item) => item.ownerMasters._id === ownerId));
+          setData(await res.data);
         }
       } catch (error) {
         setMessage({

@@ -10,17 +10,12 @@ import {
 } from "../Redux/Slice/userSlice";
 
 function ListPropertyMaster() {
-  const ownerId = localStorage.getItem("ownerId");
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const propertymaster = useSelector(selectAllPropertyMaster);
-
-  const propertyData = propertymaster.filter(
-    (item) => item.ownerMasters._id === ownerId
-  );
 
   const [message, setMessage] = useState({
     success: "",
@@ -58,8 +53,8 @@ function ListPropertyMaster() {
           </tr>
         </thead>
         <tbody className="ligth-body">
-          {propertyData &&
-            propertyData.map((item, index) => (
+          {propertymaster &&
+            propertymaster.map((item, index) => (
               <tr key={index}>
                 <td>
                   <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>
