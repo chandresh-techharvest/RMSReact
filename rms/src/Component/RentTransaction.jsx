@@ -15,7 +15,8 @@ function RentTransaction() {
     propertymaster: "",
     ownerMasters: '',
     monthlyRent: "",
-    paymentThreshold: ''
+    paymentThreshold: '',
+    paymentMode:''
   })
   const url = new URLSearchParams(window.location.search)
 
@@ -216,6 +217,17 @@ function RentTransaction() {
                 onChange={handleData}
                 disabled
               />
+              <div className="help-block with-errors"></div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label>PaymentMode*</label>
+              <select className='form-control' name='paymentMode' value={formData.paymentMode} required onChange={handleData}>
+                <option value="Select">Select</option>
+                <option value='cash'>Cash</option>
+                <option value='online payment'>Online Payment</option>
+              </select>
               <div className="help-block with-errors"></div>
             </div>
           </div>
