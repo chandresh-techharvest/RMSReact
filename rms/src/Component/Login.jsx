@@ -11,7 +11,6 @@ function Login() {
     const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
-        name:'',
         email: '',
         password: '',
     })
@@ -69,7 +68,6 @@ function Login() {
                 const res = await axios.post('https://rsmapi.vercel.app/ownermasterlogin', formData)
 
                 setFormData({
-                    name: '',
                     email: '',
                     password: ''
                 })
@@ -103,7 +101,7 @@ function Login() {
             })
 
             setFormData({
-                name:'',
+                name: '',
                 email: '',
                 password: ''
             })
@@ -152,10 +150,6 @@ function Login() {
                         </div>
                     </form>) : (
                         <form onSubmit={handleSubmit}>
-                            <div className="field">
-                                <input type="text" name='name' value={formData.name} onChange={handleValue} required />
-                                <label>Name</label>
-                            </div>
                             <div className="field">
                                 <input type="email" name='email' value={formData.email} onChange={handleValue} required />
                                 <label>Email Address</label>
