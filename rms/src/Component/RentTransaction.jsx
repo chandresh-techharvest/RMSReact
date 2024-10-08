@@ -213,7 +213,7 @@ function RentTransaction() {
                 type="text"
                 className="form-control"
                 name="ownermaster"
-                value={formData.propertymaster.ownerMasters && formData.propertymaster.ownerMasters}
+                value={formData.ownerMasters && formData.ownerMasters.name}
                 onChange={handleData}
                 disabled
               />

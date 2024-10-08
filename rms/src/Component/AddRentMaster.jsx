@@ -203,7 +203,7 @@ function AddRentMaster() {
                       <option key={index} value={item._id} selected='true' disabled>{item.pincode.$numberDecimal} - {item.address2}</option>
                     ) : (
                       <>
-                        <option value="Select">Select</option>
+                      <option value="">Select</option>
                         <option key={index} value={item.id}>
                           {item.pincode.$numberDecimal} - {item.address2}
                         </option>
