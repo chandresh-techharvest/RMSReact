@@ -4,8 +4,6 @@ import AddClientMaster from '../../Component/AddClientMaster'
  function AddClientMasters() {
   return (
     <>
-    
-     
     <div className="content-page">
     <div className="container-fluid add-form-list">
       <div className="row">
