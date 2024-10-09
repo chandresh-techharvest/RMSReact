@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ListClientMaster() {
+  const ownerId = localStorage.getItem("ownerId");
+
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();
@@ -17,13 +19,11 @@ function ListClientMaster() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("https://rsmapi.vercel.app/clientmaster",
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-          });
+        const res = await axios.get("https://rsmapi.vercel.app/clientmaster", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
         if (res.status === 200) {
-
-          setData(await res.data);
+          setData(await res.data.filter((item) => item._id !== ownerId));
         }
       } catch (error) {
         setMessage({
@@ -46,14 +46,14 @@ function ListClientMaster() {
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/clientmaster/Id?=${id}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
   };
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`https://rsmapi.vercel.app/clientmaster/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setData(data.filter((data) => data._id !== id));
     } catch (error) {
@@ -80,7 +80,9 @@ function ListClientMaster() {
             data.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <Link to={`/dashboard/clientmaster/detail?Id=${item._id}`}>{item.name}</Link>
+                  <Link to={`/dashboard/clientmaster/detail?Id=${item._id}`}>
+                    {item.name}
+                  </Link>
                 </td>
                 <td>{item.fatherName}</td>
                 <td>{item.gender}</td>

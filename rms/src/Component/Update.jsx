@@ -26,6 +26,8 @@ function Update() {
         phone: '',
         pincode: '',
         address1: '',
+        email: '',
+        password: '',
         address2: '',
         fatherName: '',
         city: '',
@@ -372,6 +374,38 @@ function Update() {
                                                             </div>
                                                             <div className="col-md-6">
                                                                 <div className="form-group">
+                                                                    <label>Email*</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control"
+                                                                        placeholder="Enter Email"
+                                                                        data-errors="Please Enter Email."
+                                                                        name="email"
+                                                                        value={formdata.email}
+                                                                        onChange={handleData}
+                                                                        required=""
+                                                                    />
+                                                                    <div className="help-block with-errors"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <div className="form-group">
+                                                                    <label>Password*</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control"
+                                                                        placeholder="Enter Password"
+                                                                        data-errors="Please Enter Password."
+                                                                        name="password"
+                                                                        value={formdata.password}
+                                                                        onChange={handleData}
+                                                                        required=""
+                                                                    />
+                                                                    <div className="help-block with-errors"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <div className="form-group">
                                                                     <label>Gender *</label>
                                                                     <select className='form-control' name='gender' value={formdata.gender} onChange={handleData} required>
                                                                         <option value="Male">Male</option>
@@ -581,7 +615,7 @@ function Update() {
                                                                     <input
                                                                         type="text"
                                                                         className="form-control"
-                                                                        value={formdata.createdAt && formdata.createdAt.slice(0,10)}
+                                                                        value={formdata.createdAt && formdata.createdAt.slice(0, 10)}
                                                                         onChange={handleData}
                                                                         disabled
                                                                     />

@@ -11,11 +11,15 @@ import {
 
 function ListPropertyMaster() {
 
+  const ownerId = localStorage.getItem('ownerId')
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const propertymaster = useSelector(selectAllPropertyMaster);
+
+  const propertyData = propertymaster.filter((item)=>item._id!==ownerId)
 
   const [message, setMessage] = useState({
     success: "",
@@ -53,8 +57,8 @@ function ListPropertyMaster() {
           </tr>
         </thead>
         <tbody className="ligth-body">
-          {propertymaster &&
-            propertymaster.map((item, index) => (
+          {propertyData &&
+            propertyData.map((item, index) => (
               <tr key={index}>
                 <td>
                   <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>
