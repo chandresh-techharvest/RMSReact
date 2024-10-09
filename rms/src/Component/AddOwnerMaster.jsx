@@ -35,7 +35,8 @@ function AddOwnerMaster() {
         "https://rsmapi.vercel.app/ownermaster",
         formdata,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          timeout: 10000
         }
       );
 

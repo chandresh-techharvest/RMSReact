@@ -15,6 +15,7 @@ import AddClientMasters from "./Pages/ClientMaster/AddClientMasters";
 import ListClientMasters from "./Pages/ClientMaster/ListClientMasters";
 import RentTransactionForm from "./Pages/RentMaster/RentTransactionForm";
 import Detail from "./Component/Detail";
+import Auth from "./Pages/Auth/Auth";
 
 
 function App() {

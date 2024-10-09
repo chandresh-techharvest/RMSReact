@@ -1,13 +1,14 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import Button from "@mui/material/Button";
 
 function ListRentMaster() {
+  const ownerId = localStorage.getItem("ownerId");
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   const [message, setMessage] = useState({
@@ -19,10 +20,10 @@ function ListRentMaster() {
     const getData = async () => {
       try {
         const res = await axios.get("https://rsmapi.vercel.app/rentmaster", {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        })
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
         if (res.status == 200) {
-          setData(await res.data)
+          setData(await res.data.filter((item) => item._id !== ownerId));
         }
       } catch (error) {
         setMessage({
@@ -39,39 +40,40 @@ function ListRentMaster() {
           3000
         );
       }
-    }
+    };
     getData();
-  }, [])
+  }, []);
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/rentmaster/update?Id=${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
-  }
+    });
+  };
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`https://rsmapi.vercel.app/rentmaster/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
       setData(data.filter((data) => data._id !== id));
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   return (
     <>
       <table className="data-table table mb-0 tbl-server-info">
         <thead className="bg-white text-uppercase">
           <tr className="ligth ligth-data">
             <th>ElectricityMeterNumber</th>
-            <th>ClientId</th>
+            <th>ClientName</th>
             <th>IncrementPercentage</th>
             <th>SecurityDepositAmount</th>
             <th>MonthlyRent</th>
             <th>IncrementSchedule</th>
-            <th>Rent CreatedFror</th>
+            <th>PropertyDetail</th>
+            <th>OwnerDetail</th>
           </tr>
         </thead>
         <tbody className="ligth-body">
@@ -79,17 +81,31 @@ function ListRentMaster() {
             data.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <Link to={`/dashboard/rentmaster/detail?Id=${item._id}`}>{item.electricityMeterNumber}</Link>
+                  <Link to={`/dashboard/rentmaster/detail?Id=${item._id}`}>
+                    {item.electricityMeterNumber}
+                  </Link>
                 </td>
-                <td>{item.clientId}</td>
+                <td>{item.clientId && item.clientId.name}</td>
                 <td>{item.incrementPercentage.$numberDecimal}%</td>
                 <td>{item.securityDepositAmount.$numberDecimal}%</td>
                 <td>{item.monthlyRent.$numberDecimal}%</td>
                 <td>{item.incrementSchedule.$numberDecimal}%</td>
-                <td>{item.propertymaster && item.propertymaster.pincode.$numberDecimal}</td>
+                <td>
+                  {item.propertymaster &&
+                    item.propertymaster.pincode.$numberDecimal}
+                </td>
                 <td>
                   <div className="d-flex align-items-center list-action">
-                  <Button variant="contained" className="mr-2" color="success" onClick={() => navigate(`/dashboard/rentmaster/transcation?Id=${item._id}`)}>
+                    <Button
+                      variant="contained"
+                      className="mr-2"
+                      color="success"
+                      onClick={() =>
+                        navigate(
+                          `/dashboard/rentmaster/transcation?Id=${item._id}`
+                        )
+                      }
+                    >
                       Rent Reciept
                     </Button>
                     <button
@@ -116,7 +132,7 @@ function ListRentMaster() {
         </div>
       )}
     </>
-  )
+  );
 }
 
-export default ListRentMaster
+export default ListRentMaster;
