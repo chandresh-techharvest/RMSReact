@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { selectAllPropertyMaster } from "../Redux/Slice/userSlice";
+import {
+  selectAllPropertyMaster,
+  selectAllClientMaster,
+} from "../Redux/Slice/userSlice";
 function AddRentMaster() {
+  const ownerId = localStorage.getItem("ownerId");
+
   const [formdata, setformData] = useState({
     electricityMeterNumber: "",
     clientId: "",
@@ -10,15 +15,22 @@ function AddRentMaster() {
     securityDepositAmount: "",
     monthlyRent: "",
     incrementSchedule: "",
-    propertymaster: '',
+    propertymaster: "",
+    ownerMasters: ownerId,
   });
-  const url = new URLSearchParams(window.location.search)
-  const id = url.get('Id')
+  const url = new URLSearchParams(window.location.search);
+  const id = url.get("Id");
 
   const propertymaster = useSelector(selectAllPropertyMaster);
 
+  const clientmaster = useSelector(selectAllClientMaster);
+
   const propertyData = propertymaster.filter(
-    (item) => item.ownerMasters._id === localStorage.getItem('ownerId')
+    (item) => item.ownerMasters._id === localStorage.getItem("ownerId")
+  );
+
+  const clientData = clientmaster.filter(
+    (item) => item.ownerMasters._id === localStorage.getItem("ownerId")
   );
 
   const [message, setMessage] = useState({
@@ -42,20 +54,11 @@ function AddRentMaster() {
     try {
       const res = await axios.post(
         "https://rsmapi.vercel.app/rentmaster",
-        formdata, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      }
+        formdata,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
       );
-
-      setformData({
-        electricityMeterNumber: "",
-        clientId: "",
-        incrementPercentage: "",
-        securityDepositAmount: "",
-        monthlyRent: "",
-        incrementSchedule: "",
-        propertymaster: "",
-      });
 
       setMessage({
         ...message,
@@ -67,6 +70,17 @@ function AddRentMaster() {
         danger: `${error.message}, While saving RentMaster`,
       });
     } finally {
+      setformData({
+        electricityMeterNumber: "",
+        clientId: "",
+        incrementPercentage: "",
+        securityDepositAmount: "",
+        monthlyRent: "",
+        incrementSchedule: "",
+        propertymaster: "",
+        ownerMasters: ownerId,
+      });
+
       setTimeout(
         () =>
           setMessage({
@@ -103,16 +117,20 @@ function AddRentMaster() {
           <div className="col-md-6">
             <div className="form-group">
               <label>ClientId *</label>
-              <input
-                type="text"
+              <select
                 className="form-control"
-                placeholder="Enter ClientId"
-                data-errors="Please Enter ClientId."
                 name="clientId"
                 value={formdata.clientId}
                 onChange={handleData}
-                required=""
-              />
+                required
+              >
+                <option value="">Select</option>
+                {clientData.map((item, index) => (
+                  <option value={item._id} key={index}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
               <div className="help-block with-errors"></div>
             </div>
           </div>
@@ -194,23 +212,32 @@ function AddRentMaster() {
               <select
                 className="form-control"
                 name="propertymaster"
-                value={id ? formdata.propertymaster = id : formdata.propertymaster}
+                value={
+                  id ? (formdata.propertymaster = id) : formdata.propertymaster
+                }
                 onChange={handleData}
               >
-                {
-                  propertyData && propertyData.map((item, index) => (
+              <option value="">Select</option>
+                {propertyData &&
+                  propertyData.map((item, index) =>
                     item._id === id ? (
-                      <option key={index} value={item._id} selected='true' disabled>{item.pincode.$numberDecimal} - {item.address2}</option>
+                      <option
+                        key={index}
+                        value={item._id}
+                        selected="true"
+                        disabled
+                      >
+                        {item.pincode.$numberDecimal} - {item.address2}
+                      </option>
                     ) : (
                       <>
-                      <option value="">Select</option>
-                        <option key={index} value={item.id}>
+                        
+                        <option key={index} value={item._id}>
                           {item.pincode.$numberDecimal} - {item.address2}
                         </option>
                       </>
                     )
-                  ))
-                }
+                  )}
               </select>
               <div className="help-block with-errors"></div>
             </div>

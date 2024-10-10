@@ -66,7 +66,7 @@ function RentTransaction() {
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.name
+      [e.target.name]: e.target.value
     })
   }
   return (

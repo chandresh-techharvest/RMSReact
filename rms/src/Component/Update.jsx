@@ -24,6 +24,7 @@ function Update() {
         gender: 'Select',
         password: '',
         phone: '',
+        mobileNumber:'',
         pincode: '',
         address1: '',
         email: '',
@@ -384,6 +385,7 @@ function Update() {
                                                                         value={formdata.email}
                                                                         onChange={handleData}
                                                                         required=""
+                                                                        disabled
                                                                     />
                                                                     <div className="help-block with-errors"></div>
                                                                 </div>
@@ -422,8 +424,8 @@ function Update() {
                                                                         className="form-control"
                                                                         placeholder="Enter Phone"
                                                                         data-errors="Please Enter Phone."
-                                                                        name="phone"
-                                                                        value={formdata.phone}
+                                                                        name="mobileNumber"
+                                                                        value={formdata.mobileNumber}
                                                                         onChange={handleData}
                                                                         required=""
                                                                     />
