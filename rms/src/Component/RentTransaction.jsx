@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import axios from "axios";
+import { responsiveProperty } from "@mui/material/styles/cssUtils";
 
 function RentTransaction() {
-
   const [formData, setFormData] = useState({
-    rentFrom: '',
-    rentTo: '',
+    RentFrom: "",
+    RentTo: "",
     pincode: "",
     address2: "",
     city: "",
     address1: "",
     state: "",
     propertymaster: "",
-    ownerMasters: '',
+    ownerMasters: "",
+    rentMaster: "",
     monthlyRent: "",
-    paymentThreshold: '',
-    paymentMode:''
-  })
-  const url = new URLSearchParams(window.location.search)
+    paymentMode: "",
+    paymentThreshold: "",
+  });
+  const url = new URLSearchParams(window.location.search);
 
-  const id = url.get('Id')
+  const id = url.get("Id");
 
   const navigate = useNavigate();
 
@@ -32,14 +33,18 @@ function RentTransaction() {
   });
 
   useEffect(() => {
-
     const getData = async () => {
       try {
-        const response = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        })
+        const response = await axios.get(
+          `https://rsmapi.vercel.app/${whichroute}/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         if (response.status === 200) {
-          setFormData(await response.data)
+          setFormData(await response.data);
         }
         console.log(response.data);
       } catch (error) {
@@ -57,21 +62,67 @@ function RentTransaction() {
           3000
         );
       }
-    }
-    getData()
-  }, [id, whichroute])
+    };
+    getData();
+  }, [id, whichroute]);
 
   const handleData = (e) => {
     e.preventDefault();
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "https://rsmapi.vercel.app/rentTranscation",
+        formData,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      setMessage({
+        ...message,
+        success: res.data.message,
+      });
+    } catch (error) {
+      setMessage({
+        ...message,
+        danger: `${error.message}, While saving RentRecipt`,
+      });
+    } finally {
+      setFormData({
+        RentFrom: "",
+        RentTo: "",
+        pincode: "",
+        address2: "",
+        city: "",
+        address1: "",
+        state: "",
+        propertymaster: "",
+        ownerMasters: "",
+        rentMaster: "",
+        monthlyRent: "",
+        paymentMode: "",
+        paymentThreshold: "",
+      });
+
+      setTimeout(
+        () =>
+          setMessage({
+            success: "",
+            danger: "",
+          }),
+        3000
+      );
+    }
+  };
   return (
     <>
-      <form data-toggle="validator" noValidate="true">
+      <form data-toggle="validator" noValidate="true" onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
@@ -80,9 +131,9 @@ function RentTransaction() {
                 type="date"
                 className="form-control"
                 placeholder="Enter Name"
-                name="rentFrom"
+                name="RentFrom"
                 data-errors="Rent From."
-                value={formData.rentFrom}
+                value={formData.RentFrom}
                 onChange={handleData}
                 required=""
               />
@@ -96,9 +147,9 @@ function RentTransaction() {
                 type="date"
                 className="form-control"
                 placeholder="Enter Rent To"
-                name="rentTo"
+                name="RentTo"
                 data-errors="Please Enter Name."
-                value={formData.rentTo}
+                value={formData.RentTo}
                 onChange={handleData}
                 required=""
               />
@@ -142,7 +193,10 @@ function RentTransaction() {
                 type="text"
                 className="form-control"
                 name="pincode"
-                value={formData.propertymaster && formData.propertymaster.pincode.$numberDecimal}
+                value={
+                  formData.propertymaster &&
+                  formData.propertymaster.pincode.$numberDecimal
+                }
                 onChange={handleData}
                 required=""
                 disabled
@@ -156,8 +210,9 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                name="address1"
-                value={formData.propertymaster && formData.propertymaster.address1}
+                value={
+                  formData.propertymaster && formData.propertymaster.address1
+                }
                 onChange={handleData}
                 disabled
               />
@@ -170,8 +225,9 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                name="address2"
-                value={formData.propertymaster && formData.propertymaster.address2}
+                value={
+                  formData.propertymaster && formData.propertymaster.address2
+                }
                 onChange={handleData}
                 disabled
               />
@@ -184,7 +240,6 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                name="city"
                 value={formData.propertymaster && formData.propertymaster.city}
                 onChange={handleData}
                 disabled
@@ -198,7 +253,6 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                name="state"
                 value={formData.propertymaster && formData.propertymaster.state}
                 onChange={handleData}
                 disabled
@@ -223,10 +277,16 @@ function RentTransaction() {
           <div className="col-md-6">
             <div className="form-group">
               <label>PaymentMode*</label>
-              <select className='form-control' name='paymentMode' value={formData.paymentMode} required onChange={handleData}>
+              <select
+                className="form-control"
+                name="paymentMode"
+                value={formData.paymentMode}
+                required
+                onChange={handleData}
+              >
                 <option value="Select">Select</option>
-                <option value='cash'>Cash</option>
-                <option value='online payment'>Online Payment</option>
+                <option value="cash">Cash</option>
+                <option value="online payment">Online Payment</option>
               </select>
               <div className="help-block with-errors"></div>
             </div>
@@ -235,12 +295,16 @@ function RentTransaction() {
         <button type="submit" className="btn btn-primary mr-2">
           Add
         </button>
-        <button type='reset' className="btn btn-danger" onClick={() => navigate(-1)}>
+        <button
+          type="reset"
+          className="btn btn-danger"
+          onClick={() => navigate(-1)}
+        >
           Back
         </button>
       </form>
     </>
-  )
+  );
 }
 
-export default RentTransaction
+export default RentTransaction;

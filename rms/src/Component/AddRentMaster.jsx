@@ -10,7 +10,7 @@ function AddRentMaster() {
 
   const [formdata, setformData] = useState({
     electricityMeterNumber: "",
-    clientId: "",
+    clientMaster: "",
     incrementPercentage: "",
     securityDepositAmount: "",
     monthlyRent: "",
@@ -26,11 +26,11 @@ function AddRentMaster() {
   const clientmaster = useSelector(selectAllClientMaster);
 
   const propertyData = propertymaster.filter(
-    (item) => item.ownerMasters._id === localStorage.getItem("ownerId")
+    (item) => item.ownerMasters._id === ownerId
   );
 
   const clientData = clientmaster.filter(
-    (item) => item.ownerMasters._id === localStorage.getItem("ownerId")
+    (item) => item.ownerMasters._id === ownerId
   );
 
   const [message, setMessage] = useState({
@@ -72,7 +72,7 @@ function AddRentMaster() {
     } finally {
       setformData({
         electricityMeterNumber: "",
-        clientId: "",
+        clientMaster: "",
         incrementPercentage: "",
         securityDepositAmount: "",
         monthlyRent: "",
@@ -119,8 +119,8 @@ function AddRentMaster() {
               <label>ClientId *</label>
               <select
                 className="form-control"
-                name="clientId"
-                value={formdata.clientId}
+                name="clientMaster"
+                value={formdata.clientMaster}
                 onChange={handleData}
                 required
               >
@@ -217,7 +217,7 @@ function AddRentMaster() {
                 }
                 onChange={handleData}
               >
-              <option value="">Select</option>
+                <option value="">Select</option>
                 {propertyData &&
                   propertyData.map((item, index) =>
                     item._id === id ? (
@@ -231,7 +231,6 @@ function AddRentMaster() {
                       </option>
                     ) : (
                       <>
-                        
                         <option key={index} value={item._id}>
                           {item.pincode.$numberDecimal} - {item.address2}
                         </option>
