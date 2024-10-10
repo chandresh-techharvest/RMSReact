@@ -8,12 +8,13 @@ const initialState = {
     isAuthenticated: false,
   },
   propertyMaster: [],
+  clientMaster: [],
   status: "idle",
   error: "",
 };
 
 export const fetchPropertyMaster = createAsyncThunk(
-  "propertyMaster/fetchPropertyMaster",
+  "user/fetchPropertyMaster",
   async () => {
     const res = await axios.get("https://rsmapi.vercel.app/propertymaster", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -22,8 +23,18 @@ export const fetchPropertyMaster = createAsyncThunk(
   }
 );
 
+export const fetchClientMaster = createAsyncThunk(
+  "user/fetchClientMaster",
+  async () => {
+    const res = await axios.get("https://rsmapi.vercel.app/clientmaster", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    return res?.data;
+  }
+);
+
 export const deleteMaster = createAsyncThunk(
-  "delete/deleteMaster",
+  "user/deleteMaster",
   async (id) => {
     try {
       const res = await axios.delete(
@@ -52,7 +63,8 @@ const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchPropertyMaster.pending, (state, action) => {
+      // Fetch property master cases
+      .addCase(fetchPropertyMaster.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchPropertyMaster.fulfilled, (state, action) => {
@@ -63,6 +75,19 @@ const userSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
+      // Fetch client master cases
+      .addCase(fetchClientMaster.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchClientMaster.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.clientMaster = action.payload;
+      })
+      .addCase(fetchClientMaster.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      // Delete master case
       .addCase(deleteMaster.fulfilled, (state, action) => {
         state.propertyMaster = state.propertyMaster.filter(
           (item) => item._id !== action.payload
@@ -72,6 +97,7 @@ const userSlice = createSlice({
 });
 
 export const selectAllPropertyMaster = (state) => state.user.propertyMaster;
+export const selectAllClientMaster = (state) => state.user.clientMaster;
 export const getPropertyMasterStatus = (state) => state.user.status;
 export const getPropertyMasterError = (state) => state.user.error;
 

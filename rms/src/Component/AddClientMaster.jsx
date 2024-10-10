@@ -2,14 +2,17 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function AddClientMaster() {
+
   const ownerId = localStorage.getItem("ownerId");
-console.log(window.location)
+
   const [formData, setformData] = useState({
     name: "",
     gender: "",
     address1: "",
     address2: "",
-    phone: "",
+    email:"",
+    password:"",
+    mobileNumber: "",
     fatherName: "",
     ownerMasters: ownerId,
   });
@@ -36,14 +39,6 @@ console.log(window.location)
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       }
       );
-      setformData({
-        name: "",
-        gender: "",
-        address1: "",
-        address2: "",
-        phone: "",
-        fatherName: "",
-      });
 
       setMessage({
         ...message,
@@ -52,9 +47,22 @@ console.log(window.location)
     } catch (error) {
       setMessage({
         ...message,
-        danger: `${error.message}, While saving PropertyMaster`,
+        danger: `${error.message}, While saving ClientMaster`,
       });
     } finally {
+
+      setformData({
+        name: "",
+        gender: "",
+        email:"",
+        password:"",
+        mobileNumber:"",
+        address1: "",
+        address2: "",
+        fatherName: "",
+        ownerMasters:ownerId
+      });
+      
       setTimeout(
         () =>
           setMessage({
@@ -106,6 +114,39 @@ console.log(window.location)
 
           <div className="col-md-6">
             <div className="form-group">
+              <label>Email *</label>
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Enter Email"
+                name="email"
+                data-errors="Please Enter Email."
+                value={formData.email}
+                onChange={handleData}
+                required=""
+              />
+              <div className="help-block with-errors"></div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label>Password *</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter Password"
+                name="password"
+                data-errors="Please Enter Password."
+                value={formData.password}
+                onChange={handleData}
+                required=""
+              />
+              <div className="help-block with-errors"></div>
+            </div>
+          </div>
+
+          <div className="col-md-6">
+            <div className="form-group">
               <label>Gender *</label>
               <select
                 className="form-control"
@@ -129,9 +170,9 @@ console.log(window.location)
                 type="text"
                 className="form-control"
                 placeholder="Enter Phone"
-                name="phone"
+                name="mobileNumber"
                 data-errors="Please Enter Name."
-                value={formData.phone}
+                value={formData.mobileNumber}
                 onChange={handleData}
                 required=""
               />
