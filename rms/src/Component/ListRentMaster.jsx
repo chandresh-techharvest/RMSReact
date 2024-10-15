@@ -22,10 +22,13 @@ function ListRentMaster() {
         const res = await axios.get("https://rsmapi.vercel.app/rentmaster", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
-        if (res.status == 200) {
-          setData(await res.data.filter((item) => item._id !== ownerId));
+        if (res.status === 200) {
+          setData(
+            await res.data.filter((item) => item.ownerMasters._id === ownerId)
+          );
+          console.log(res.data);
+          
         }
-        
       } catch (error) {
         setMessage({
           ...message,
@@ -98,19 +101,19 @@ function ListRentMaster() {
                 <td>{item.ownerMasters && item.ownerMasters.name}</td>
                 <td>
                   <div className="d-flex align-items-center list-action">
-                    <Button 
+                    <Button
                       variant="contained"
                       className="mr-2"
                       color="success"
                       onClick={() =>
                         navigate(
                           `/dashboard/rentmaster/transcation?Id=${item._id}`
-                        )         
-                       }
-                       style={{ textTransform: "none" }}
-                       size="small"
+                        )
+                      }
+                      style={{ textTransform: "none" }}
+                      size="small"
                     >
-                    Rent Reciept
+                      Rent Reciept
                     </Button>
                     <button
                       className="badge bg-success mr-2"

@@ -1,35 +1,53 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import profile from '../assets/images/user/1.png'
-import profilebg from '../assets/images/page-img/profile-bg.jpg'
+import profile from "../assets/images/user/1.png";
+import profilebg from "../assets/images/page-img/profile-bg.jpg";
 import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../Redux/Slice/userSlice";
 
 function Header() {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handlelogout = (e) => {
     e.preventDefault();
 
-    if(localStorage.getItem('role')==="SuperAdmin")
-    {
-      localStorage.removeItem('userId')
-      localStorage.removeItem('role')
-      localStorage.removeItem('token')
+    if (localStorage.getItem("role") === "SuperAdmin") {
+      localStorage.removeItem("userId");
+      localStorage.removeItem("role");
+      localStorage.removeItem("token");
 
-      dispatch(setAuthenticated({userId:null,isAuthenticated:!!localStorage.getItem('token')}))
-    }
-    else{
-      localStorage.removeItem('ownerId')
-      localStorage.removeItem('role')
-      localStorage.removeItem('token')
+      dispatch(
+        setAuthenticated({
+          userId: null,
+          isAuthenticated: !!localStorage.getItem("token"),
+        })
+      );
+    } else if (localStorage.getItem("role") === "Owner") {
+      localStorage.removeItem("ownerId");
+      localStorage.removeItem("role");
+      localStorage.removeItem("token");
 
-      dispatch(setAuthenticated({ownerId:null,isAuthenticated:!!localStorage.getItem('token')}))
+      dispatch(
+        setAuthenticated({
+          ownerId: null,
+          isAuthenticated: !!localStorage.getItem("token"),
+        })
+      );
+    } else if (localStorage.getItem("role") === "ClientMaster") {
+      localStorage.removeItem("clientId");
+      localStorage.removeItem("role");
+      localStorage.removeItem("token");
+
+      dispatch(
+        setAuthenticated({
+          clientId: null,
+          isAuthenticated: !!localStorage.getItem("token"),
+        })
+      );
     }
-    navigate('/')
-  }
+    navigate("/");
+  };
   return (
     <div className="iq-top-navbar">
       <div className="iq-navbar-custom">
@@ -444,7 +462,6 @@ function Header() {
                     <div className="card shadow-none m-0">
                       <div className="card-body p-0 text-center">
                         <div className="media-body profile-detail text-center">
-                      
                           <img
                             src={profilebg}
                             alt="profile-bg"

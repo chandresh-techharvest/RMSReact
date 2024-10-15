@@ -23,7 +23,9 @@ function ListClientMaster() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         if (res.status === 200) {
-          setData(await res.data.filter((item) => item._id !== ownerId));
+          setData(
+            await res.data.filter((item) => item.ownerMasters._id === ownerId)
+          );
         }
       } catch (error) {
         setMessage({
@@ -45,7 +47,7 @@ function ListClientMaster() {
   }, []);
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/clientmaster/Id?=${id}`, {
+    navigate(`/dashboard/clientmaster/update?Id=${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
   };

@@ -5,6 +5,7 @@ const initialState = {
   user: {
     userId: null,
     ownerId: null,
+    clientId: null,
     isAuthenticated: false,
   },
   propertyMaster: [],

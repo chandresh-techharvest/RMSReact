@@ -5,7 +5,7 @@ import Register from "./Component/Register";
 import Layout from "./Layout";
 import ProtectedRoute from "./ProtectedRoute";
 import Update from "./Component/Update";
-import AddPropertyMasters from "./Pages/PropertyMaster/AddPropertyMasters"
+import AddPropertyMasters from "./Pages/PropertyMaster/AddPropertyMasters";
 import ListPropertyMasters from "./Pages/PropertyMaster/ListPropertyMasters";
 import AddRentMasters from "./Pages/RentMaster/AddRentMasters";
 import ListRentMasters from "./Pages/RentMaster/ListRentMasters";
@@ -15,8 +15,9 @@ import AddClientMasters from "./Pages/ClientMaster/AddClientMasters";
 import ListClientMasters from "./Pages/ClientMaster/ListClientMasters";
 import RentTransactionForm from "./Pages/RentMaster/RentTransactionForm";
 import Detail from "./Component/Detail";
-import Auth from "./Pages/Auth/Auth";
-
+import RentRecipt from "./Pages/RentRecipt/RentRecipt";
+import ForgotPassword from "./Component/ForgotPassword";
+import ResetPassword from "./Component/ResetPassword";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="forgotPassword" element={<ForgotPassword />} />
+        <Route path="resetpassword" element={<ResetPassword />} />
         <Route
           path="dashboard"
           element={
@@ -38,14 +41,16 @@ function App() {
           <Route path="listpropertymaster" element={<ListPropertyMasters />} />
           <Route path="addrentmaster" element={<AddRentMasters />} />
           <Route path="listrentmaster" element={<ListRentMasters />} />
-          <Route path="addclientmaster" element={<AddClientMasters/>} />
-          <Route path="addclientmaster/:id" element={<AddClientMasters/>} />
-          <Route path="listclientmaster" element={<ListClientMasters/>} />
-          <Route path=":?/:whichroute/transcation" element={<RentTransactionForm/>} />
+          <Route path="addclientmaster" element={<AddClientMasters />} />
+          <Route path="addclientmaster/:id" element={<AddClientMasters />} />
+          <Route path="listclientmaster" element={<ListClientMasters />} />
+          <Route path="listrentrecipt" element={<RentRecipt />} />
+          <Route
+            path=":?/:whichroute/transcation"
+            element={<RentTransactionForm />}
+          />
           <Route path=":?/:whichroute/detail" element={<Detail />} />
           <Route path=":?/:whichroute/update" element={<Update />} />
-
-
         </Route>
       </Routes>
     </BrowserRouter>

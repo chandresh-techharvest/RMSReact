@@ -10,8 +10,7 @@ import {
 } from "../Redux/Slice/userSlice";
 
 function ListPropertyMaster() {
-
-  const ownerId = localStorage.getItem('ownerId')
+  const ownerId = localStorage.getItem("ownerId");
 
   const navigate = useNavigate();
 
@@ -19,7 +18,9 @@ function ListPropertyMaster() {
 
   const propertymaster = useSelector(selectAllPropertyMaster);
 
-  const propertyData = propertymaster.filter((item)=>item._id!==ownerId)
+  const propertyData = propertymaster.filter(
+    (item) => item.ownerMasters._id === ownerId
+  );
 
   const [message, setMessage] = useState({
     success: "",
@@ -72,7 +73,14 @@ function ListPropertyMaster() {
                 <td>{item.ownerMasters && item.ownerMasters.name}</td>
                 <td>
                   <div className="d-flex align-items-center list-action">
-                    <Button variant="contained" className="mr-2" color="success" onClick={() => navigate(`/dashboard/addrentmaster/?Id=${item._id}`)}>
+                    <Button
+                      variant="contained"
+                      className="mr-2"
+                      color="success"
+                      onClick={() =>
+                        navigate(`/dashboard/addrentmaster/?Id=${item._id}`)
+                      }
+                    >
                       Add Rent
                     </Button>
                     <button

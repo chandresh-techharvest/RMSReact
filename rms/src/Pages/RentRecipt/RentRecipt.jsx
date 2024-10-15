@@ -1,9 +1,7 @@
 import React from "react";
+import ListRentRecipt from "../../Component/ListRentRecipt";
 
-import { Link } from "react-router-dom";
-import ListRentMaster from "../../Component/ListRentMaster";
-
-function ListRentMasters() {
+function RentRecipt() {
   return (
     <>
       <div className="content-page">
@@ -12,15 +10,8 @@ function ListRentMasters() {
             <div className="col-lg-12">
               <div className="d-flex flex-wrap align-items-center justify-content-between mb-4">
                 <div>
-                  <h4 className="mb-3">RentMaster List</h4>
+                  <h4 className="mb-3">List RentRecipt</h4>
                 </div>
-                <Link
-                  className="btn btn-primary add-list"
-                  to="/dashboard/addrentmaster"
-                  style={{ color: "white" }}
-                >
-                  <i className="las la-plus mr-3"></i>Add RentMaster
-                </Link>
               </div>
             </div>
             <div className="col-lg-12">
@@ -40,7 +31,7 @@ function ListRentMasters() {
                     </div>
                   </div>
                 </div>
-                <ListRentMaster />
+                <ListRentRecipt />
               </div>
             </div>
           </div>
@@ -50,4 +41,4 @@ function ListRentMasters() {
   );
 }
 
-export default ListRentMasters;
+export default RentRecipt;
