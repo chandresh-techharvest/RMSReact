@@ -1,24 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
-import { responsiveProperty } from "@mui/material/styles/cssUtils";
 
 function RentTransaction() {
-  const [formData, setFormData] = useState({
-    RentFrom: "",
-    RentTo: "",
-    pincode: "",
-    address2: "",
-    city: "",
-    address1: "",
-    state: "",
-    propertymaster: "",
-    ownerMasters: "",
-    rentMaster: "",
-    monthlyRent: "",
-    paymentMode: "",
-    paymentThreshold: "",
-  });
   const url = new URLSearchParams(window.location.search);
 
   const id = url.get("Id");
@@ -26,6 +10,18 @@ function RentTransaction() {
   const navigate = useNavigate();
 
   const { whichroute } = useParams();
+
+  const [formData, setFormData] = useState({
+    RentFrom: "",
+    RentTo: "",
+    propertyMaster: "",
+    ownerMasters: "",
+    rentMaster: "",
+    paymentMode: "",
+    paymentThreshold: "",
+  });
+
+  const [data, setData] = useState([]);
 
   const [message, setMessage] = useState({
     success: "",
@@ -44,9 +40,16 @@ function RentTransaction() {
           }
         );
         if (response.status === 200) {
-          setFormData(await response.data);
+          setData(await response.data);
+
+          setFormData({
+            ...formData,
+            rentMaster: response.data._id,
+            propertyMaster: response.data.propertymaster._id,
+            ownerMasters: response.data.ownerMasters._id,
+          });
         }
-        console.log(response.data);
+        console.log("formData  ", formData);
       } catch (error) {
         setMessage({
           ...message,
@@ -97,15 +100,9 @@ function RentTransaction() {
       setFormData({
         RentFrom: "",
         RentTo: "",
-        pincode: "",
-        address2: "",
-        city: "",
-        address1: "",
-        state: "",
-        propertymaster: "",
-        ownerMasters: "",
-        rentMaster: "",
-        monthlyRent: "",
+        propertyMaster: data.propertymaster._id,
+        ownerMasters: data.ownerMasters._id,
+        rentMaster: data._id,
         paymentMode: "",
         paymentThreshold: "",
       });
@@ -178,8 +175,7 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                name="monthlyRent"
-                value={formData.monthlyRent.$numberDecimal}
+                value={data.monthlyRent && data.monthlyRent.$numberDecimal}
                 onChange={handleData}
                 disabled
               />
@@ -192,10 +188,9 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                name="pincode"
                 value={
-                  formData.propertymaster &&
-                  formData.propertymaster.pincode.$numberDecimal
+                  data.propertymaster &&
+                  data.propertymaster.pincode.$numberDecimal
                 }
                 onChange={handleData}
                 required=""
@@ -210,9 +205,7 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                value={
-                  formData.propertymaster && formData.propertymaster.address1
-                }
+                value={data.propertymaster && data.propertymaster.address1}
                 onChange={handleData}
                 disabled
               />
@@ -225,9 +218,7 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                value={
-                  formData.propertymaster && formData.propertymaster.address2
-                }
+                value={data.propertymaster && data.propertymaster.address2}
                 onChange={handleData}
                 disabled
               />
@@ -240,7 +231,7 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                value={formData.propertymaster && formData.propertymaster.city}
+                value={data.propertymaster && data.propertymaster.city}
                 onChange={handleData}
                 disabled
               />
@@ -253,7 +244,7 @@ function RentTransaction() {
               <input
                 type="text"
                 className="form-control"
-                value={formData.propertymaster && formData.propertymaster.state}
+                value={data.propertymaster && data.propertymaster.state}
                 onChange={handleData}
                 disabled
               />
@@ -267,7 +258,7 @@ function RentTransaction() {
                 type="text"
                 className="form-control"
                 name="ownermaster"
-                value={formData.ownerMasters && formData.ownerMasters.name}
+                value={data.ownerMasters && data.ownerMasters.name}
                 onChange={handleData}
                 disabled
               />
@@ -303,6 +294,16 @@ function RentTransaction() {
           Back
         </button>
       </form>
+      {message.success && (
+        <div class="alert alert-success" role="alert">
+          {message.success}
+        </div>
+      )}
+      {message.danger && (
+        <div class="alert alert-danger mt-3" role="alert">
+          {message.danger}
+        </div>
+      )}
     </>
   );
 }

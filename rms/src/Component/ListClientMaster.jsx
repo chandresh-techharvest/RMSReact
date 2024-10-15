@@ -47,7 +47,7 @@ function ListClientMaster() {
   }, []);
 
   const handleUpdate = (id) => {
-    navigate(`/dashboard/clientmaster/Id?=${id}`, {
+    navigate(`/dashboard/clientmaster/update?Id=${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
   };

@@ -26,6 +26,8 @@ function ListRentMaster() {
           setData(
             await res.data.filter((item) => item.ownerMasters._id === ownerId)
           );
+          console.log(res.data);
+          
         }
       } catch (error) {
         setMessage({

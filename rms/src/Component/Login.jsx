@@ -103,6 +103,41 @@ function Login() {
           }
         }
       }
+      else if (check === "ClientMaster") {
+        const res = await axios.post(
+          "https://rsmapi.vercel.app/clientmasterlogin",
+          formData
+        );
+
+        setFormData({
+          email: "",
+          password: "",
+        });
+
+        if (res.data.clientMaster) {
+          if (res.data.clientMaster.role === "ClientMaster") {
+            localStorage.setItem("clientId", res.data.clientMaster._id);
+            localStorage.setItem("role", res.data.clientMaster.role);
+            localStorage.setItem("token", res.data.token);
+
+            dispatch(
+              setAuthenticated({
+                clientId: res.data.clientMaster._id,
+                isAuthenticated: !!res.data.token,
+              })
+            );
+
+            setMessage({
+              ...message,
+              success: res.data.message,
+            });
+
+            setTimeout(() => {
+              navigate("/dashboard");
+            }, 3000);
+          }
+        }
+      }
     } catch (error) {
       setMessage({
         ...message,
@@ -110,7 +145,6 @@ function Login() {
       });
 
       setFormData({
-        name: "",
         email: "",
         password: "",
       });
@@ -142,7 +176,14 @@ function Login() {
         checked={check === "OwnerMaster"}
         onChange={() => setCheck("OwnerMaster")}
       />{" "}
-      OwnerMaster
+      OwnerMaster &nbsp;
+      <input
+        type="radio"
+        value="ClientMaster"
+        checked={check === "ClientMaster"}
+        onChange={() => setCheck("ClientMaster")}
+      />{" "}
+      ClientMaster
       <div className="wrapper">
         <div className="title">Login Form</div>
         {check === "SuperAdmin" ? (
@@ -173,7 +214,7 @@ function Login() {
                 <label for="remember-me">Remember me</label>
               </div>
               <div className="pass-link">
-                <a href="#">Forgot password?</a>
+                <Link to='/forgotPassword'>Forgot password?</Link>
               </div>
             </div>
             <div className="field">
@@ -181,6 +222,41 @@ function Login() {
             </div>
             <div className="signup-link">
               Not a member? <Link to="register">Signup now</Link>
+            </div>
+          </form>
+        ) : check === "OwnerMaster" ? (
+          <form onSubmit={handleSubmit}>
+            <div className="field">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleValue}
+                required
+              />
+              <label>Email Address</label>
+            </div>
+            <div className="field">
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleValue}
+                required
+              />
+              <label>Password</label>
+            </div>
+            <div className="content">
+              <div className="checkbox">
+                <input type="checkbox" id="remember-me" />
+                <label for="remember-me">Remember me</label>
+              </div>
+              <div className="pass-link">
+                <Link to='forgotPassword'>Forgot password?</Link>
+              </div>
+            </div>
+            <div className="field">
+              <input type="submit" value="Login" />
             </div>
           </form>
         ) : (
