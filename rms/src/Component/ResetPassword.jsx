@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function ResetPassword() {
 
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const userId = searchParams.get('id')
     const token = searchParams.get('token')
-    
+
     const [formData, setFormData] = useState({
         password: "",
     });
@@ -17,24 +18,6 @@ function ResetPassword() {
         success: "",
         danger: "",
     });
-
-    useEffect(() => {
-        const getResetPassword = async () => {
-            try {
-                const res = await axios.get(`https://rsmapi.vercel.app/resetpassword`)
-
-                if (res.data === 'verified') {
-                    console.log(res);
-
-                }
-            } catch (error) {
-                console.log(error);
-
-            }
-        }
-
-        getResetPassword();
-    }, [userId, token])
 
     const handleValue = (e) => {
         e.preventDefault();
@@ -60,8 +43,12 @@ function ResetPassword() {
             });
             setMessage({
                 ...message,
-                success: res.status,
+                success: res.data.status,
             });
+
+            setTimeout(() => {
+                navigate("/");
+            }, 3000);
         } catch (error) {
             setMessage({
                 ...message,
