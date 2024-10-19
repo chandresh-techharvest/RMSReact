@@ -84,7 +84,7 @@ function ListPropertyMaster() {
             <th>Pincode</th>
             <th>City</th>
             <th>State</th>
-            <th>Property CreatedBy</th>
+            <th>Property Created By</th>
           </tr>
         </thead>
         <tbody className="ligth-body">

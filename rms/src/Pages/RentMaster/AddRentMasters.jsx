@@ -11,7 +11,7 @@ function AddRentMasters() {
               <div className="card">
                 <div className="card-header d-flex justify-content-between">
                   <div className="header-title">
-                    <h4 className="card-title">Add RentMaster</h4>
+                    <h4 className="card-title">Add Rent</h4>
                   </div>
                 </div>
                 <div className="card-body">

@@ -108,11 +108,11 @@ function AddRentMaster() {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label>ElectricityMeterNumber *</label>
+              <label>Electricity Meter Number *</label>
               <input
                 type="Number"
                 className="form-control"
-                placeholder="Enter ElectricityMeterNumber"
+                placeholder="Enter Electricity Meter Number"
                 name="electricityMeterNumber"
                 value={formdata.electricityMeterNumber}
                 onChange={handleData}
@@ -143,11 +143,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>IncrementPercentage *</label>
+              <label>Increment Percentage *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter IncrementPercentage"
+                placeholder="Enter Increment Percentage"
                 name="incrementPercentage"
                 value={formdata.incrementPercentage}
                 onChange={handleData}
@@ -160,11 +160,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>SecurityDepositAmount *</label>
+              <label>Security Deposit Amount *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter SecurityDepositAmount"
+                placeholder="Enter Security Deposit Amount"
                 name="securityDepositAmount"
                 value={formdata.securityDepositAmount}
                 onChange={handleData}
@@ -177,11 +177,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>MonthlyRent *</label>
+              <label>Monthly Rent *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter MonthlyRent"
+                placeholder="Enter Monthly Rent"
                 name="monthlyRent"
                 value={formdata.monthlyRent}
                 onChange={handleData}
@@ -194,11 +194,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>IncrementSchedule *</label>
+              <label>Increment Schedule *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter IncrementSchedule"
+                placeholder="Enter Increment Schedule"
                 name="incrementSchedule"
                 value={formdata.incrementSchedule}
                 onChange={handleData}
@@ -231,13 +231,13 @@ function AddRentMaster() {
                         selected="true"
                         disabled
                       >
-                        {item.pincode.$numberDecimal} - {item.address2}
+                        {item.pincode.$numberDecimal} - {item.address2} - {item.address1} - {item.city}
                       </option>
                     ) : (
                       <>
                         <option key={index} value={item._id}>
-                          {item.pincode.$numberDecimal} - {item.address2}
-                        </option>
+                          {item.pincode.$numberDecimal} - {item.address2} - {item.address1} - {item.city}
+                        </option> 
                       </>
                     )
                   )}

@@ -169,21 +169,21 @@ function Login() {
         onChange={() => setCheck("SuperAdmin")}
         style={{ margin: "5px" }}
       />{" "}
-      SuperAdmin &nbsp;
+      Admin &nbsp;
       <input
         type="radio"
         value="OwnerMaster"
         checked={check === "OwnerMaster"}
         onChange={() => setCheck("OwnerMaster")}
       />{" "}
-      OwnerMaster &nbsp;
+      Owner &nbsp;
       <input
         type="radio"
         value="ClientMaster"
         checked={check === "ClientMaster"}
         onChange={() => setCheck("ClientMaster")}
       />{" "}
-      ClientMaster
+      Client
       <div className="wrapper">
         <div className="title">Login Form</div>
         {check === "SuperAdmin" ? (

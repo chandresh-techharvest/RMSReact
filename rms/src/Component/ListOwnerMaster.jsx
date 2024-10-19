@@ -27,7 +27,7 @@ function ListOwnerMaster() {
       } catch (error) {
         setMessage({
           ...message,
-          danger: `${error.message}, While retriving PropertyMaster`,
+          danger: `${error.message}, While retriving Owners List`,
         });
       } finally {
         setTimeout(
@@ -68,10 +68,10 @@ function ListOwnerMaster() {
         <thead className="bg-white text-uppercase">
           <tr className="ligth ligth-data">
             <th>Name</th>
-            <th>EmailAddress</th>
-            <th>Password</th>
+            <th>Email Address</th>
+           {/*  <th>Password</th> */}
             <th>Phone</th>
-            <th>CreatedAt</th>
+            <th>Created At</th>
           </tr>
         </thead>
         <tbody className="ligth-body">
@@ -81,7 +81,7 @@ function ListOwnerMaster() {
                 <Link>{item.name}</Link>
               </td>
               <td>{item.email}</td>
-              <td>{item.password}</td>
+             {/*  <td>{item.password}</td> */}
               <td>{item.phone}</td>
               <td>{item.createdAt.slice(0, 10)}</td>
               <td>
