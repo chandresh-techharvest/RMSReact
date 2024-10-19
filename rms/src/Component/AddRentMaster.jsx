@@ -57,40 +57,23 @@ function AddRentMaster() {
     });
   };
 
-  // const handleSelection = (e) => {
-  //   if (e && e.__isNew__) {
-  //     const newOption = { label: e.label, value: e.label };
-  //     setclientData(prevData => [...prevData, newOption]);
-  //     setformData({
-  //       ...formdata,
-  //       clientMaster: Id
-  //     })
-  //   }
-  //   else {
-  //     setformData({
-  //       ...formdata,
-  //       clientMaster: e?.value
-  //     })
-  //   }
-  // }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("formda ", formdata);
 
     try {
-      // const res = await axios.post(
-      //   "https://rsmapi.vercel.app/rentmaster",
-      //   formdata,
-      //   {
-      //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      //   }
-      // );
+      const res = await axios.post(
+        "https://rsmapi.vercel.app/rentmaster",
+        formdata,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
 
-      // setMessage({
-      //   ...message,
-      //   success: res.data.message,
-      // });
+      setMessage({
+        ...message,
+        success: res.data.message,
+      });
     } catch (error) {
       setMessage({
         ...message,
@@ -141,11 +124,6 @@ function AddRentMaster() {
           <div className="col-md-6">
             <div className="form-group">
               <label>Select Client *</label>
-              {/* <CreatableSelect
-                isClearable
-                value={clientData.find(option => option.value === formdata.clientMaster) || null}
-                onChange={handleSelection}
-                options={clientData} required/> */}
               <select
                 className="form-control"
                 name="clientMaster"
