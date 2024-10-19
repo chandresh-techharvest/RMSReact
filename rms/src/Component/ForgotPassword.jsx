@@ -4,7 +4,6 @@ import React, { useState } from "react";
 
 function ForgotPassword() {
     
-
     const [formData, setFormData] = useState({
         email: "",
     });

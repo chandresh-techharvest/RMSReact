@@ -19,17 +19,21 @@ import RentRecipt from "./Pages/RentRecipt/RentRecipt";
 import ForgotPassword from "./Component/ForgotPassword";
 import ResetPassword from "./Component/ResetPassword";
 import AdminLogin from "./Component/AdminLogin";
+import AdminRegister from "./Component/AdminRegister";
+import AdmingForgotPassword from "./Component/AdmingForgotPassword";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        {/* <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="forgotPassword" element={<ForgotPassword />} />
+        <Route path="forgotPassword" element={<ForgotPassword />} /> */}
         <Route path="resetpassword" element={<ResetPassword />} />
-        <Route path="alogin" element={<AdminLogin />} />
-       
+        <Route path="/" element={<AdminLogin />} />
+        <Route path="register" element={<AdminRegister />} />
+        <Route path="forgotPassword" element={<AdmingForgotPassword />} />
+        <Route path="resetpassword" element={<AdminLogin />} />
 
         <Route
           path="dashboard"

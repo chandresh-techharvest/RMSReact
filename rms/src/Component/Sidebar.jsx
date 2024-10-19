@@ -18,7 +18,6 @@ function Sidebar() {
         data-scroll="1"
         data-scrollbar="true"
         tabindex="-1"
-        // style="overflow: hidden; outline: none;"
       >
         <div className="scroll-content">
           <nav className="iq-sidebar-menu">
@@ -98,13 +97,6 @@ function Sidebar() {
                         <Link to="listownermaster">Owners List</Link>
                       </a>
                     </li>
-                    {/*   <li className="">
-                      <a href="../backend/page-add-product.html">
-                        <i className="las la-minus"></i>
-                        <Link to="addownermaster">Add OwnerMaster</Link>
-                      </a>
-                    </li>
-                     */}
                   </ul>
                 </li>
               ) : role === "Owner" ? (
@@ -161,14 +153,6 @@ function Sidebar() {
                           <Link to="listpropertymaster">Properties List</Link>
                         </a>
                       </li>
-                      {/* 
-                         <li className="">
-                        <a href="../backend/page-add-product.html">
-                          <i className="las la-minus"></i>
-                          <Link to="addpropertymaster">Add PropertyMaster</Link>
-                        </a>
-                      </li> 
-                      */}
                     </ul>
                   </li>
                   <li className=" ">
@@ -230,7 +214,7 @@ function Sidebar() {
                         </a>
                       </li>
                     </ul>
-                  </li> */}
+                  </li>
 
                   <li className=" ">
                     <a
@@ -284,14 +268,6 @@ function Sidebar() {
                           <Link to="listclientmaster">Clients List</Link>
                         </a>
                       </li>
-                      {/* 
-                      <li className="">
-                        <a href="../backend/page-add-product.html">
-                          <i className="las la-minus"></i>
-                          <Link to="addclientmaster">Add ClientMaster</Link>
-                        </a>
-                      </li>
-                      */}
                     </ul>
                   </li>
                 </>

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setAuthenticated } from "../Redux/Slice/userSlice";
+import signIn from '../assets/images/logo.png'
 
 function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -142,7 +143,7 @@ function AdminLogin() {
                   </div>
                   <div className="col-lg-5 content-right">
                     <img
-                      src="/static/media/logo.8f8b4e31eecef6933e8e.png"
+                      src={signIn}
                       className="img-fluid image-right"
                       alt=""
                     />
