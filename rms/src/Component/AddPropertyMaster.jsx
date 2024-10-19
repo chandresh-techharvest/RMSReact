@@ -46,7 +46,7 @@ function AddPropertyMaster() {
     } catch (error) {
       setMessage({
         ...message,
-        danger: "Error, While saving ownermaster",
+        danger: "Error, While saving Property",
       });
     } finally {
       setformData({
@@ -162,7 +162,7 @@ function AddPropertyMaster() {
       </form>
 
       {message.success && (
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-success mt-3" role="alert">
           {message.success}
         </div>
       )}

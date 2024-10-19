@@ -10,6 +10,8 @@ const initialState = {
   },
   propertyMaster: [],
   clientMaster: [],
+  ownerMaster: [],
+  rentMaster: [],
   status: "idle",
   error: "",
 };
@@ -18,6 +20,16 @@ export const fetchPropertyMaster = createAsyncThunk(
   "user/fetchPropertyMaster",
   async () => {
     const res = await axios.get("https://rsmapi.vercel.app/propertymaster", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    return res?.data;
+  }
+);
+
+export const fetchRentMaster = createAsyncThunk(
+  "user/fetchRentMaster",
+  async () => {
+    const res = await axios.get("https://rsmapi.vercel.app/rentmaster", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     return res?.data;
@@ -59,7 +71,14 @@ const userSlice = createSlice({
     setAuthenticated: (state, action) => {
       state.user.userId = action.payload.userId;
       state.user.ownerId = action.payload.ownerId;
+      state.user.clientId = action.payload.clientId;
       state.user.isAuthenticated = action.payload.isAuthenticated;
+    },
+    setReset: (state, action) => {
+      state.ownerMaster = action.payload.ownerMaster;
+      state.propertyMaster = action.payload.propertyMaster;
+      state.clientMaster = action.payload.clientMaster;
+      state.rentMaster = action.payload.rentMaster;
     },
   },
   extraReducers(builder) {
@@ -70,7 +89,8 @@ const userSlice = createSlice({
       })
       .addCase(fetchPropertyMaster.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.propertyMaster = action.payload;
+        state.propertyMaster = []
+        state.propertyMaster = action.payload.filter((item) =>item.ownerMasters._id === state.user.ownerId);
       })
       .addCase(fetchPropertyMaster.rejected, (state, action) => {
         state.status = "failed";
@@ -82,9 +102,25 @@ const userSlice = createSlice({
       })
       .addCase(fetchClientMaster.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.clientMaster = action.payload;
+        state.clientMaster = action.payload.filter(
+          (item) => item.ownerMasters._id === state.user.ownerId
+        );
       })
       .addCase(fetchClientMaster.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      // Fetch rent master cases
+      .addCase(fetchRentMaster.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchRentMaster.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.rentMaster = action.payload.filter(
+          (item) => item.ownerMasters._id === state.user.ownerId
+        );
+      })
+      .addCase(fetchRentMaster.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
@@ -99,9 +135,10 @@ const userSlice = createSlice({
 
 export const selectAllPropertyMaster = (state) => state.user.propertyMaster;
 export const selectAllClientMaster = (state) => state.user.clientMaster;
+export const selectAllRentMaster = (state) => state.user.rentMaster;
 export const getPropertyMasterStatus = (state) => state.user.status;
 export const getPropertyMasterError = (state) => state.user.error;
 
-export const { setAuthenticated } = userSlice.actions;
+export const { setAuthenticated, setReset } = userSlice.actions;
 
 export default userSlice.reducer;

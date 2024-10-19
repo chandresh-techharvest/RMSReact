@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { fetchClientMaster, selectAllClientMaster } from "../Redux/Slice/userSlice";
 
 function ListClientMaster() {
   const ownerId = localStorage.getItem("ownerId");
 
   const [data, setData] = useState([]);
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -17,34 +21,31 @@ function ListClientMaster() {
   });
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get("https://rsmapi.vercel.app/clientmaster", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        if (res.status === 200) {
-          setData(
-            await res.data.filter((item) => item.ownerMasters._id === ownerId)
-          );
-        }
-      } catch (error) {
-        setMessage({
-          ...message,
-          danger: `${error.message} while retriving Client Master`,
-        });
-      } finally {
-        setTimeout(
-          () =>
-            setMessage({
-              success: "",
-              danger: "",
-            }),
-          3000
-        );
-      }
-    };
-    getData();
-  }, []);
+    dispatch(fetchClientMaster())
+  },[])
+
+  const clientmaster = useSelector(selectAllClientMaster);
+
+  useEffect(() => {
+    if (clientmaster.length === 0) {
+      setMessage({
+        ...message,
+        danger: `Network error, while retriving Client`,
+      });
+
+      setTimeout(
+        () =>
+          setMessage({
+            success: "",
+            danger: "",
+          }),
+        2000
+      );
+    }
+    else {
+      setData(clientmaster.filter((item) => item.ownerMasters._id === ownerId))
+    }
+  }, [clientmaster])
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/clientmaster/update?Id=${id}`, {

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useId } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import CreatableSelect from 'react-select/creatable';
+import ObjectId from 'bson-objectid'
 import {
-  selectAllPropertyMaster,
+  selectAllPropertyMaster, fetchClientMaster,
   selectAllClientMaster,
 } from "../Redux/Slice/userSlice";
+import { useNavigate } from "react-router";
 function AddRentMaster() {
   const ownerId = localStorage.getItem("ownerId");
 
@@ -18,24 +21,30 @@ function AddRentMaster() {
     propertymaster: "",
     ownerMasters: ownerId,
   });
+  const [clientData, setclientData] = useState([])
   const url = new URLSearchParams(window.location.search);
   const id = url.get("Id");
-
+  const dispatch = useDispatch()
+  const Id = ObjectId()
+  const navigate = useNavigate();
   const propertymaster = useSelector(selectAllPropertyMaster);
 
-  const clientmaster = useSelector(selectAllClientMaster);
+  useEffect(() => {
+    dispatch(fetchClientMaster())
+  }, [])
 
-  const propertyData = propertymaster.filter(
-    (item) => item.ownerMasters._id === ownerId
-  );
+  const clientMaster = useSelector(selectAllClientMaster);
 
-  const clientData = clientmaster.filter(
-    (item) => item.ownerMasters._id === ownerId
-  );
+  useEffect(() => {
+    const formattedData = clientMaster.map(item => ({
+      label: item.name,
+      value: item._id
+    }))
+    setclientData(formattedData)
+  }, [fetchClientMaster])
 
   const [message, setMessage] = useState({
     success: "",
-
     danger: "",
   });
 
@@ -50,6 +59,7 @@ function AddRentMaster() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("formda ", formdata);
 
     try {
       const res = await axios.post(
@@ -94,7 +104,7 @@ function AddRentMaster() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} data-toggle="validator" novalidate="true">
+      <form onSubmit={handleSubmit} >
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
@@ -104,19 +114,16 @@ function AddRentMaster() {
                 className="form-control"
                 placeholder="Enter Electricity Meter Number"
                 name="electricityMeterNumber"
-                data-errors="Please Enter ElectricityMeterNumber."
                 value={formdata.electricityMeterNumber}
                 onChange={handleData}
-                required=""
-                min="1"
-                max="10"
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>Client Id *</label>
+              <label>Select Client *</label>
               <select
                 className="form-control"
                 name="clientMaster"
@@ -125,8 +132,8 @@ function AddRentMaster() {
                 required
               >
                 <option value="">Select</option>
-                {clientData.map((item, index) => (
-                  <option value={item._id} key={index}>
+                {clientMaster.map((item, index) => (
+                  <option value={item._id} key={index} required>
                     {item.name}
                   </option>
                 ))}
@@ -141,11 +148,10 @@ function AddRentMaster() {
                 type="text"
                 className="form-control"
                 placeholder="Enter Increment Percentage"
-                data-errors="Please Enter IncrementPercentage."
                 name="incrementPercentage"
                 value={formdata.incrementPercentage}
                 onChange={handleData}
-                required=""
+                required
                 min="1"
                 max="3"
               />
@@ -159,11 +165,10 @@ function AddRentMaster() {
                 type="text"
                 className="form-control"
                 placeholder="Enter Security Deposit Amount"
-                data-errors="Please Enter SecurityDepositAmount."
                 name="securityDepositAmount"
                 value={formdata.securityDepositAmount}
                 onChange={handleData}
-                required=""
+                required
                 min="1"
                 max="10"
               />
@@ -177,11 +182,10 @@ function AddRentMaster() {
                 type="text"
                 className="form-control"
                 placeholder="Enter Monthly Rent"
-                data-errors="Please Enter MonthlyRent."
                 name="monthlyRent"
                 value={formdata.monthlyRent}
                 onChange={handleData}
-                required=""
+                required
                 min="1"
                 max="10"
               />
@@ -195,11 +199,10 @@ function AddRentMaster() {
                 type="text"
                 className="form-control"
                 placeholder="Enter Increment Schedule"
-                data-errors="Please Enter IncrementSchedule."
                 name="incrementSchedule"
                 value={formdata.incrementSchedule}
                 onChange={handleData}
-                required=""
+                required
                 min="1"
                 max="10"
               />
@@ -216,10 +219,11 @@ function AddRentMaster() {
                   id ? (formdata.propertymaster = id) : formdata.propertymaster
                 }
                 onChange={handleData}
+                required
               >
                 <option value="">Select</option>
-                {propertyData &&
-                  propertyData.map((item, index) =>
+                {propertymaster &&
+                  propertymaster.map((item, index) =>
                     item._id === id ? (
                       <option
                         key={index}
@@ -244,6 +248,12 @@ function AddRentMaster() {
         </div>
         <button type="submit" className="btn btn-primary mr-2">
           Add
+        </button>
+        <button
+          className="btn btn-danger mr-2"
+          onClick={() => navigate(-1)}
+        >
+          Back
         </button>
       </form>
       {message.success && (

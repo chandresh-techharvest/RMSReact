@@ -171,7 +171,6 @@ function Sidebar() {
                       */}
                     </ul>
                   </li>
-
                   <li className=" ">
                     <a
                       href="#rentmaster"
@@ -231,7 +230,7 @@ function Sidebar() {
                         </a>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
 
                   <li className=" ">
                     <a
