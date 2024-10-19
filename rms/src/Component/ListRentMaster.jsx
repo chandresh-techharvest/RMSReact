@@ -4,11 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRentMaster, selectAllRentMaster } from "../Redux/Slice/userSlice";
+import store from "../Redux/Store/store";
 
 function ListRentMaster() {
+
   const ownerId = localStorage.getItem("ownerId");
 
   const [data, setData] = useState([]);
+
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const [message, setMessage] = useState({
@@ -17,36 +24,31 @@ function ListRentMaster() {
   });
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get("https://rsmapi.vercel.app/rentmaster", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        if (res.status === 200) {
-          setData(
-            await res.data.filter((item) => item.ownerMasters._id === ownerId)
-          );
-          console.log(res.data);
-          
-        }
-      } catch (error) {
-        setMessage({
-          ...message,
-          danger: `${error.message}, While retriving RentMaster`,
-        });
-      } finally {
-        setTimeout(
-          () =>
-            setMessage({
-              success: "",
-              danger: "",
-            }),
-          3000
-        );
-      }
-    };
-    getData();
-  }, []);
+    dispatch(fetchRentMaster())
+  },[])
+
+  const rent = useSelector(selectAllRentMaster)
+
+  useEffect(() => {
+    if (rent.length === 0) {
+      setMessage({
+        ...message,
+        danger: `Network error, while retriving Property Rent`,
+      });
+
+      setTimeout(
+        () =>
+          setMessage({
+            success: "",
+            danger: "",
+          }),
+        2000
+      );
+    }
+    else {
+      setData(rent.filter((item) => item.ownerMasters._id === ownerId))
+    }
+  }, [rent]);
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/rentmaster/update?Id=${id}`, {

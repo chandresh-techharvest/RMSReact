@@ -5,27 +5,57 @@ import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectAllPropertyMaster,
+  selectAllPropertyMaster, fetchPropertyMaster,
   deleteMaster,
+  fetchRentMaster,
+  selectAllRentMaster,
+  fetchClientMaster,
 } from "../Redux/Slice/userSlice";
 
 function ListPropertyMaster() {
-  const ownerId = localStorage.getItem("ownerId");
+
+  const [data, setData] = useState([])
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  const propertymaster = useSelector(selectAllPropertyMaster);
-
-  const propertyData = propertymaster.filter(
-    (item) => item.ownerMasters._id === ownerId
-  );
-
   const [message, setMessage] = useState({
     success: "",
     danger: "",
   });
+
+  useEffect(() => {
+    dispatch(fetchRentMaster())
+    dispatch(fetchClientMaster())
+    dispatch(fetchPropertyMaster())
+  }, [])
+
+  const propertyMaster = useSelector(selectAllPropertyMaster);
+  const rentmaster = useSelector(selectAllRentMaster)
+
+  useEffect(() => {
+    if (propertyMaster.length === 0) {
+      setMessage({
+        ...message,
+        danger: `Network error, while retriving Property`,
+      });
+
+      setTimeout(
+        () =>
+          setMessage({
+            success: "",
+            danger: "",
+          }),
+        2000
+      );
+    }
+    else {
+      // const filterRent = rentmaster.filter((item) => item.ownerMasters._id === ownerId)
+      // const finalRentProperty = filterRent.filter(item =>  item?.propertymaster?._id &&  propertyMaster.some((property) =>item.propertymaster._id ===property?._id))
+      setData(propertyMaster)
+    }
+  }, [propertyMaster])
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/propertymaster/update?Id=${id}`, {
@@ -58,50 +88,79 @@ function ListPropertyMaster() {
           </tr>
         </thead>
         <tbody className="ligth-body">
-          {propertyData &&
-            propertyData.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  <Link to={`/dashboard/propertymaster/detail?Id=${item._id}`}>
+          {data &&
+            data.map((item, index) => {
+
+              const rentItem = rentmaster.find(subItem => item._id === subItem?.propertymaster._id);
+
+              return (
+                <tr key={index}>
+                  <td>
                     {item.address1}
-                  </Link>
-                </td>
-                <td>{item.address2}</td>
-                <td>{item.pincode && item.pincode.$numberDecimal}</td>
-                <td>{item.city}</td>
-                <td>{item.state}</td>
-                <td>{item.ownerMasters && item.ownerMasters.name}</td>
-                <td>
-                  <div className="d-flex align-items-center list-action">
-                    <Button
-                      variant="contained"
-                      className="mr-2"
-                      color="success"
-                      onClick={() =>
-                        navigate(`/dashboard/addrentmaster/?Id=${item._id}`)
-                      }
-                    >
-                      Add Rent
-                    </Button>
-                    <button
-                      className="badge bg-success mr-2"
-                      onClick={() => handleUpdate(item._id)}
-                    >
-                      <ModeOutlinedIcon />
-                    </button>
-                    <button
-                      className="badge bg-warning mr-2"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      <DeleteOutlineOutlinedIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td>{item.address2}</td>
+                  <td>{item.pincode && item.pincode.$numberDecimal}</td>
+                  <td>{item.city}</td>
+                  <td>{item.state}</td>
+                  <td>{item.ownerMasters && item.ownerMasters.name}</td>
+                  <td>
+                    <div className="d-flex align-items-center list-action">
+                      {rentItem ? (
+                        <>
+                          <Link
+                            to={`/dashboard/propertymaster/detail?Id=${item._id}`}
+                            className="badge bg-danger mr-2"
+                          >
+                            Created
+                          </Link>
+                          <Button
+                            variant="contained"
+                            className="mr-2"
+                            color="success"
+                            onClick={() =>
+                              navigate(
+                                `/dashboard/rentmaster/transcation?Id=${item._id}`
+                              )
+                            }
+                            style={{ textTransform: "none" }}
+                            size="small"
+                          >
+                            Rent Reciept
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="contained"
+                            className="mr-2"
+                            color="success"
+                            onClick={() => navigate(`/dashboard/addrentmaster/?Id=${item._id}`)}
+                          >
+                            Add Rent
+                          </Button>
+                        </>
+                      )}
+                      <button
+                        className="badge bg-success mr-2"
+                        onClick={() => handleUpdate(item._id)}
+                      >
+                        <ModeOutlinedIcon />
+                      </button>
+                      <button
+                        className="badge bg-warning mr-2"
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        <DeleteOutlineOutlinedIcon />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              )
+
+            })
+          }
         </tbody>
       </table>
-
       {message.success && (
         <div class="alert alert-success" role="alert">
           {message.success}

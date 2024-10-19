@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import profile from "../assets/images/user/1.png";
 import profilebg from "../assets/images/page-img/profile-bg.jpg";
 import { useDispatch } from "react-redux";
-import { setAuthenticated } from "../Redux/Slice/userSlice";
+import { setAuthenticated, setReset } from "../Redux/Slice/userSlice";
 
 function Header() {
   const navigate = useNavigate();
@@ -13,6 +13,19 @@ function Header() {
     e.preventDefault();
 
     if (localStorage.getItem("role") === "SuperAdmin") {
+      const persistedData = JSON.parse(localStorage.getItem('persist:main-root'));
+
+      if (persistedData) {
+        // Reset clientMaster, rentMaster, propertyMaster, and ownerMaster to empty arrays
+        persistedData.clientMaster = [{}];
+        persistedData.rentMaster = [{}];
+        persistedData.propertyMaster = [{}];
+        persistedData.ownerMaster = [{}];
+      }
+
+      // Update the modified object back to localStorage
+      localStorage.setItem('persist:main-root', JSON.stringify(persistedData));
+
       localStorage.removeItem("userId");
       localStorage.removeItem("role");
       localStorage.removeItem("token");
@@ -21,9 +34,11 @@ function Header() {
         setAuthenticated({
           userId: null,
           isAuthenticated: !!localStorage.getItem("token"),
-        })
+        }),
       );
+      dispatch(setReset({ ownerMaster: [] }))
     } else if (localStorage.getItem("role") === "Owner") {
+
       localStorage.removeItem("ownerId");
       localStorage.removeItem("role");
       localStorage.removeItem("token");
@@ -32,9 +47,26 @@ function Header() {
         setAuthenticated({
           ownerId: null,
           isAuthenticated: !!localStorage.getItem("token"),
-        })
+        }),
       );
+      dispatch(setReset({ propertyMaster: [], clientMaster: [], rentMaster: [] }))
+
     } else if (localStorage.getItem("role") === "ClientMaster") {
+
+      const persistedData = JSON.parse(localStorage.getItem('persist:main-root'));
+
+      if (persistedData) {
+        // Reset clientMaster, rentMaster, propertyMaster, and ownerMaster to empty arrays
+        persistedData.clientMaster = [];
+        persistedData.rentMaster = [];
+        persistedData.propertyMaster = [];
+        persistedData.ownerMaster = [];
+      }
+
+      // Update the modified object back to localStorage
+      localStorage.setItem('persist:main-root', JSON.stringify(persistedData));
+
+      localStorage.clear('persist:main-root')
       localStorage.removeItem("clientId");
       localStorage.removeItem("role");
       localStorage.removeItem("token");
@@ -45,6 +77,7 @@ function Header() {
           isAuthenticated: !!localStorage.getItem("token"),
         })
       );
+      dispatch(setReset({ clientMaster: [] }))
     }
     navigate("/");
   };

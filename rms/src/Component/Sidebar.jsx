@@ -175,7 +175,7 @@ function Sidebar() {
                       </li>
                     </ul>
                   </li>
-                  <li className=" ">
+                  {/* <li className=" ">
                     <a
                       href="#rentmaster"
                       className="collapsed"
@@ -234,7 +234,7 @@ function Sidebar() {
                         </a>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
 
                   <li className=" ">
                     <a
