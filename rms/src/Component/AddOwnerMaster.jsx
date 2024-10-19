@@ -112,8 +112,8 @@ function AddOwnerMaster() {
               <div className="help-block with-errors"></div>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="form-group">
+            <div className="col-md-6">
+           <div className="form-group">
               <label>Pssword *</label>
               <input
                 type="password"
@@ -127,7 +127,7 @@ function AddOwnerMaster() {
               />
               <div className="help-block with-errors"></div>
             </div>
-          </div>
+          </div> 
           <div className="col-md-6">
             <div className="form-group">
               <label>Phone *</label>

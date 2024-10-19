@@ -98,11 +98,11 @@ function AddRentMaster() {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label>ElectricityMeterNumber *</label>
+              <label>Electricity Meter Number *</label>
               <input
                 type="Number"
                 className="form-control"
-                placeholder="Enter ElectricityMeterNumber"
+                placeholder="Enter Electricity Meter Number"
                 name="electricityMeterNumber"
                 data-errors="Please Enter ElectricityMeterNumber."
                 value={formdata.electricityMeterNumber}
@@ -116,7 +116,7 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>ClientId *</label>
+              <label>Client Id *</label>
               <select
                 className="form-control"
                 name="clientMaster"
@@ -136,11 +136,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>IncrementPercentage *</label>
+              <label>Increment Percentage *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter IncrementPercentage"
+                placeholder="Enter Increment Percentage"
                 data-errors="Please Enter IncrementPercentage."
                 name="incrementPercentage"
                 value={formdata.incrementPercentage}
@@ -154,11 +154,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>SecurityDepositAmount *</label>
+              <label>Security Deposit Amount *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter SecurityDepositAmount"
+                placeholder="Enter Security Deposit Amount"
                 data-errors="Please Enter SecurityDepositAmount."
                 name="securityDepositAmount"
                 value={formdata.securityDepositAmount}
@@ -172,11 +172,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>MonthlyRent *</label>
+              <label>Monthly Rent *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter MonthlyRent"
+                placeholder="Enter Monthly Rent"
                 data-errors="Please Enter MonthlyRent."
                 name="monthlyRent"
                 value={formdata.monthlyRent}
@@ -190,11 +190,11 @@ function AddRentMaster() {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>IncrementSchedule *</label>
+              <label>Increment Schedule *</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter IncrementSchedule"
+                placeholder="Enter Increment Schedule"
                 data-errors="Please Enter IncrementSchedule."
                 name="incrementSchedule"
                 value={formdata.incrementSchedule}
@@ -227,13 +227,13 @@ function AddRentMaster() {
                         selected="true"
                         disabled
                       >
-                        {item.pincode.$numberDecimal} - {item.address2}
+                        {item.pincode.$numberDecimal} - {item.address2} - {item.address1} - {item.city}
                       </option>
                     ) : (
                       <>
                         <option key={index} value={item._id}>
-                          {item.pincode.$numberDecimal} - {item.address2}
-                        </option>
+                          {item.pincode.$numberDecimal} - {item.address2} - {item.address1} - {item.city}
+                        </option> 
                       </>
                     )
                   )}

@@ -12,14 +12,14 @@ function ListClientMasters(){
       <div className="col-lg-12">
         <div className="d-flex flex-wrap align-items-center justify-content-between mb-4">
           <div>
-            <h4 className="mb-3">Clientmaster List</h4>
+            <h4 className="mb-3">List of Clients</h4>
           </div>
           <Link
             className="btn btn-primary add-list"
-            to="/dashboard/listclientmaster"
+            to="/dashboard/addclientmaster"
             style={{ color: "white" }}
           >
-            <i className="las la-plus mr-3"></i>Add ClientMaster
+            <i className="las la-plus mr-3"></i>Add Clients
           </Link>
         </div>
       </div>

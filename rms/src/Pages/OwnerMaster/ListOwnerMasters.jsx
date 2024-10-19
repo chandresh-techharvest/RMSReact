@@ -15,7 +15,7 @@ function ListOwnerMasters() {
             <div className="col-lg-12">
               <div className="d-flex flex-wrap align-items-center justify-content-between mb-4">
                 <div>
-                  <h4 className="mb-3">OwnerMaster List</h4>
+                  <h4 className="mb-3">List of Owners</h4>
                 </div>
                 <Link
                   className="btn btn-primary add-list"
@@ -23,7 +23,7 @@ function ListOwnerMasters() {
                   style={{ color: "white" }}
                 >
                   {" "}
-                  <i className="las la-plus mr-3"></i>Add OwnerMaster
+                  <i className="las la-plus mr-3"></i>Add Owner
                 </Link>
               </div>
             </div>
