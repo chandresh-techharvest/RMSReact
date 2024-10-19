@@ -11,7 +11,7 @@ function ListPropertyMasters() {
             <div className="col-lg-12">
               <div className="d-flex flex-wrap align-items-center justify-content-between mb-4">
                 <div>
-                  <h4 className="mb-3">PropertyMaster List</h4>
+                  <h4 className="mb-3">List of Properties</h4>
                 </div>
                 <Link
                   className="btn btn-primary add-list"
@@ -19,7 +19,7 @@ function ListPropertyMasters() {
                   style={{ color: "white" }}
                 >
                   {" "}
-                  <i className="las la-plus mr-3"></i>Add PropertyMaster
+                  <i className="las la-plus mr-3"></i>Add Properties
                 </Link>
               </div>
             </div>

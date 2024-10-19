@@ -60,9 +60,12 @@ function Header() {
                 className="img-fluid rounded-normal"
                 alt="logo"
               />
-              <h5 className="logo-title ml-3">POSDash</h5>
+              <h5 className="logo-title ml-3" >POSDashs</h5>
+              
             </a>
+            
           </div>
+          
           <div className="iq-search-bar device-search">
             <form action="#" className="searchbox">
               <a className="search-link" href="#">
@@ -91,7 +94,8 @@ function Header() {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav ml-auto navbar-list align-items-center">
-                <li className="nav-item nav-icon dropdown">
+              {/*  
+              <li className="nav-item nav-icon dropdown">
                   <a
                     href="#"
                     className="search-toggle dropdown-toggle btn border add-btn"
@@ -440,6 +444,8 @@ function Header() {
                     </div>
                   </div>
                 </li>
+
+                */}
                 <li className="nav-item nav-icon dropdown caption-content">
                   <a
                     href="#"
@@ -474,15 +480,15 @@ function Header() {
                           />
                         </div>
                         <div className="p-3">
-                          <h5 className="mb-1">JoanDuo@property.com</h5>
-                          <p className="mb-0">Since 10 march, 2020</p>
+                         {/*  <h5 className="mb-1">JoanDuo@property.com</h5>
+                          <p className="mb-0">Since 10 march, 2020</p> */}
                           <div className="d-flex align-items-center justify-content-center mt-3">
-                            <a
+                          {/*  <a
                               href="../app/user-profile.html"
                               className="btn border mr-2"
                             >
                               Profile
-                            </a>
+                            </a> */}
                             <Link className="btn border" onClick={handlelogout}>
                               Sign Out
                             </Link>

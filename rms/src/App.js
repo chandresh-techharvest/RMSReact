@@ -18,6 +18,7 @@ import Detail from "./Component/Detail";
 import RentRecipt from "./Pages/RentRecipt/RentRecipt";
 import ForgotPassword from "./Component/ForgotPassword";
 import ResetPassword from "./Component/ResetPassword";
+import AdminLogin from "./Component/AdminLogin";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="forgotPassword" element={<ForgotPassword />} />
         <Route path="resetpassword" element={<ResetPassword />} />
+        <Route path="alogin" element={<AdminLogin />} />
+       
+
         <Route
           path="dashboard"
           element={

@@ -6,14 +6,9 @@ function Sidebar() {
   return (
     <div className="iq-sidebar  sidebar-default ">
       <div className="iq-sidebar-logo d-flex align-items-center justify-content-between">
-        <a href="../backend/index.html" className="header-logo">
-          <img
-            src="../assets/images/logo.png"
-            className="img-fluid rounded-normal light-logo"
-            alt="logo"
-          />
-          <h5 className="logo-title light-logo ml-3">POSDash</h5>
-        </a>
+        <Link to="/dashboard" className="svg-icon">
+          <h6 className="logo-title light-logo ml-3">Rent Management System</h6>
+        </Link>
         <div className="iq-menu-bt-sidebar ml-0">
           <i className="las la-bars wrapper-menu"></i>
         </div>
@@ -75,7 +70,7 @@ function Sidebar() {
                       <circle cx="20" cy="21" r="1"></circle>
                       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    <span className="ml-4">OwnerMaster</span>
+                    <span className="ml-4">Owners</span>
                     <svg
                       className="svg-icon iq-arrow-right arrow-active"
                       width="20"
@@ -100,15 +95,16 @@ function Sidebar() {
                     <li className="">
                       <a href="../backend/page-list-product.html">
                         <i className="las la-minus"></i>
-                        <Link to="listownermaster">List OwnerMaster</Link>
+                        <Link to="listownermaster">Owners List</Link>
                       </a>
                     </li>
-                    <li className="">
+                    {/*   <li className="">
                       <a href="../backend/page-add-product.html">
                         <i className="las la-minus"></i>
                         <Link to="addownermaster">Add OwnerMaster</Link>
                       </a>
                     </li>
+                     */}
                   </ul>
                 </li>
               ) : role === "Owner" ? (
@@ -137,7 +133,7 @@ function Sidebar() {
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                       </svg>
-                      <span className="ml-4">PropertyMaster</span>
+                      <span className="ml-4">Properties</span>
                       <svg
                         className="svg-icon iq-arrow-right arrow-active"
                         width="20"
@@ -162,19 +158,20 @@ function Sidebar() {
                       <li className="">
                         <a href="../backend/page-list-product.html">
                           <i className="las la-minus"></i>
-                          <Link to="listpropertymaster">
-                            List PropertyMaster
-                          </Link>
+                          <Link to="listpropertymaster">Properties List</Link>
                         </a>
                       </li>
-                      <li className="">
+                      {/* 
+                         <li className="">
                         <a href="../backend/page-add-product.html">
                           <i className="las la-minus"></i>
                           <Link to="addpropertymaster">Add PropertyMaster</Link>
                         </a>
-                      </li>
+                      </li> 
+                      */}
                     </ul>
                   </li>
+
                   <li className=" ">
                     <a
                       href="#rentmaster"
@@ -199,7 +196,7 @@ function Sidebar() {
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                       </svg>
-                      <span className="ml-4">RentMaster</span>
+                      <span className="ml-4">Property Rents</span>
                       <svg
                         className="svg-icon iq-arrow-right arrow-active"
                         width="20"
@@ -224,13 +221,13 @@ function Sidebar() {
                       <li className="">
                         <a href="../backend/page-list-product.html">
                           <i className="las la-minus"></i>
-                          <Link to="listrentmaster">List RentMaster</Link>
+                          <Link to="listrentmaster">Property Rents List</Link>
                         </a>
                       </li>
                       <li className="">
                         <a href="../backend/page-add-product.html">
                           <i className="las la-minus"></i>
-                          <Link to="addrentmaster">Add RentMaster</Link>
+                          <Link to="addrentmaster">Add Rents</Link>
                         </a>
                       </li>
                     </ul>
@@ -260,7 +257,7 @@ function Sidebar() {
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                       </svg>
-                      <span className="ml-4">ClientMaster</span>
+                      <span className="ml-4">Clients</span>
                       <svg
                         className="svg-icon iq-arrow-right arrow-active"
                         width="20"
@@ -285,15 +282,17 @@ function Sidebar() {
                       <li className="">
                         <a href="../backend/page-list-product.html">
                           <i className="las la-minus"></i>
-                          <Link to="listclientmaster">List ClientMaster</Link>
+                          <Link to="listclientmaster">Clients List</Link>
                         </a>
                       </li>
+                      {/* 
                       <li className="">
                         <a href="../backend/page-add-product.html">
                           <i className="las la-minus"></i>
                           <Link to="addclientmaster">Add ClientMaster</Link>
                         </a>
                       </li>
+                      */}
                     </ul>
                   </li>
                 </>
