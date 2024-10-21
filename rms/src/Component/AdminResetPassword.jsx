@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import forgot from '../assets/images/login/01s.png'
 
 function AdminResetPassword() {
 
@@ -87,7 +88,7 @@ function AdminResetPassword() {
                                                 <div className="row">
                                                     <div className="col-lg-12">
                                                         <div className="floating-label form-group">
-                                                            <input name="password" className="floating-input form-control" value={formdata.password} type="password" required onChange={handleInput} />
+                                                            <input name="password" className="floating-input form-control" value={formData.password} type="password" required onChange={handleValue} />
                                                             <label>Password</label>
                                                         </div>
                                                     </div>
@@ -105,16 +106,16 @@ function AdminResetPassword() {
                     </div>
                 </div>
                 {
-                    successMessage.success && (
+                    message.success && (
                         <div className="alert alert-success mt-3" role="alert">
-                            {successMessage.success}
+                            {message.success}
                         </div>
                     )
                 }
                 {
-                    successMessage.danger && (
+                    message.danger && (
                         <div className="alert alert-danger mt-3" role="alert">
-                            {successMessage.danger}
+                            {message.danger}
                         </div>
                     )
                 }

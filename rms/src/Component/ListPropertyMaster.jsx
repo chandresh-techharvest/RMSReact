@@ -51,11 +51,9 @@ function ListPropertyMaster() {
       );
     }
     else {
-      // const filterRent = rentmaster.filter((item) => item.ownerMasters._id === ownerId)
-      // const finalRentProperty = filterRent.filter(item =>  item?.propertymaster?._id &&  propertyMaster.some((property) =>item.propertymaster._id ===property?._id))
       setData(propertyMaster)
     }
-  }, [propertyMaster])
+  }, [])
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/propertymaster/update?Id=${id}`, {
@@ -134,9 +132,11 @@ function ListPropertyMaster() {
                             variant="contained"
                             className="mr-2"
                             color="success"
+                            size="small"
+                            textTransform
                             onClick={() => navigate(`/dashboard/addrentmaster/?Id=${item._id}`)}
                           >
-                            Add Rent
+                            Add Rents
                           </Button>
                         </>
                       )}

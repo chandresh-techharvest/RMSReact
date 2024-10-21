@@ -1,7 +1,5 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Component/Login";
-import Register from "./Component/Register";
 import Layout from "./Layout";
 import ProtectedRoute from "./ProtectedRoute";
 import Update from "./Component/Update";
@@ -16,11 +14,11 @@ import ListClientMasters from "./Pages/ClientMaster/ListClientMasters";
 import RentTransactionForm from "./Pages/RentMaster/RentTransactionForm";
 import Detail from "./Component/Detail";
 import RentRecipt from "./Pages/RentRecipt/RentRecipt";
-import ForgotPassword from "./Component/ForgotPassword";
 import ResetPassword from "./Component/ResetPassword";
 import AdminLogin from "./Component/AdminLogin";
 import AdminRegister from "./Component/AdminRegister";
 import AdmingForgotPassword from "./Component/AdmingForgotPassword";
+import AdminResetPassword from "./Component/AdminResetPassword";
 
 function App() {
   return (
@@ -33,7 +31,7 @@ function App() {
         <Route path="/" element={<AdminLogin />} />
         <Route path="register" element={<AdminRegister />} />
         <Route path="forgotPassword" element={<AdmingForgotPassword />} />
-        <Route path="resetpassword" element={<AdminLogin />} />
+        <Route path="resetpassword" element={<AdminResetPassword />} />
 
         <Route
           path="dashboard"

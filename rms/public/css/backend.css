@@ -343,6 +343,23 @@ textarea {
   resize: vertical;
 }
 
+.radio-container {
+  display: flex;
+  justify-content: center;
+  /* centers the radio buttons horizontally */
+  align-items: center;
+  /* aligns items vertically (optional) */
+  gap: 10px;
+  /* space between radio buttons */
+  margin-bottom: 20px;
+  /* spacing below the radio buttons */
+}
+
+input[type="radio"] {
+  margin-right: 5px;
+}
+
+
 fieldset {
   min-width: 0;
   padding: 0;
@@ -22282,6 +22299,10 @@ fieldset[disabled] .btn {
   font-size: 10px;
   background: #ffffff;
   padding: 5px 8px;
+}
+
+input .form-control{
+  height: 48px;
 }
 
 .floating-input:not(:placeholder-shown) {

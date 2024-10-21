@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { selectAllPropertyMaster } from "../Redux/Slice/userSlice";
+import { selectAllClientMaster, selectAllOwnerMaster, selectAllPropertyMaster, selectAllRentMaster } from "../Redux/Slice/userSlice";
 import axios from "axios";
 
 function Update() {
@@ -15,11 +15,11 @@ function Update() {
 
   const navigate = useNavigate();
 
-  const propertymaster = useSelector(selectAllPropertyMaster);
-
-  const propertyData = propertymaster.filter(
-    (item) => item.ownerMasters._id === ownerId
-  );
+  const ownerMaster = useSelector(selectAllOwnerMaster).filter(item => item._id === id)
+  const propertyMaster = useSelector(selectAllPropertyMaster).filter(item => item._id === id);
+  const propertyData = useSelector(selectAllPropertyMaster).filter(item=>item.ownerMasters._id === ownerId)
+  const rentMaster = useSelector(selectAllRentMaster).filter(item => item._id === id)
+  const clientMaster = useSelector(selectAllClientMaster).filter(item => item._id === id)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -75,40 +75,60 @@ function Update() {
   });
 
   useEffect(() => {
-    const retriveData = async () => {
-      try {
-        const res = await axios.get(
-          `https://rsmapi.vercel.app/${whichroute}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (whichroute === 'rentmaster') {
-          setData((prev) => ({
-            ...prev, ...res.data,
-            propertymaster: res.data.propertymaster._id,
-            clientMaster: res.data.clientMaster._id
-          }));
 
-        }
-        else {
-          setData(await res.data)
-        }
-
-        setFormData(await res.data)
-        console.log("Data ", data);
-
-
-      } catch (error) {
-        setMessage({
-          ...message,
-          danger: `${error.message}`,
-        });
+    const retriveData = () => {
+      if (whichroute === 'propertymaster') {
+        setData(propertyMaster[0])
       }
-    };
+      else if (whichroute === 'rentmaster') {
+        setData(rentMaster[0])
+        console.log(rentMaster[0]);
+        
+      }
+      else if (whichroute === 'clientmaster') {
+        setData(clientMaster[0])
+        
+      }
+      else {
+        setData(ownerMaster[0])
+      }
+    }
+
     retriveData();
+    // const retriveData = async () => {
+    //   try {
+    //     const res = await axios.get(
+    //       `https://rsmapi.vercel.app/${whichroute}/${id}`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //         },
+    //       }
+    //     );
+    //     if (whichroute === 'rentmaster') {
+    //       setData((prev) => ({
+    //         ...prev, ...res.data,
+    //         propertymaster: res.data.propertymaster._id,
+    //         clientMaster: res.data.clientMaster._id
+    //       }));
+
+    //     }
+    //     else {
+    //       setData(await res.data)
+    //     }
+
+    //     setFormData(await res.data)
+    //     console.log("Data ", data);
+
+
+    //   } catch (error) {
+    //     setMessage({
+    //       ...message,
+    //       danger: `${error.message}`,
+    //     });
+    //   }
+    // };
+    // retriveData();
   }, [id]);
 
   const handleData = (e) => {
@@ -658,22 +678,6 @@ function Update() {
                                 }
                                 onChange={handleData}
                                 required=""
-                              />
-                              <div className="help-block with-errors"></div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>ClientId *</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="clientMaster"
-                                value={
-                                  data.clientMaster && data.clientMaster._id
-                                }
-                                onChange={handleData}
-                                disabled
                               />
                               <div className="help-block with-errors"></div>
                             </div>
