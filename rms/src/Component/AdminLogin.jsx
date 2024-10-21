@@ -339,7 +339,8 @@ function AdminLogin() {
                     </div>
                   </div>
                 </div>
-                {message.success && (
+              </div>
+              {message.success && (
                   <div class="alert alert-success mt-3" role="alert">
                     {message.success}
                   </div>
@@ -349,7 +350,6 @@ function AdminLogin() {
                     {message.danger}
                   </div>
                 )}
-              </div>
             </div>
           </div>
         </div>
