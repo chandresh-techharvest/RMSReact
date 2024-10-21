@@ -24,10 +24,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="forgotPassword" element={<ForgotPassword />} /> */}
-        <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="/" element={<AdminLogin />} />
         <Route path="register" element={<AdminRegister />} />
         <Route path="forgotPassword" element={<AdmingForgotPassword />} />
