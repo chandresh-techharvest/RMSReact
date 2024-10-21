@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchPropertyMaster,
+  fetchRentMaster,
+  fetchClientMaster,
+  fetchOwnerMaster,
+  fetchrentTranscation
+} from "../Redux/Slice/userSlice";
 
 function Sidebar() {
   const role = localStorage.getItem("role");
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    if(role === 'SuperAdmin'){
+      dispatch(fetchOwnerMaster())
+  }
+  else if(role === 'OwnerMaster')
+  {
+    dispatch(fetchRentMaster())
+    dispatch(fetchClientMaster())
+    dispatch(fetchPropertyMaster())
+  }
+  else{
+    dispatch(fetchClientMaster())
+    dispatch(fetchrentTranscation())
+  }
+},[])
   return (
     <div className="iq-sidebar  sidebar-default ">
       <div className="iq-sidebar-logo d-flex align-items-center justify-content-between">

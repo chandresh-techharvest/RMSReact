@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+    fetchrentTranscation,
     selectAllClientMaster,
     selectAllPropertyMaster,
     selectAllRentMaster,
+    selectAllRentTranscation,
 } from "../Redux/Slice/userSlice";
 
 function Detail() {
@@ -17,6 +19,8 @@ function Detail() {
 
     const id = url.get("Id");
 
+    const dispatch = useDispatch()
+
     const propertyMaster = useSelector(selectAllPropertyMaster).filter(
         (item) => item._id === id
     );
@@ -26,7 +30,11 @@ function Detail() {
     const rentMaster = useSelector(selectAllRentMaster).filter(
         (item) => item?.propertymaster._id === id
     );
-    console.log("rent ", rentMaster);
+
+    useEffect(() => {
+        dispatch(fetchrentTranscation())
+    }, [whichroute === 'rentTranscation'])
+    const transcation = useSelector(selectAllRentTranscation).filter(item => item._id === id)
 
     const navigate = useNavigate();
 
@@ -64,6 +72,9 @@ function Detail() {
                 setData(clientMaster);
             } else if (whichroute === "rentmaster") {
                 setData(rentMaster);
+            }
+            else if (whichroute === 'rentTranscation') {
+                setData(transcation[0])
             }
         };
 

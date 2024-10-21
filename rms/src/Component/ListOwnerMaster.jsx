@@ -3,11 +3,14 @@ import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOwnerMaster, selectAllClientMaster, selectAllOwnerMaster } from "../Redux/Slice/userSlice";
 
 function ListOwnerMaster() {
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [message, setMessage] = useState({
     success: "",
@@ -15,34 +18,31 @@ function ListOwnerMaster() {
   });
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get("https://rsmapi.vercel.app/ownermaster", {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        });
+    dispatch(fetchOwnerMaster())
+  }, [])
 
-        if (res.status == 200) {
-          setData(await res.data)
-        }
-      } catch (error) {
-        setMessage({
-          ...message,
-          danger: `${error.message}, While retriving Owners List`,
-        });
-      } finally {
-        setTimeout(
-          () =>
-            setMessage({
-              success: "",
-              danger: "",
-            }),
-          3000
-        );
-      }
-    };
+  const ownerMaster = useSelector(selectAllOwnerMaster)
 
-    getData();
-  }, []);
+  useEffect(() => {
+    if (ownerMaster.length === 0) {
+      setMessage({
+        ...message,
+        danger: `Network error, while retriving Owner`,
+      });
+
+      setTimeout(
+        () =>
+          setMessage({
+            success: "",
+            danger: "",
+          }),
+        2000
+      );
+    }
+    else {
+      setData(ownerMaster)
+    }
+  }, [ownerMaster])
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/ownermaster/Id?=${id}`, {
@@ -69,7 +69,7 @@ function ListOwnerMaster() {
           <tr className="ligth ligth-data">
             <th>Name</th>
             <th>Email Address</th>
-           {/*  <th>Password</th> */}
+            {/*  <th>Password</th> */}
             <th>Phone</th>
             <th>Created At</th>
           </tr>
@@ -81,7 +81,7 @@ function ListOwnerMaster() {
                 <Link>{item.name}</Link>
               </td>
               <td>{item.email}</td>
-             {/*  <td>{item.password}</td> */}
+              {/*  <td>{item.password}</td> */}
               <td>{item.phone}</td>
               <td>{item.createdAt.slice(0, 10)}</td>
               <td>
