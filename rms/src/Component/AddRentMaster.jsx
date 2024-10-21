@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useId } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import CreatableSelect from 'react-select/creatable';
-import ObjectId from 'bson-objectid'
 import {
   selectAllPropertyMaster, fetchClientMaster,
   selectAllClientMaster,
@@ -21,11 +19,9 @@ function AddRentMaster() {
     propertymaster: "",
     ownerMasters: ownerId,
   });
-  const [clientData, setclientData] = useState([])
   const url = new URLSearchParams(window.location.search);
   const id = url.get("Id");
   const dispatch = useDispatch()
-  const Id = ObjectId()
   const navigate = useNavigate();
   const propertymaster = useSelector(selectAllPropertyMaster);
 
@@ -34,14 +30,6 @@ function AddRentMaster() {
   }, [])
 
   const clientMaster = useSelector(selectAllClientMaster);
-
-  useEffect(() => {
-    const formattedData = clientMaster.map(item => ({
-      label: item.name,
-      value: item._id
-    }))
-    setclientData(formattedData)
-  }, [fetchClientMaster])
 
   const [message, setMessage] = useState({
     success: "",
