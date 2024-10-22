@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function AddClientMaster() {
-
   const ownerId = localStorage.getItem("ownerId");
 
   const [formData, setformData] = useState({
@@ -10,8 +9,8 @@ function AddClientMaster() {
     gender: "",
     address1: "",
     address2: "",
-    email:"",
-    password:"",
+    email: "",
+    password: "",
     mobileNumber: "",
     fatherName: "",
     ownerMasters: ownerId,
@@ -33,36 +32,34 @@ function AddClientMaster() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "https://rsmapi.vercel.app/clientmaster",
-        formData, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      }
-      );
-
-      setMessage({
-        ...message,
-        success: res.data.message,
-      });
+      // const res = await axios.post(
+      //   "https://rsmapi.vercel.app/clientmaster",
+      //   formData, {
+      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      // }
+      // );
+      // setMessage({
+      //   ...message,
+      //   success: res.data.message,
+      // });
     } catch (error) {
       setMessage({
         ...message,
         danger: `${error.message}, While saving ClientMaster`,
       });
     } finally {
-
       setformData({
         name: "",
         gender: "",
-        email:"",
-        password:"",
-        mobileNumber:"",
+        email: "",
+        password: "",
+        mobileNumber: "",
         address1: "",
         address2: "",
         fatherName: "",
-        ownerMasters:ownerId
+        ownerMasters: ownerId,
       });
-      
+
       setTimeout(
         () =>
           setMessage({
@@ -76,7 +73,7 @@ function AddClientMaster() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} data-toggle="validator" noValidate="true">
+      <form onSubmit={handleSubmit} data-toggle="validator">
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
@@ -86,12 +83,10 @@ function AddClientMaster() {
                 className="form-control"
                 placeholder="Enter Name"
                 name="name"
-                data-errors="Please Enter Name."
                 value={formData.name}
                 onChange={handleData}
-                required=""
+                required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
 
@@ -103,12 +98,10 @@ function AddClientMaster() {
                 className="form-control"
                 placeholder="Enter Father Name"
                 name="fatherName"
-                data-errors="Please Enter Name."
                 value={formData.fatherName}
                 onChange={handleData}
-                required=""
+                required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
 
@@ -120,12 +113,10 @@ function AddClientMaster() {
                 className="form-control"
                 placeholder="Enter Email"
                 name="email"
-                data-errors="Please Enter Email."
                 value={formData.email}
                 onChange={handleData}
-                required=""
+                required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
           <div className="col-md-6">
@@ -136,12 +127,10 @@ function AddClientMaster() {
                 className="form-control"
                 placeholder="Enter Password"
                 name="password"
-                data-errors="Please Enter Password."
                 value={formData.password}
                 onChange={handleData}
-                required=""
+                required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
 
@@ -158,8 +147,6 @@ function AddClientMaster() {
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>
-
-              <div className="help-block with-errors"></div>
             </div>
           </div>
 
@@ -171,12 +158,10 @@ function AddClientMaster() {
                 className="form-control"
                 placeholder="Enter Phone"
                 name="mobileNumber"
-                data-errors="Please Enter Name."
                 value={formData.mobileNumber}
                 onChange={handleData}
-                required=""
+                required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
 
@@ -188,12 +173,10 @@ function AddClientMaster() {
                 className="form-control"
                 placeholder="Enter Address 1"
                 name="address1"
-                data-errors="Please Enter Name."
                 value={formData.address1}
                 onChange={handleData}
-                required=""
+                required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
 
@@ -205,12 +188,10 @@ function AddClientMaster() {
                 className="form-control"
                 placeholder="Enter Address 2"
                 name="address2"
-                data-errors="Please Enter Name."
                 value={formData.address2}
                 onChange={handleData}
-                required=""
+                required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
         </div>

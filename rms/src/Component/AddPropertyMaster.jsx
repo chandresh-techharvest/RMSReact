@@ -70,7 +70,7 @@ function AddPropertyMaster() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} data-toggle="validator" novalidate="true">
+      <form onSubmit={handleSubmit} data-toggle="validator">
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
@@ -83,7 +83,7 @@ function AddPropertyMaster() {
                 name="pincode"
                 value={formdata.pincode}
                 onChange={handleData}
-                required=""
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -99,7 +99,7 @@ function AddPropertyMaster() {
                 name="address1"
                 value={formdata.address1}
                 onChange={handleData}
-                required=""
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -115,7 +115,7 @@ function AddPropertyMaster() {
                 name="address2"
                 value={formdata.address2}
                 onChange={handleData}
-                required=""
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -131,7 +131,7 @@ function AddPropertyMaster() {
                 name="city"
                 value={formdata.city}
                 onChange={handleData}
-                required=""
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -147,7 +147,7 @@ function AddPropertyMaster() {
                 name="state"
                 value={formdata.state}
                 onChange={handleData}
-                required=""
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
