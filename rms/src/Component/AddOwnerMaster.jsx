@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function AddOwnerMaster() {
-
   const userId = localStorage.getItem("userId");
 
   const [formdata, setformData] = useState({
@@ -35,8 +34,8 @@ function AddOwnerMaster() {
         "https://rsmapi.vercel.app/ownermaster",
         formdata,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-          timeout: 10000
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          timeout: 10000,
         }
       );
 
@@ -52,7 +51,6 @@ function AddOwnerMaster() {
         success: res.data.message,
       });
     } catch (error) {
-
       setMessage({
         ...message,
         danger: `${error.message}, While saving OwnerMaster`,
@@ -78,7 +76,7 @@ function AddOwnerMaster() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} data-toggle="validator" novalidate="true">
+      <form onSubmit={handleSubmit} data-toggle="validator">
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
@@ -91,7 +89,6 @@ function AddOwnerMaster() {
                 data-errors="Please Enter Name."
                 value={formdata.name}
                 onChange={handleData}
-                required=""
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -107,13 +104,12 @@ function AddOwnerMaster() {
                 name="email"
                 value={formdata.email}
                 onChange={handleData}
-                required=""
               />
               <div className="help-block with-errors"></div>
             </div>
           </div>
-            <div className="col-md-6">
-           <div className="form-group">
+          <div className="col-md-6">
+            <div className="form-group">
               <label>Pssword *</label>
               <input
                 type="password"
@@ -123,11 +119,10 @@ function AddOwnerMaster() {
                 name="password"
                 value={formdata.password}
                 onChange={handleData}
-                required=""
               />
               <div className="help-block with-errors"></div>
             </div>
-          </div> 
+          </div>
           <div className="col-md-6">
             <div className="form-group">
               <label>Phone *</label>
@@ -139,7 +134,6 @@ function AddOwnerMaster() {
                 name="phone"
                 value={formdata.phone}
                 onChange={handleData}
-                required=""
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -162,7 +156,6 @@ function AddOwnerMaster() {
           {message.danger}
         </div>
       )}
-
     </>
   );
 }
