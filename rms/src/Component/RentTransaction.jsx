@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRentMaster, selectAllRentMaster } from "../Redux/Slice/userSlice";
+import "../../src/assets/css/invoice.css"
 
 function RentTransaction() {
   const ownerId = localStorage.getItem("ownerId");
