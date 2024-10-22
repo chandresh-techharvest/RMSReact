@@ -89,6 +89,7 @@ function AddOwnerMaster() {
                 data-errors="Please Enter Name."
                 value={formdata.name}
                 onChange={handleData}
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -104,6 +105,7 @@ function AddOwnerMaster() {
                 name="email"
                 value={formdata.email}
                 onChange={handleData}
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -119,6 +121,7 @@ function AddOwnerMaster() {
                 name="password"
                 value={formdata.password}
                 onChange={handleData}
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
@@ -134,6 +137,7 @@ function AddOwnerMaster() {
                 name="phone"
                 value={formdata.phone}
                 onChange={handleData}
+                required
               />
               <div className="help-block with-errors"></div>
             </div>
