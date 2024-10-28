@@ -75,7 +75,7 @@ function ListClientMaster() {
             <th>Phone</th>
             <th>Address1</th>
             <th>Address2</th>
-            <th>Created By</th>
+            <th>Created At</th>
           </tr>
         </thead>
         <tbody className="ligth-body">

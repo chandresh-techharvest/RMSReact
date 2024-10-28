@@ -11,7 +11,7 @@ function AddPropertyMasters() {
               <div className="card">
                 <div className="card-header d-flex justify-content-between">
                   <div className="header-title">
-                    <h4 className="card-title">Add PropertyMaster</h4>
+                    <h4 className="card-title">Add Property</h4>
                   </div>
                 </div>
 

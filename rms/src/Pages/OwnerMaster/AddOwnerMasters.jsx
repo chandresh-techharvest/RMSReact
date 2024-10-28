@@ -16,7 +16,7 @@ function AddOwnerMasters() {
               <div className="card">
                 <div className="card-header d-flex justify-content-between">
                   <div className="header-title">
-                    <h4 className="card-title">Add OwnerMaster</h4>
+                    <h4 className="card-title">Add Owner</h4>
                   </div>
                 </div>
 
