@@ -121,7 +121,7 @@ function ListRentRecipt() {
                 <td>{item.RentFrom && item.RentFrom.slice(0, 10)}</td>
                 <td>{item.RentTo && item.RentTo.slice(0, 10)}</td>
                 <td>{item.paymentThreshold && item.paymentThreshold.slice(0, 10)}</td>
-                <td>{item.paymentMode === 'cash' ?  item.paymentMode: <Link to='/dashboard/api-gateway'>{item.paymentMode}</Link>}</td>
+                <td>{item.paymentMode === 'cash' ?  item.paymentMode: <Link to=''>{item.paymentMode}</Link>}</td>
                 <td>{item?.rentMaster?.monthlyRent?.$numberDecimal}</td>
                 <td>
                   {item.propertyMaster &&
