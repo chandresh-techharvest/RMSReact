@@ -25,7 +25,7 @@ function Sidebar() {
     dispatch(fetchClientMaster())
     dispatch(fetchrentTranscation())
   }
-},[])
+},[dispatch])
   return (
     <div className="iq-sidebar  sidebar-default ">
       <div className="iq-sidebar-logo d-flex align-items-center justify-content-between">
@@ -115,7 +115,7 @@ function Sidebar() {
                     data-parent="#iq-sidebar-toggle"
                   >
                     <li className="">
-                      <a href="../backend/page-list-product.html">
+                      <a>
                         <i className="las la-minus"></i>
                         <Link to="listownermaster">Owners List</Link>
                       </a>
@@ -171,7 +171,7 @@ function Sidebar() {
                       data-parent="#iq-sidebar-toggle"
                     >
                       <li className="">
-                        <a href="../backend/page-list-product.html">
+                        <a>
                           <i className="las la-minus"></i>
                           <Link to="listpropertymaster">Properties List</Link>
                         </a>
@@ -286,7 +286,7 @@ function Sidebar() {
                       data-parent="#iq-sidebar-toggle"
                     >
                       <li className="">
-                        <a href="../backend/page-list-product.html">
+                        <a>
                           <i className="las la-minus"></i>
                           <Link to="listclientmaster">Clients List</Link>
                         </a>
@@ -342,7 +342,7 @@ function Sidebar() {
                     data-parent="#iq-sidebar-toggle"
                   >
                     <li className="">
-                      <a href="../backend/page-list-product.html">
+                      <a>
                         <i className="las la-minus"></i>
                         <Link to="listrentrecipt">List RentRecipt</Link>
                       </a>

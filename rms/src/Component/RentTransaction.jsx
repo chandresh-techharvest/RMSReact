@@ -14,6 +14,11 @@ function RentTransaction() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const rentMasters = useSelector(selectAllRentMaster).filter(
+    (item) => item?.propertymaster._id === id
+  );
+  console.log(rentMasters);
+
   const { whichroute } = useParams();
 
   const now = new Date();
@@ -27,12 +32,12 @@ function RentTransaction() {
 
   var mmChars = mm.split("");
   var ddChars = dd.split("");
-  var newClosingDate =
-    yyyy +
-    "-" +
-    (mmChars[1] ? mm : "0" + mmChars[0]) +
-    "-" +
-    (ddChars[1] ? dd : "0" + ddChars[0]);
+  var newClosingDate = rentMasters[0]?.paymentDate ||
+    (yyyy +
+      "-" +
+      (mmChars[1] ? mm : "0" + mmChars[0]) +
+      "-" +
+      (ddChars[1] ? dd : "0" + ddChars[0]));
 
   const [formData, setFormData] = useState({
     RentFrom: "",
@@ -41,6 +46,7 @@ function RentTransaction() {
     paymentMode: "",
     propertyMaster: "",
     rentMaster: "",
+    clientMaster: '',
     ownerMasters: ownerId,
   });
 
@@ -50,10 +56,6 @@ function RentTransaction() {
     success: "",
     danger: "",
   });
-
-  const rentMasters = useSelector(selectAllRentMaster).filter(
-    (item) => item?.propertymaster._id === id
-  );
 
   useEffect(() => {
     dispatch(fetchRentMaster());
@@ -72,11 +74,13 @@ function RentTransaction() {
         .reverse()
         .join("-"),
       paymentThreshold: newClosingDate,
+      clientMaster: rentMasters[0]?.clientMaster._id,
       rentMaster: rentMasters[0]._id,
       propertyMaster: rentMasters[0]?.propertymaster._id,
     });
-    console.log("data ", formData);
   }, []);
+
+
   // useEffect(() => {
   //   const getData = async () => {
   //     try {
@@ -125,11 +129,13 @@ function RentTransaction() {
       [e.target.name]: e.target.value,
     });
   };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("sub ", formData);
 
     try {
+      console.log("formData ", formData);
       // const res = await axios.post(
       //   "https://rsmapi.vercel.app/rentTranscation",
       //   formData,
@@ -179,9 +185,9 @@ function RentTransaction() {
   };
   return (
     <>
-      <section class="wrapper-invoice">
-        <div class="invoice">
-          <div class="invoice-information">
+      <section className="wrapper-invoice">
+        <div className="invoice">
+          <div className="invoice-information">
             <p>
               <b>Monthly Rent</b> :{" "}
               {formData?.monthlyRent && formData?.monthlyRent?.$numberDecimal}
@@ -193,76 +199,77 @@ function RentTransaction() {
             </p>
           </div>
 
-          <div class="invoice-logo-brand">
+          <div className="invoice-logo-brand">
             <img src="./assets/image/tampsh.png" alt="" />
           </div>
 
-          <div class="invoice-head">
-            <div class="head client-info">
+          <div className="invoice-head">
+            <div className="head client-info">
               <p><b>Pincode</b> </p>
-               <p>
+              <p>
                 {formData?.propertymaster &&
                   formData?.propertymaster.pincode.$numberDecimal}
               </p>
               <p><b>Address1 </b></p>
               <p>{formData?.propertymaster && formData?.propertymaster.address1}</p>
               <p><b>Address2</b></p>
-         <p>{formData?.propertymaster && formData?.propertymaster.address2}</p>
-              
-            
+              <p>{formData?.propertymaster && formData?.propertymaster.address2}</p>
             </div>
-            <div class="head client-data">
-              
-             
-            <p><b>City</b></p>
+            <div className="head client-data">
+              <p><b>City</b></p>
               <p>{formData?.propertymaster && formData?.propertymaster.city}</p>
-                <p><b>State</b></p>
+              <p><b>State</b></p>
               <p>{formData?.propertymaster && formData?.propertymaster.state}</p>
             </div>
           </div>
-
-          <div class="invoice-body">
-            <table class="table" onSubmit={handleSubmit}>
-              <thead>
-                <tr>
-                  <th>Transcation Fields</th>
-                  <th>Dates</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Rent From</td>
-                  <td>{formData.RentFrom}</td>
-                </tr>
-                <tr>
-                  <td>Rent To</td>
-                  <td>{formData.RentTo}</td>
-                </tr>
-                <tr>
-                  <td>Payment Threshold</td>
-                  <td>{formData.paymentThreshold}</td>
-                </tr>
-              </tbody>
-              <button type="submit" className="btn btn-primary mr-2 mt-3">
-                Add
-              </button>
-              <button
-                type="reset"
-                className="btn btn-danger mt-3"
-                onClick={() => navigate(-1)}
-              >
-                Back
-              </button>
-            </table>
+          <div className="invoice-body">
+            <form onSubmit={handleSubmit}>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Transcation Fields</th>
+                    <th>Dates</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Rent From</td>
+                    <td>{formData.RentFrom}</td>
+                  </tr>
+                  <tr>
+                    <td>Rent To</td>
+                    <td>{formData.RentTo}</td>
+                  </tr>
+                  <tr>
+                    <td>Payment Threshold</td>
+                    <td>{formData.paymentThreshold}</td>
+                  </tr>
+                  <tr>
+                    <td>Payment Mode</td>
+                    <td>{formData.paymentMode}</td>
+                  </tr>
+                </tbody>
+                <button type="submit" className="btn btn-primary mr-2 mt-3">
+                  Add
+                </button>
+                <button
+                  type="reset"
+                  className="btn btn-danger mt-3"
+                  onClick={() => navigate(-1)}
+                >
+                  Back
+                </button>
+              </table>
+            </form>
           </div>
         </div>
         {message.success && (
-          <div class="alert alert-success mt-3" role="alert">
+          <div className="alert alert-success mt-3" role="alert">
             {message.success}
           </div>
         )}
         {message.danger && (
-          <div class="alert alert-danger mt-3" role="alert">
+          <div className="alert alert-danger mt-3" role="alert">
             {message.danger}
           </div>
         )}

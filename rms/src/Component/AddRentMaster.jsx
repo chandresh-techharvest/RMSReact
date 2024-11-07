@@ -15,6 +15,8 @@ function AddRentMaster() {
     incrementPercentage: "",
     securityDepositAmount: "",
     monthlyRent: "",
+    paymentDate:'',
+    paymentMode:'',
     incrementSchedule: "",
     propertymaster: "",
     ownerMasters: ownerId,
@@ -106,7 +108,6 @@ function AddRentMaster() {
                 onChange={handleData}
                 required
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
           <div className="col-md-6">
@@ -126,7 +127,6 @@ function AddRentMaster() {
                   </option>
                 ))}
               </select>
-              <div className="help-block with-errors"></div>
             </div>
           </div>
           <div className="col-md-6">
@@ -143,7 +143,6 @@ function AddRentMaster() {
                 min="1"
                 max="3"
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
           <div className="col-md-6">
@@ -160,7 +159,6 @@ function AddRentMaster() {
                 min="1"
                 max="10"
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
           <div className="col-md-6">
@@ -177,7 +175,6 @@ function AddRentMaster() {
                 min="1"
                 max="10"
               />
-              <div className="help-block with-errors"></div>
             </div>
           </div>
           <div className="col-md-6">
@@ -195,6 +192,20 @@ function AddRentMaster() {
                 max="10"
               />
               <div className="help-block with-errors"></div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label>PaymentDate (No of Days) *</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter No of Days"
+                name="paymentDate"
+                value={formdata.paymentDate}
+                onChange={handleData}
+                required
+              />
             </div>
           </div>
           <div className="col-md-6">
@@ -230,7 +241,17 @@ function AddRentMaster() {
                     )
                   )}
               </select>
-              <div className="help-block with-errors"></div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label>PaymentMode *</label>
+              <select className="form-control" name="paymnetMode" value={formdata.paymentMode} onChange={handleData} required>
+                <option value="">Select</option>
+                <option value='cash'>Cash</option>
+                <option value='Online_Payment'>Online Payment</option>
+                <option value='Any'>Any</option>
+              </select>
             </div>
           </div>
         </div>
