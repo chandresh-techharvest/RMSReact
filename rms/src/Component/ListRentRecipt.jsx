@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchrentTranscation,selectAllRentTranscation } from "../Redux/Slice/userSlice";
+import { fetchClientMaster, fetchrentTranscation, selectAllClientMaster, selectAllRentTranscation } from "../Redux/Slice/userSlice";
 
 function ListRentRecipt() {
   const clientId = localStorage.getItem("clientId");
@@ -15,38 +15,44 @@ function ListRentRecipt() {
   });
   const dispatch = useDispatch()
 
-  useEffect(()=>{
+  useEffect(() => {
+    dispatch(fetchClientMaster())
     dispatch(fetchrentTranscation())
-  },[])
+  }, [dispatch])
 
-  const transcation = useSelector(selectAllRentTranscation).filter(item=>item.clientMaster._id===clientId)
+  const clientData = useSelector(selectAllClientMaster)
+  const transcation = useSelector(selectAllRentTranscation).filter(item => item.clientMaster._id === clientId)
 
   useEffect(() => {
-    if (transcation.length === 0) {
-      setMessage({
-        ...message,
-        danger: `Network error, while retriving Property`,
-      });
+      if (transcation.length === 0) {
+        setMessage({
+          ...message,
+          danger: `Network Error`,
+        });
 
-      setTimeout(
-        () =>
-          setMessage({
-            success: "",
-            danger: "",
-          }),
-        2000
-      );
-    }
-    else {
-      setRentRecipts(transcation)
-    }
+        setTimeout(
+          () =>
+            setMessage({
+              success: "",
+              danger: "",
+            }),
+          3000
+        );
+      }
+      else {
+        setRentRecipts(transcation)
+      }
   }, [])
+  console.log("clientData ", clientData );
+
+  console.log("recipts ", rentRecipts);
+
 
   // useEffect(() => {
-    
+
   //   const getData = async () => {
   //     try {
-        
+
   //       const res = await axios.get(
   //         "https://rsmapi.vercel.app/rentTranscation",
   //         {
@@ -92,6 +98,7 @@ function ListRentRecipt() {
         <thead className="bg-white text-uppercase">
           <tr className="ligth ligth-data">
             <th>ClientName</th>
+            <th>ClientEmail</th>
             <th>RentFrom</th>
             <th>RentTo</th>
             <th>PaymentThreshold</th>
@@ -110,10 +117,11 @@ function ListRentRecipt() {
                     {item?.clientMaster.name}
                   </Link>
                 </td>
+                <td>{item?.clientMaster.email}</td>
                 <td>{item.RentFrom && item.RentFrom.slice(0, 10)}</td>
                 <td>{item.RentTo && item.RentTo.slice(0, 10)}</td>
                 <td>{item.paymentThreshold && item.paymentThreshold.slice(0, 10)}</td>
-                <td>{item.paymentMode}</td>
+                <td>{item.paymentMode === 'cash' ?  item.paymentMode: <Link to=''>{item.paymentMode}</Link>}</td>
                 <td>{item?.rentMaster?.monthlyRent?.$numberDecimal}</td>
                 <td>
                   {item.propertyMaster &&

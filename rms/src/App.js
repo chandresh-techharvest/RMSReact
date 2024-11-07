@@ -18,6 +18,7 @@ import AdminLogin from "./Component/AdminLogin";
 import AdminRegister from "./Component/AdminRegister";
 import AdmingForgotPassword from "./Component/AdmingForgotPassword";
 import AdminResetPassword from "./Component/AdminResetPassword";
+import Payment from "./Component/Payment";
 
 function App() {
   return (
@@ -27,8 +28,6 @@ function App() {
         <Route path="register" element={<AdminRegister />} />
         <Route path="forgotPassword" element={<AdmingForgotPassword />} />
         <Route path="resetpassword" element={<AdminResetPassword />} />
-  
-
         <Route
           path="dashboard"
           element={
@@ -47,8 +46,7 @@ function App() {
           <Route path="addclientmaster/:id" element={<AddClientMasters />} />
           <Route path="listclientmaster" element={<ListClientMasters />} />
           <Route path="listrentrecipt" element={<RentRecipt />} />
-         
-
+          <Route path = 'api-gateway' element={<Payment/>}/>
           <Route
             path=":?/:whichroute/transcation"
             element={<RentTransactionForm />}

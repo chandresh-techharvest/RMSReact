@@ -1,6 +1,7 @@
 import forgot from '../assets/images/login/01s.png'
 import React, { useState } from "react";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function AdmingForgotPassword() {
 
@@ -84,6 +85,12 @@ function AdmingForgotPassword() {
                                                     </div>
                                                 </div>
                                                 <button type="submit" className="btn btn-primary">Submit</button>
+                                                <p className="mt-3">
+                                                    Already have an Account{" "}
+                                                    <Link className="text-primary" to="/">
+                                                        Sign In
+                                                    </Link>
+                                                </p>
                                             </form>
                                         </div>
                                     </div>

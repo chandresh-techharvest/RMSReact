@@ -25,7 +25,7 @@ function ListRentMaster() {
 
   useEffect(() => {
     dispatch(fetchRentMaster())
-  },[])
+  },[dispatch])
 
   const rent = useSelector(selectAllRentMaster)
 
@@ -103,20 +103,6 @@ function ListRentMaster() {
                 <td>{item.ownerMasters && item.ownerMasters.name}</td>
                 <td>
                   <div className="d-flex align-items-center list-action">
-                    <Button
-                      variant="contained"
-                      className="mr-2"
-                      color="success"
-                      onClick={() =>
-                        navigate(
-                          `/dashboard/rentmaster/transcation?Id=${item._id}`
-                        )
-                      }
-                      style={{ textTransform: "none" }}
-                      size="small"
-                    >
-                      Rent Reciept
-                    </Button>
                     <button
                       className="badge bg-success mr-2"
                       onClick={() => handleUpdate(item._id)}

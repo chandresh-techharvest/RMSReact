@@ -29,7 +29,7 @@ function ListPropertyMaster() {
     dispatch(fetchRentMaster())
     dispatch(fetchClientMaster())
     dispatch(fetchPropertyMaster())
-  }, [])
+  }, [dispatch])
 
   const propertyMaster = useSelector(selectAllPropertyMaster);
   const rentmaster = useSelector(selectAllRentMaster)
