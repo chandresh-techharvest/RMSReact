@@ -10,7 +10,7 @@ import store from "../Redux/Store/store";
 
 function ListRentMaster() {
 
-  const ownerId = localStorage.getItem("ownerId");
+  const ownerId = localStorage.getItem("userId"); // Changed from ownerId to userId
 
   const [data, setData] = useState([]);
 
@@ -25,7 +25,7 @@ function ListRentMaster() {
 
   useEffect(() => {
     dispatch(fetchRentMaster())
-  },[dispatch])
+  }, [dispatch])
 
   const rent = useSelector(selectAllRentMaster)
 
@@ -46,7 +46,7 @@ function ListRentMaster() {
       );
     }
     else {
-      setData(rent.filter((item) => item.ownerMasters._id === ownerId))
+      setData(rent.filter((item) => item.ownerMasters && item.ownerMasters._id === ownerId))
     }
   }, [rent]);
 
@@ -58,11 +58,13 @@ function ListRentMaster() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://rsmapi.vercel.app/rentmaster/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.delete(
+        `https://rsmapi.vercel.app/rentmaster/${id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
 
-      setData(data.filter((data) => data._id !== id));
+      setData(data.filter((data) => data && data._id !== id));
     } catch (error) {
       console.log(error);
     }
@@ -80,45 +82,68 @@ function ListRentMaster() {
             <th>IncrementSchedule</th>
             <th>PropertyDetail</th>
             <th>OwnerDetail</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody className="ligth-body">
           {data &&
-            data.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  <Link to={`/dashboard/rentmaster/detail?Id=${item._id}`}>
-                    {item.electricityMeterNumber}
-                  </Link>
-                </td>
-                <td>{item.clientMaster && item.clientMaster.name}</td>
-                <td>{item.incrementPercentage.$numberDecimal}%</td>
-                <td>{item.securityDepositAmount.$numberDecimal}%</td>
-                <td>{item.monthlyRent.$numberDecimal}</td>
-                <td>{item.incrementSchedule.$numberDecimal}%</td>
-                <td>
-                  {item.propertymaster &&
-                    item.propertymaster.pincode.$numberDecimal}
-                </td>
-                <td>{item.ownerMasters && item.ownerMasters.name}</td>
-                <td>
-                  <div className="d-flex align-items-center list-action">
-                    <button
-                      className="badge bg-success mr-2"
-                      onClick={() => handleUpdate(item._id)}
-                    >
-                      <ModeOutlinedIcon />
-                    </button>
-                    <button
-                      className="badge bg-warning mr-2"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      <DeleteOutlineOutlinedIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            data.map((item, index) => {
+              // Check if item is valid before processing
+              if (!item) return null;
+
+              return (
+                <tr key={index}>
+                  <td>
+                    <Link to={`/dashboard/rentmaster/detail?Id=${item._id}`}>
+                      {item.electricityMeterNumber}
+                    </Link>
+                  </td>
+                  <td>{item.clientMaster && item.clientMaster.name}</td>
+                  <td>{item.incrementPercentage && item.incrementPercentage.$numberDecimal ? item.incrementPercentage.$numberDecimal : item.incrementPercentage}%</td>
+                  <td>{item.securityDepositAmount && item.securityDepositAmount.$numberDecimal ? item.securityDepositAmount.$numberDecimal : item.securityDepositAmount}</td>
+                  <td>{item.monthlyRent && item.monthlyRent.$numberDecimal ? item.monthlyRent.$numberDecimal : item.monthlyRent}</td>
+                  <td>{item.incrementSchedule && item.incrementSchedule.$numberDecimal ? item.incrementSchedule.$numberDecimal : item.incrementSchedule}%</td>
+                  <td>
+                    {item.propertymaster &&
+                      (item.propertymaster.pincode && item.propertymaster.pincode.$numberDecimal
+                        ? item.propertymaster.pincode.$numberDecimal
+                        : item.propertymaster.pincode)}
+                  </td>
+                  <td>{item.ownerMasters && item.ownerMasters.name}</td>
+                  <td>
+                    <div className="d-flex align-items-center list-action">
+                      <Button
+                        variant="contained"
+                        className="mr-2"
+                        color="primary"
+                        size="small"
+                        onClick={() =>
+                          navigate(
+                            item.propertymaster ? `/dashboard/rentmaster/transcation?Id=${item.propertymaster._id}` : '#'
+                          )
+                        }
+                        style={{ textTransform: "none", marginRight: "8px" }}
+                        disabled={!item.propertymaster}
+                      >
+                        Transaction
+                      </Button>
+                      <button
+                        className="badge bg-success mr-2"
+                        onClick={() => handleUpdate(item._id)}
+                      >
+                        <ModeOutlinedIcon />
+                      </button>
+                      <button
+                        className="badge bg-warning mr-2"
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        <DeleteOutlineOutlinedIcon />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
       {message.danger && (

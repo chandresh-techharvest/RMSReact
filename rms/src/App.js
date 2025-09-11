@@ -1,5 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MsalProvider } from "@azure/msal-react";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { msalConfig } from "./Utils/msalConfig";
 import Layout from "./Layout";
 import ProtectedRoute from "./ProtectedRoute";
 import Update from "./Component/Update";
@@ -19,43 +22,50 @@ import AdminRegister from "./Component/AdminRegister";
 import AdmingForgotPassword from "./Component/AdmingForgotPassword";
 import AdminResetPassword from "./Component/AdminResetPassword";
 import Payment from "./Component/Payment";
+import DashboardHome from "./Component/DashboardHome";
+
+// Create MSAL instance
+const msalInstance = new PublicClientApplication(msalConfig);
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AdminLogin />} />
-        <Route path="register" element={<AdminRegister />} />
-        <Route path="forgotPassword" element={<AdmingForgotPassword />} />
-        <Route path="resetpassword" element={<AdminResetPassword />} />
-        <Route
-          path="dashboard"
-          element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="addownermaster" element={<AddOwnerMasters />} />
-          <Route path="listownermaster" element={<ListOwnerMasters />} />
-          <Route path="addpropertymaster" element={<AddPropertyMasters />} />
-          <Route path="listpropertymaster" element={<ListPropertyMasters />} />
-          <Route path="addrentmaster" element={<AddRentMasters />} />
-          <Route path="listrentmaster" element={<ListRentMasters />} />
-          <Route path="addclientmaster" element={<AddClientMasters />} />
-          <Route path="addclientmaster/:id" element={<AddClientMasters />} />
-          <Route path="listclientmaster" element={<ListClientMasters />} />
-          <Route path="listrentrecipt" element={<RentRecipt />} />
-          <Route path = 'api-gateway' element={<Payment/>}/>
+    <MsalProvider instance={msalInstance}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AdminLogin />} />
+          <Route path="register" element={<AdminRegister />} />
+          <Route path="forgotPassword" element={<AdmingForgotPassword />} />
+          <Route path="resetpassword" element={<AdminResetPassword />} />
           <Route
-            path=":?/:whichroute/transcation"
-            element={<RentTransactionForm />}
-          />
-          <Route path=":?/:whichroute/detail" element={<Detail />} />
-          <Route path=":?/:whichroute/update" element={<Update />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            path="dashboard"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<DashboardHome />} />
+            <Route path="addownermaster" element={<AddOwnerMasters />} />
+            <Route path="listownermaster" element={<ListOwnerMasters />} />
+            <Route path="addpropertymaster" element={<AddPropertyMasters />} />
+            <Route path="listpropertymaster" element={<ListPropertyMasters />} />
+            <Route path="addrentmaster" element={<AddRentMasters />} />
+            <Route path="listrentmaster" element={<ListRentMasters />} />
+            <Route path="addclientmaster" element={<AddClientMasters />} />
+            <Route path="addclientmaster/:id" element={<AddClientMasters />} />
+            <Route path="listclientmaster" element={<ListClientMasters />} />
+            <Route path="listrentrecipt" element={<RentRecipt />} />
+            <Route path='api-gateway' element={<Payment />} />
+            <Route
+              path=":?/:whichroute/transcation"
+              element={<RentTransactionForm />}
+            />
+            <Route path=":?/:whichroute/detail" element={<Detail />} />
+            <Route path=":?/:whichroute/update" element={<Update />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </MsalProvider>
   );
 }
 

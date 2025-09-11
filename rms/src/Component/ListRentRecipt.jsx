@@ -24,12 +24,62 @@ function ListRentRecipt() {
   const transcation = useSelector(selectAllRentTranscation).filter(item => item.clientMaster._id === clientId)
 
   useEffect(() => {
-      if (transcation.length === 0) {
+    if (transcation.length === 0) {
+      setMessage({
+        ...message,
+        danger: `Network Error`,
+      });
+
+      setTimeout(
+        () =>
+          setMessage({
+            success: "",
+            danger: "",
+          }),
+        3000
+      );
+    }
+    else {
+      setRentRecipts(transcation)
+    }
+  }, [])
+
+  console.log("clientData ", clientData);
+
+  console.log("recipts ", rentRecipts);
+
+
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+
+        const res = await axios.get(
+          "https://rsmapi.vercel.app/rentTranscation",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (res.status === 200) {
+          setRentRecipts(
+            await res.data.filter(item => item.clientMaster && item.clientMaster._id === clientId)
+          );
+          if (rentRecipts.length === 0) {
+            setMessage({
+              ...message,
+              success: `No Data Found`,
+            });
+          }
+
+        }
+      } catch (error) {
         setMessage({
           ...message,
-          danger: `Network Error`,
+          danger: `${error.message}, While retriving RentRecipt`,
         });
-
+      } finally {
         setTimeout(
           () =>
             setMessage({
@@ -39,58 +89,9 @@ function ListRentRecipt() {
           3000
         );
       }
-      else {
-        setRentRecipts(transcation)
-      }
-  }, [])
-  console.log("clientData ", clientData );
-
-  console.log("recipts ", rentRecipts);
-
-
-  // useEffect(() => {
-
-  //   const getData = async () => {
-  //     try {
-
-  //       const res = await axios.get(
-  //         "https://rsmapi.vercel.app/rentTranscation",
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //           },
-  //         }
-  //       );
-  //       if (res.status === 200) {
-  //         setRentRecipts(
-  //           await res.data.filter(item => item.clientMaster._id === clientId)
-  //         );
-  //         if (rentRecipts.length === 0) {
-  //           setMessage({
-  //             ...message,
-  //             success: `No Data Found`,
-  //           });
-  //         }
-
-  //       }
-  //     } catch (error) {
-  //       setMessage({
-  //         ...message,
-  //         danger: `${error.message}, While retriving RentRecipt`,
-  //       });
-  //     } finally {
-  //       setTimeout(
-  //         () =>
-  //           setMessage({
-  //             success: "",
-  //             danger: "",
-  //           }),
-  //         3000
-  //       );
-  //     }
-  //   };
-  //   getData();
-  // }, []);
+    };
+    getData();
+  }, []);
 
   return (
     <>
@@ -110,36 +111,55 @@ function ListRentRecipt() {
         </thead>
         <tbody className="ligth-body">
           {rentRecipts &&
-            rentRecipts.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  <Link to={`/dashboard/rentTranscation/detail?Id=${item._id}`}>
-                    {item?.clientMaster.name}
-                  </Link>
-                </td>
-                <td>{item?.clientMaster.email}</td>
-                <td>{item.RentFrom && item.RentFrom.slice(0, 10)}</td>
-                <td>{item.RentTo && item.RentTo.slice(0, 10)}</td>
-                <td>{item.paymentThreshold && item.paymentThreshold.slice(0, 10)}</td>
-                <td>{item.paymentMode === 'cash' ?  item.paymentMode: <Link to=''>{item.paymentMode}</Link>}</td>
-                <td>{item?.rentMaster?.monthlyRent?.$numberDecimal}</td>
-                <td>
-                  {item.propertyMaster &&
-                    item?.propertyMaster?.pincode?.$numberDecimal}
-                </td>
-                <td>{item?.ownerMasters && item?.ownerMasters.name}</td>
-                <td>
-                  <div className="d-flex align-items-center list-action">
-                    {/* <button
-                      className="badge bg-warning mr-2"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      <DeleteOutlineOutlinedIcon />
-                    </button> */}
-                  </div>
-                </td>
-              </tr>
-            ))}
+            rentRecipts.map((item, index) => {
+              // Check if item is valid before processing
+              if (!item) return null;
+
+              return (
+                <tr key={index}>
+                  <td>
+                    <Link to={`/dashboard/rentTranscation/detail?Id=${item._id}`}>
+                      {item?.clientMaster && item?.clientMaster.name}
+                    </Link>
+                  </td>
+                  <td>{item?.clientMaster && item?.clientMaster.email}</td>
+                  <td>{item.RentFrom && item.RentFrom.slice(0, 10)}</td>
+                  <td>{item.RentTo && item.RentTo.slice(0, 10)}</td>
+                  <td>{item.paymentThreshold && item.paymentThreshold.slice(0, 10)}</td>
+                  <td>
+                    {item.paymentMode === 'cash' ? (
+                      <span className="badge badge-secondary">{item.paymentMode}</span>
+                    ) : (
+                      <Link
+                        to='/dashboard/api-gateway'
+                        className="badge badge-primary"
+                        style={{ textDecoration: 'none', color: 'white' }}
+                      >
+                        {item.paymentMode}
+                      </Link>
+                    )}
+                  </td>
+                  <td>{item?.rentMaster?.monthlyRent && item?.rentMaster?.monthlyRent.$numberDecimal ? item?.rentMaster?.monthlyRent.$numberDecimal : item?.rentMaster?.monthlyRent}</td>
+                  <td>
+                    {item.propertyMaster &&
+                      (item?.propertyMaster?.pincode && item?.propertyMaster?.pincode.$numberDecimal
+                        ? item?.propertyMaster?.pincode.$numberDecimal
+                        : item?.propertyMaster?.pincode)}
+                  </td>
+                  <td>{item?.ownerMasters && item?.ownerMasters.name}</td>
+                  <td>
+                    <div className="d-flex align-items-center list-action">
+                      {/* <button
+                        className="badge bg-warning mr-2"
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        <DeleteOutlineOutlinedIcon />
+                      </button> */}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
       {message.success && (

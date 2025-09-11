@@ -1,0 +1,152 @@
+/* Soft Floating Animation CSS */
+
+/* Keyframe animations for floating effect */
+@keyframes softFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes softFloatReverse {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+@keyframes gentleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-6px) scale(1.02);
+    }
+}
+
+@keyframes pulseFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-10px);
+        opacity: 0.9;
+    }
+}
+
+/* Classes for floating animations */
+.floating-svg {
+    animation: softFloat 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.floating-svg:hover {
+    animation-play-state: paused;
+    transform: translateY(-2px);
+}
+
+.floating-image {
+    animation: gentleFloat 4s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.floating-image:hover {
+    animation-play-state: paused;
+    transform: translateY(-5px) scale(1.05);
+}
+
+.floating-logo {
+    animation: softFloatReverse 2.5s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.floating-logo:hover {
+    animation-play-state: paused;
+    transform: translateY(-3px);
+}
+
+.microsoft-logo-float {
+    animation: pulseFloat 3.5s ease-in-out infinite;
+    transition: all 0.2s ease;
+}
+
+.microsoft-logo-float:hover {
+    animation-play-state: paused;
+    transform: translateY(-2px);
+}
+
+/* Delay variants for staggered animations */
+.floating-delay-1 {
+    animation-delay: 0.5s;
+}
+
+.floating-delay-2 {
+    animation-delay: 1s;
+}
+
+.floating-delay-3 {
+    animation-delay: 1.5s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+    .floating-svg,
+    .floating-image,
+    .floating-logo,
+    .microsoft-logo-float {
+        animation-duration: 2s;
+    }
+
+    @keyframes softFloat {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-4px);
+        }
+    }
+
+    @keyframes gentleFloat {
+
+        0%,
+        100% {
+            transform: translateY(0px) scale(1);
+        }
+
+        50% {
+            transform: translateY(-3px) scale(1.01);
+        }
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    .floating-svg,
+    .floating-image,
+    .floating-logo,
+    .microsoft-logo-float {
+        animation: none;
+    }
+}

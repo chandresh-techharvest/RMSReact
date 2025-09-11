@@ -12,7 +12,7 @@ const initialState = {
   clientMaster: [],
   ownerMaster: [],
   rentMaster: [],
-  rentTranscation:[],
+  rentTranscation: [],
   status: "idle",
   error: "",
 };
@@ -60,9 +60,11 @@ export const fetchClientMaster = createAsyncThunk(
 export const fetchrentTranscation = createAsyncThunk(
   "user/fetchrentTranscation",
   async () => {
+    console.log("Fetching rent transactions with token:", localStorage.getItem("token"));
     const res = await axios.get("https://rsmapi.vercel.app/rentTranscation", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
+    console.log("Rent transactions response:", res?.data);
     return res?.data;
   }
 );
@@ -122,9 +124,19 @@ const userSlice = createSlice({
       })
       .addCase(fetchPropertyMaster.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.propertyMaster = action.payload.filter(
-          (item) => item.ownerMasters._id === state.user.ownerId
-        );
+        if (Array.isArray(action.payload)) {
+          // For Owner role, filter by the owner's ID
+          // For SuperAdmin role, show all properties
+          if (state.user && state.user.userId) {
+            state.propertyMaster = action.payload.filter(
+              (item) => item.ownerMasters && item.ownerMasters._id === state.user.userId
+            );
+          } else {
+            state.propertyMaster = action.payload;
+          }
+        } else {
+          state.propertyMaster = [];
+        }
       })
       .addCase(fetchPropertyMaster.rejected, (state, action) => {
         state.status = "failed";
@@ -136,9 +148,19 @@ const userSlice = createSlice({
       })
       .addCase(fetchClientMaster.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.clientMaster = action.payload.filter(
-          (item) => item.ownerMasters._id === state.user.ownerId
-        );
+        if (Array.isArray(action.payload)) {
+          // For Owner role, filter by the owner's ID
+          // For SuperAdmin role, show all clients
+          if (state.user && state.user.userId) {
+            state.clientMaster = action.payload.filter(
+              (item) => item.ownerMasters && item.ownerMasters._id === state.user.userId
+            );
+          } else {
+            state.clientMaster = action.payload;
+          }
+        } else {
+          state.clientMaster = [];
+        }
       })
       .addCase(fetchClientMaster.rejected, (state, action) => {
         state.status = "failed";
@@ -150,9 +172,19 @@ const userSlice = createSlice({
       })
       .addCase(fetchRentMaster.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.rentMaster = action.payload.filter(
-          (item) => item.ownerMasters._id === state.user.ownerId
-        );
+        if (Array.isArray(action.payload)) {
+          // For Owner role, filter by the owner's ID
+          // For SuperAdmin role, show all rents
+          if (state.user && state.user.userId) {
+            state.rentMaster = action.payload.filter(
+              (item) => item.ownerMasters && item.ownerMasters._id === state.user.userId
+            );
+          } else {
+            state.rentMaster = action.payload;
+          }
+        } else {
+          state.rentMaster = [];
+        }
       })
       .addCase(fetchRentMaster.rejected, (state, action) => {
         state.status = "failed";
@@ -164,10 +196,12 @@ const userSlice = createSlice({
       })
       .addCase(fetchrentTranscation.fulfilled, (state, action) => {
         state.status = "succeeded";
+        console.log("Rent transactions fulfilled:", action.payload);
         state.rentTranscation = action.payload
       })
       .addCase(fetchrentTranscation.rejected, (state, action) => {
         state.status = "failed";
+        console.log("Rent transactions rejected:", action.error.message);
         state.error = action.error.message;
       })
       // Delete master case
@@ -183,7 +217,7 @@ export const selectAllOwnerMaster = (state) => state.user.ownerMaster;
 export const selectAllPropertyMaster = (state) => state.user.propertyMaster;
 export const selectAllClientMaster = (state) => state.user.clientMaster;
 export const selectAllRentMaster = (state) => state.user.rentMaster;
-export const selectAllRentTranscation = (state)=>state.user.rentTranscation;
+export const selectAllRentTranscation = (state) => state.user.rentTranscation;
 export const getPropertyMasterStatus = (state) => state.user.status;
 export const getPropertyMasterError = (state) => state.user.error;
 

@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function AddPropertyMaster() {
-  const ownerId = localStorage.getItem("ownerId");
+  const ownerId = localStorage.getItem("userId"); // Changed from ownerId to userId
+  const tenantId = localStorage.getItem("tenant_id"); // Get tenant_id from localStorage
 
-  const [formdata, setformData] = useState({
+  const [formdata, setFormData] = useState({
     pincode: "",
     address2: "",
     city: "",
     address1: "",
     state: "",
     ownerMasters: ownerId,
+    tenant_id: tenantId, // Add tenant_id to form data
   });
+
+  // Update form data when ownerId or tenantId changes
+  useEffect(() => {
+    setFormData(prevData => ({
+      ...prevData,
+      ownerMasters: ownerId,
+      tenant_id: tenantId
+    }));
+  }, [ownerId, tenantId]);
 
   const [message, setMessage] = useState({
     success: "",
@@ -21,7 +32,7 @@ function AddPropertyMaster() {
   const handleData = (e) => {
     e.preventDefault();
 
-    setformData({
+    setFormData({
       ...formdata,
       [e.target.name]: e.target.value,
     });
@@ -30,10 +41,29 @@ function AddPropertyMaster() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Debug: Check if token exists
+    const token = localStorage.getItem("token");
+    console.log("Token from localStorage:", token);
+
+    // Debug: Check if ownerId exists
+    console.log("OwnerId from localStorage:", ownerId);
+    console.log("TenantId from localStorage:", tenantId);
+
+    // Make sure we're using the latest ownerId and tenantId
+    const currentFormData = {
+      ...formdata,
+      ownerMasters: ownerId,
+      tenant_id: tenantId
+    };
+
+    // Debug: Check form data
+    console.log("Form data being sent:", currentFormData);
+
     try {
       const res = await axios.post(
+        // "https://rsmapi.vercel.app/propertymaster",
         "https://rsmapi.vercel.app/propertymaster",
-        formdata,
+        currentFormData,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -44,18 +74,21 @@ function AddPropertyMaster() {
         success: res.data.message,
       });
     } catch (error) {
+      console.error("Error in property creation:", error);
+      console.error("Error response:", error.response);
       setMessage({
         ...message,
         danger: "Error, While saving Property",
       });
     } finally {
-      setformData({
+      setFormData({
         pincode: "",
         address2: "",
         city: "",
         address1: "",
         state: "",
         ownerMasters: ownerId,
+        tenant_id: tenantId,
       });
       setTimeout(
         () =>

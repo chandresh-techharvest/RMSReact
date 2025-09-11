@@ -7,7 +7,7 @@ import axios from "axios";
 function Update() {
   const url = new URLSearchParams(window.location.search);
 
-  const ownerId = localStorage.getItem("ownerId");
+  const ownerId = localStorage.getItem("userId"); // Changed from ownerId to userId
 
   const { whichroute } = useParams();
 
@@ -17,7 +17,7 @@ function Update() {
 
   const ownerMaster = useSelector(selectAllOwnerMaster).filter(item => item._id === id)
   const propertyMaster = useSelector(selectAllPropertyMaster).filter(item => item._id === id);
-  const propertyData = useSelector(selectAllPropertyMaster).filter(item=>item.ownerMasters._id === ownerId)
+  const propertyData = useSelector(selectAllPropertyMaster).filter(item => item.ownerMasters._id === ownerId)
   const rentMaster = useSelector(selectAllRentMaster).filter(item => item._id === id)
   const clientMaster = useSelector(selectAllClientMaster).filter(item => item._id === id)
 
@@ -77,19 +77,19 @@ function Update() {
   useEffect(() => {
 
     const retriveData = () => {
-      if (whichroute === 'propertymaster') {
+      if (whichroute === 'propertymaster' && propertyMaster.length > 0) {
         setData(propertyMaster[0])
       }
-      else if (whichroute === 'rentmaster') {
+      else if (whichroute === 'rentmaster' && rentMaster.length > 0) {
         setData(rentMaster[0])
         console.log(rentMaster[0]);
-        
+
       }
-      else if (whichroute === 'clientmaster') {
+      else if (whichroute === 'clientmaster' && clientMaster.length > 0) {
         setData(clientMaster[0])
-        
+
       }
-      else {
+      else if (ownerMaster.length > 0) {
         setData(ownerMaster[0])
       }
     }
@@ -144,7 +144,9 @@ function Update() {
     e.preventDefault();
     try {
       await axios.put(
+        // `https://rsmapi.vercel.app/${whichroute}/${id}`,
         `https://rsmapi.vercel.app/${whichroute}/${id}`,
+
         data,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -296,7 +298,7 @@ function Update() {
                               placeholder="Enter Pincode"
                               name="pincode"
                               data-errors="Please Enter Pincode."
-                              value={data.pincode.$numberDecimal}
+                              value={data.pincode}
                               onChange={handleData}
                               required=""
                             />
@@ -616,8 +618,9 @@ function Update() {
                                 data-errors="Please Enter IncrementPercentage."
                                 name="incrementPercentage"
                                 value={
-                                  data.incrementPercentage &&
-                                  data.incrementPercentage.$numberDecimal
+                                  data.incrementPercentage && data.incrementPercentage.$numberDecimal !== undefined
+                                    ? data.incrementPercentage.$numberDecimal
+                                    : data.incrementPercentage
                                 }
                                 onChange={handleData}
                                 required=""
@@ -635,8 +638,9 @@ function Update() {
                                 data-errors="Please Enter SecurityDepositAmount."
                                 name="securityDepositAmount"
                                 value={
-                                  data.securityDepositAmount &&
-                                  data.securityDepositAmount.$numberDecimal
+                                  data.securityDepositAmount && data.securityDepositAmount.$numberDecimal !== undefined
+                                    ? data.securityDepositAmount.$numberDecimal
+                                    : data.securityDepositAmount
                                 }
                                 onChange={handleData}
                                 required=""
@@ -654,8 +658,9 @@ function Update() {
                                 data-errors="Please Enter MonthlyRent."
                                 name="monthlyRent"
                                 value={
-                                  data.monthlyRent &&
-                                  data.monthlyRent.$numberDecimal
+                                  data.monthlyRent && data.monthlyRent.$numberDecimal !== undefined
+                                    ? data.monthlyRent.$numberDecimal
+                                    : data.monthlyRent
                                 }
                                 onChange={handleData}
                                 required=""
@@ -673,8 +678,9 @@ function Update() {
                                 data-errors="Please Enter IncrementSchedule."
                                 name="incrementSchedule"
                                 value={
-                                  data.incrementSchedule &&
-                                  data.incrementSchedule.$numberDecimal
+                                  data.incrementSchedule && data.incrementSchedule.$numberDecimal !== undefined
+                                    ? data.incrementSchedule.$numberDecimal
+                                    : data.incrementSchedule
                                 }
                                 onChange={handleData}
                                 required=""
@@ -716,8 +722,7 @@ function Update() {
                                       required
                                     >
                                       {item.address1}, {item.address2},
-                                      {item.pincode &&
-                                        item.pincode.$numberDecimal}
+                                      {item.pincode}
                                       , {item.city}, {item.state}
                                     </option>
                                   ))}

@@ -34,6 +34,7 @@ function ResetPassword() {
         try {
 
             const res = await axios.post(
+                // `https://rsmapi.vercel.app/resetpassword/${userId}/${token}`,
                 `https://rsmapi.vercel.app/resetpassword/${userId}/${token}`,
                 formData
             );

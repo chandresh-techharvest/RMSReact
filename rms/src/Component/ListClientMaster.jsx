@@ -7,7 +7,7 @@ import axios from "axios";
 import { fetchClientMaster, selectAllClientMaster } from "../Redux/Slice/userSlice";
 
 function ListClientMaster() {
-  const ownerId = localStorage.getItem("ownerId");
+  const ownerId = localStorage.getItem("userId"); // Changed from ownerId to userId
 
   const [data, setData] = useState([]);
 
@@ -22,7 +22,7 @@ function ListClientMaster() {
 
   useEffect(() => {
     dispatch(fetchClientMaster())
-  },[])
+  }, [])
 
   const clientmaster = useSelector(selectAllClientMaster);
 
@@ -55,9 +55,12 @@ function ListClientMaster() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://rsmapi.vercel.app/clientmaster/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.delete(
+        // `https://rsmapi.vercel.app/clientmaster/${id}`,
+        `https://rsmapi.vercel.app/clientmaster/${id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
       setData(data.filter((data) => data._id !== id));
     } catch (error) {
       console.log(error);

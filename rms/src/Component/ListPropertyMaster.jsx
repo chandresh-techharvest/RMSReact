@@ -53,7 +53,7 @@ function ListPropertyMaster() {
     else {
       setData(propertyMaster)
     }
-  }, [])
+  }, [propertyMaster])
 
   const handleUpdate = (id) => {
     navigate(`/dashboard/propertymaster/update?Id=${id}`, {
@@ -82,14 +82,17 @@ function ListPropertyMaster() {
             <th>Pincode</th>
             <th>City</th>
             <th>State</th>
-            <th>Property Created at</th>
+            <th>Owner</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody className="ligth-body">
           {data &&
             data.map((item, index) => {
+              // Check if item is valid before processing
+              if (!item) return null;
 
-              const rentItem = rentmaster.find(subItem => item._id === subItem?.propertymaster._id);
+              const rentItem = rentmaster.find(subItem => item._id === subItem?.propertymaster?._id);
 
               return (
                 <tr key={index}>
@@ -97,7 +100,7 @@ function ListPropertyMaster() {
                     {item.address1}
                   </td>
                   <td>{item.address2}</td>
-                  <td>{item.pincode && item.pincode.$numberDecimal}</td>
+                  <td>{item.pincode && item.pincode.$numberDecimal ? item.pincode.$numberDecimal : item.pincode}</td>
                   <td>{item.city}</td>
                   <td>{item.state}</td>
                   <td>{item.ownerMasters && item.ownerMasters.name}</td>

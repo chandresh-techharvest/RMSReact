@@ -4,13 +4,27 @@ import profile from "../assets/images/user/1.png";
 import profilebg from "../assets/images/page-img/profile-bg.jpg";
 import { useDispatch } from "react-redux";
 import { setAuthenticated, setReset } from "../Redux/Slice/userSlice";
+import { useMsal } from "@azure/msal-react";
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { instance } = useMsal();
 
-  const handlelogout = (e) => {
+  const handlelogout = async (e) => {
     e.preventDefault();
+
+    // Check if user authenticated via SSO
+    const authType = localStorage.getItem("authType");
+
+    if (authType === "SSO") {
+      try {
+        // Logout from Microsoft session
+        await instance.logoutPopup();
+      } catch (error) {
+        console.error("Microsoft logout error:", error);
+      }
+    }
 
     if (localStorage.getItem("role") === "SuperAdmin") {
       const persistedData = JSON.parse(localStorage.getItem('persist:main-root'));
@@ -29,6 +43,9 @@ function Header() {
       localStorage.removeItem("userId");
       localStorage.removeItem("role");
       localStorage.removeItem("token");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("authType");
 
       dispatch(
         setAuthenticated({
@@ -39,13 +56,16 @@ function Header() {
       dispatch(setReset({ ownerMaster: [] }))
     } else if (localStorage.getItem("role") === "Owner") {
 
-      localStorage.removeItem("ownerId");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("tenant_id");
       localStorage.removeItem("role");
       localStorage.removeItem("token");
 
       dispatch(
         setAuthenticated({
-          ownerId: null,
+          userId: null,
           isAuthenticated: !!localStorage.getItem("token"),
         }),
       );
@@ -94,11 +114,11 @@ function Header() {
                 alt="logo"
               />
               <h5 className="logo-title ml-3" >POSDashs</h5>
-              
+
             </a>
-            
+
           </div>
-          
+
           <div className="iq-search-bar device-search">
             <form action="#" className="searchbox">
               <a className="search-link" href="#">
@@ -127,7 +147,7 @@ function Header() {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav ml-auto navbar-list align-items-center">
-              {/*  
+                {/*  
               <li className="nav-item nav-icon dropdown">
                   <a
                     href="#"
@@ -513,10 +533,10 @@ function Header() {
                           />
                         </div>
                         <div className="p-3">
-                         {/*  <h5 className="mb-1">JoanDuo@property.com</h5>
+                          {/*  <h5 className="mb-1">JoanDuo@property.com</h5>
                           <p className="mb-0">Since 10 march, 2020</p> */}
                           <div className="d-flex align-items-center justify-content-center mt-3">
-                          {/*  <a
+                            {/*  <a
                               href="../app/user-profile.html"
                               className="btn border mr-2"
                             >

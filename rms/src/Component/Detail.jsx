@@ -30,7 +30,7 @@ function Detail() {
     console.log(clientMaster);
 
     const rentMaster = useSelector(selectAllRentMaster).filter(
-        (item) => item?.propertymaster._id === id
+        (item) => item._id === id
     );
 
     useEffect(() => {
@@ -47,41 +47,26 @@ function Detail() {
 
     useEffect(() => {
         const getData = async () => {
-            // try {
-            //     const res = await axios.get(`https://rsmapi.vercel.app/${whichroute}/${id}`, {
-            //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            //     })
-            //     setData(await res.data)
-            // } catch (error) {
-            //     setMessage({
-            //         ...message,
-            //         danger: `${error.message}, While retriving Data`,
-            //     });
-            // } finally {
-            //     setTimeout(
-            //         () =>
-            //             setMessage({
-            //                 success: "",
-            //                 danger: "",
-            //             }),
-            //         3000
-            //     );
-            // }
+            console.log("Route:", whichroute, "ID:", id);
 
             if (whichroute === "propertymaster") {
-                setData(rentMaster[0]);
+                console.log("Property Master Data:", propertyMaster);
+                setData(propertyMaster[0]);
             } else if (whichroute === "clientmaster") {
+                console.log("Client Master Data:", clientMaster);
                 setData(clientMaster[0]);
             } else if (whichroute === "rentmaster") {
+                console.log("Rent Master Data:", rentMaster);
                 setData(rentMaster[0]);
             }
             else if (whichroute === 'rentTranscation') {
+                console.log("Transaction Data:", transcation);
                 setData(transcation[0])
             }
         };
 
         getData();
-    }, [id]);
+    }, [id, whichroute, propertyMaster, clientMaster, rentMaster, transcation]);
 
     return (
         <>
@@ -110,7 +95,7 @@ function Detail() {
                                                                     <h5>
                                                                         Property_Rent {item.charAt(0).toUpperCase() + item.slice(1)}
                                                                     </h5>
-                                                                    <div className="help-block">{data[item] && data[item].$numberDecimal}</div>
+                                                                    <div className="help-block">{data[item]}</div>
                                                                 </div>
                                                             </div>
                                                         ) : (item === 'createdAt' || item === 'updatedAt') ? (
@@ -144,7 +129,7 @@ function Detail() {
                                                                             (subtItem !== "__v" &&
                                                                                 subtItem !== "ownerMasters" &&
                                                                                 subtItem !== "pincode" && subtItem !== "createdAt" &&
-                                                                                subtItem !== "updatedAt" && subtItem!=='_id') ? (
+                                                                                subtItem !== "updatedAt" && subtItem !== '_id') ? (
                                                                                 <div className="col-md-6" key={subIndex}>
                                                                                     <div className="form-group">
                                                                                         <h5>
@@ -157,7 +142,7 @@ function Detail() {
                                                                                     </div>
                                                                                 </div>
                                                                             ) : subtItem !== "__v" &&
-                                                                                subtItem !== "ownerMasters" &&subtItem!=='_id'&&
+                                                                                subtItem !== "ownerMasters" && subtItem !== '_id' &&
                                                                                 subtItem === "pincode" ? (
                                                                                 <div className="col-md-6" key={subIndex}>
                                                                                     <div className="form-group">
@@ -166,7 +151,7 @@ function Detail() {
                                                                                                 subtItem.slice(1)}
                                                                                         </h5>
                                                                                         <div className="help-block">
-                                                                                            {data[item][subtItem] && data[item][subtItem].$numberDecimal}
+                                                                                            {data[item][subtItem]}
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -269,44 +254,56 @@ function Detail() {
                                                     )
                                                 )
                                                 : whichroute === "rentmaster"
-                                                    ? {
-                                                        /* data && Object.keys(data).map((item, index) => (
-                                                                                  (item === 'electricityMeterNumber') ? (
-                                                                                      <div className="col-md-6" key={index}>
-                                                                                          <div className="form-group">
-                                                                                              <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
-                                                                                              <div className="help-block">{data[item]}</div>
-                                                                                          </div>
-                                                                                      </div>
-                                                                                  ) : (
-                                                                                      item === 'incrementPercentage' || item === 'securityDepositAmount' || item === 'monthlyRent' || item === 'incrementSchedule' ?
-                                                                                          (
-                                                                                              (item !== '__v' && item !== 'propertymaster') && (
-                                                                                                  <div className="col-md-6" key={index}>
-                                                                                                      <div className="form-group">
-                                                                                                          <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
-                                                                                                          <div className="help-block">{data[item].$numberDecimal}</div>
-                                                                                                      </div>
-                                                                                                  </div>
-                                                                                              )
-                                                                                          ) : item === 'propertymaster' ? (
-                                                                                              <div className="col-md-6" key={index}>
-                                                                                                  <div className="form-group">
-                                                                                                      <h5>Property</h5>
-                                                                                                      <div className="help-block">{data[item].address1},{data[item].address2},{data[item].pincode.$numberDecimal},{data[item].city},{data[item].state}</div>
-                                                                                                  </div>
-                                                                                              </div>
-                                                                                          ) : (item === 'createdAt' || item === 'updatedAt') && (
-                                                                                              <div className="col-md-6" key={index}>
-                                                                                                  <div className="form-group">
-                                                                                                      <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
-                                                                                                      <div className="help-block">{data[item].slice(0, 10)}</div>
-                                                                                                  </div>
-                                                                                              </div>
-                                                                                          )
-                                                                                  )
-                                                                              )) */
-                                                    }
+                                                    ? data && Object.keys(data).map((item, index) => (
+                                                        (item === 'electricityMeterNumber') ? (
+                                                            <div className="col-md-6" key={index}>
+                                                                <div className="form-group">
+                                                                    <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                    <div className="help-block">{data[item]}</div>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            item === 'incrementPercentage' || item === 'securityDepositAmount' || item === 'monthlyRent' || item === 'incrementSchedule' ?
+                                                                (
+                                                                    (item !== '__v' && item !== 'propertymaster') && (
+                                                                        <div className="col-md-6" key={index}>
+                                                                            <div className="form-group">
+                                                                                <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                                <div className="help-block">
+                                                                                    {data[item] && data[item].$numberDecimal !== undefined
+                                                                                        ? data[item].$numberDecimal
+                                                                                        : data[item]}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                ) : item === 'propertymaster' ? (
+                                                                    <div className="col-md-6" key={index}>
+                                                                        <div className="form-group">
+                                                                            <h5>Property</h5>
+                                                                            <div className="help-block">
+                                                                                {data[item] && data[item].address1 &&
+                                                                                    `${data[item].address1}, ${data[item].address2}, ${data[item].pincode}, ${data[item].city}, ${data[item].state}`}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                ) : item === 'clientMaster' ? (
+                                                                    <div className="col-md-6" key={index}>
+                                                                        <div className="form-group">
+                                                                            <h5>Client Name</h5>
+                                                                            <div className="help-block">{data[item] && data[item].name}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                ) : (item === 'createdAt' || item === 'updatedAt') && (
+                                                                    <div className="col-md-6" key={index}>
+                                                                        <div className="form-group">
+                                                                            <h5>{item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                                                                            <div className="help-block">{data[item] && data[item].slice(0, 10)}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                        )
+                                                    ))
                                                     : whichroute === "rentTranscation" &&
                                                     data &&
                                                     Object.keys(data).map((item, index) =>
@@ -345,7 +342,9 @@ function Detail() {
                                                                                             subItem.slice(1)}
                                                                                     </h5>
                                                                                     <div className="help-block">
-                                                                                        {data[item][subItem]}
+                                                                                        {data[item][subItem] && data[item][subItem].$numberDecimal !== undefined
+                                                                                            ? data[item][subItem].$numberDecimal
+                                                                                            : data[item][subItem]}
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -368,7 +367,9 @@ function Detail() {
                                                                                 </h5>
                                                                                 <div className="help-block">
                                                                                     {" "}
-                                                                                    {data[item][subItem].$numberDecimal}
+                                                                                    {data[item][subItem] && data[item][subItem].$numberDecimal !== undefined
+                                                                                        ? data[item][subItem].$numberDecimal
+                                                                                        : data[item][subItem]}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -398,7 +399,9 @@ function Detail() {
                                                                                             subItem.slice(1)}
                                                                                     </h5>
                                                                                     <div className="help-block">
-                                                                                        {data[item][subItem]}
+                                                                                        {data[item][subItem] && data[item][subItem].$numberDecimal !== undefined
+                                                                                            ? data[item][subItem].$numberDecimal
+                                                                                            : data[item][subItem]}
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -426,7 +429,9 @@ function Detail() {
                                                                                 </h5>
                                                                                 <div className="help-block">
                                                                                     {" "}
-                                                                                    {data[item][subItem].$numberDecimal}
+                                                                                    {data[item][subItem] && data[item][subItem].$numberDecimal !== undefined
+                                                                                        ? data[item][subItem].$numberDecimal
+                                                                                        : data[item][subItem]}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -464,7 +469,9 @@ function Detail() {
                                                                                             subItem.slice(1)}
                                                                                     </h5>
                                                                                     <div className="help-block">
-                                                                                        {data[item][subItem]}
+                                                                                        {data[item][subItem] && data[item][subItem].$numberDecimal !== undefined
+                                                                                            ? data[item][subItem].$numberDecimal
+                                                                                            : data[item][subItem]}
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -518,7 +525,9 @@ function Detail() {
                                                                         </h5>
                                                                         <div className="help-block">
                                                                             {" "}
-                                                                            {data[item]}
+                                                                            {data[item] && data[item].$numberDecimal !== undefined
+                                                                                ? data[item].$numberDecimal
+                                                                                : data[item]}
                                                                         </div>
                                                                     </div>
                                                                 </div>

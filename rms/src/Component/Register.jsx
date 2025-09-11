@@ -29,7 +29,9 @@ function Register() {
 
     try {
       const res = await axios.post(
+        // "https://rsmapi.vercel.app/register",
         "https://rsmapi.vercel.app/register",
+
         formdata
       );
 

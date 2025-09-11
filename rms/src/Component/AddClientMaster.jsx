@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function AddClientMaster() {
-  const ownerId = localStorage.getItem("ownerId");
+  const ownerId = localStorage.getItem("userId"); // Changed from ownerId to userId
 
   const [formData, setformData] = useState({
     name: "",
@@ -32,16 +32,17 @@ function AddClientMaster() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const res = await axios.post(
-      //   "https://rsmapi.vercel.app/clientmaster",
-      //   formData, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // }
-      // );
-      // setMessage({
-      //   ...message,
-      //   success: res.data.message,
-      // });
+      const res = await axios.post(
+        "https://rsmapi.vercel.app/clientmaster",
+        // "http://localhost:5000/clientmaster",
+        formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      }
+      );
+      setMessage({
+        ...message,
+        success: res.data.message,
+      });
     } catch (error) {
       setMessage({
         ...message,
@@ -205,12 +206,12 @@ function AddClientMaster() {
       </form>
 
       {message.success && (
-        <div class="alert alert-success" role="alert">
+        <div className="alert alert-success" role="alert">
           {message.success}
         </div>
       )}
       {message.danger && (
-        <div class="alert alert-danger mt-3" role="alert">
+        <div className="alert alert-danger mt-3" role="alert">
           {message.danger}
         </div>
       )}

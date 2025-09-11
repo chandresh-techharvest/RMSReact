@@ -36,6 +36,7 @@ function Login() {
     try {
       if (check === "SuperAdmin") {
         const res = await axios.post(
+          // "https://rsmapi.vercel.app/login",
           "https://rsmapi.vercel.app/login",
           formData
         );
@@ -70,6 +71,7 @@ function Login() {
         }
       } else if (check === "OwnerMaster") {
         const res = await axios.post(
+          // "https://rsmapi.vercel.app/ownermasterlogin",
           "https://rsmapi.vercel.app/ownermasterlogin",
           formData
         );
@@ -105,6 +107,7 @@ function Login() {
       }
       else if (check === "ClientMaster") {
         const res = await axios.post(
+          // "https://rsmapi.vercel.app/clientmasterlogin",
           "https://rsmapi.vercel.app/clientmasterlogin",
           formData
         );
