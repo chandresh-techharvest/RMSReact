@@ -7,6 +7,7 @@ const initialState = {
     ownerId: null,
     clientId: null,
     isAuthenticated: false,
+    daysRemainingInTrial: null, // Add trial information to the user state
   },
   propertyMaster: [],
   clientMaster: [],
@@ -96,6 +97,10 @@ const userSlice = createSlice({
       state.user.ownerId = action.payload.ownerId;
       state.user.clientId = action.payload.clientId;
       state.user.isAuthenticated = action.payload.isAuthenticated;
+      // Set trial information if provided
+      if (action.payload.daysRemainingInTrial !== undefined) {
+        state.user.daysRemainingInTrial = action.payload.daysRemainingInTrial;
+      }
     },
     setReset: (state, action) => {
       state.ownerMaster = action.payload.ownerMaster;

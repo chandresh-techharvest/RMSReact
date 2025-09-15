@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function DashboardHome() {
     const role = localStorage.getItem("role");
     const userName = localStorage.getItem("userName") || "User";
+    const [trialWarning, setTrialWarning] = useState('');
+    const user = useSelector(state => state.user);
+
+    useEffect(() => {
+        // Check for trial period warning using Redux store
+        console.log("User role:", role);
+        console.log("User data:", user);
+
+        if (role === "Owner" && user.user && user.user.daysRemainingInTrial !== null) {
+            const days = user.user.daysRemainingInTrial;
+            console.log("Days remaining in trial:", days);
+
+            if (days <= 5 && days > 0) {
+                setTrialWarning(`Your free trial expires in ${days} day${days > 1 ? 's' : ''}. Please subscribe to continue using the service.`);
+            } else if (days <= 0) {
+                setTrialWarning('Your free trial has expired. Please subscribe to continue using the service.');
+            }
+        }
+    }, [role, user.user?.daysRemainingInTrial]);
 
     return (
         <div className="content-page">
@@ -17,6 +37,18 @@ function DashboardHome() {
                             </div>
                         </div>
                     </div>
+
+                    {/* Trial Warning Alert */}
+                    {trialWarning && (
+                        <div className="col-lg-12">
+                            <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Warning!</strong> {trialWarning}
+                                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
                     {role === "SuperAdmin" && (
                         <>
@@ -245,6 +277,14 @@ function DashboardHome() {
                                     <div className="col-md-6">
                                         <p><strong>Role:</strong> {role}</p>
                                         <p><strong>Authentication:</strong> {localStorage.getItem("authType") || "Traditional"}</p>
+                                        {/* Display trial information for owners */}
+                                        {role === "Owner" && user.user && user.user.daysRemainingInTrial !== null && (
+                                            <p><strong>Trial Status:</strong>
+                                                {user.user.daysRemainingInTrial > 0
+                                                    ? ` ${user.user.daysRemainingInTrial} day${user.user.daysRemainingInTrial > 1 ? 's' : ''} remaining`
+                                                    : " Expired - Please subscribe"}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="col-md-6">
                                         <p><strong>Email:</strong> {localStorage.getItem("userEmail") || "Not Available"}</p>

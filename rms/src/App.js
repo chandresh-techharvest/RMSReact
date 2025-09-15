@@ -18,6 +18,7 @@ import RentTransactionForm from "./Pages/RentMaster/RentTransactionForm";
 import Detail from "./Component/Detail";
 import RentRecipt from "./Pages/RentRecipt/RentRecipt";
 import AdminLogin from "./Component/AdminLogin";
+import AdminOnlyLogin from "./Component/AdminOnlyLogin";
 import AdminRegister from "./Component/AdminRegister";
 import AdmingForgotPassword from "./Component/AdmingForgotPassword";
 import AdminResetPassword from "./Component/AdminResetPassword";
@@ -33,6 +34,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AdminLogin />} />
+          <Route path="/adminTechharvest" element={<AdminOnlyLogin />} />
           <Route path="register" element={<AdminRegister />} />
           <Route path="forgotPassword" element={<AdmingForgotPassword />} />
           <Route path="resetpassword" element={<AdminResetPassword />} />

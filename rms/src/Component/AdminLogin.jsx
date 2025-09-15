@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setAuthenticated } from "../Redux/Slice/userSlice";
 import signIn from '../assets/images/logo.png';
-import SSOLogin from './SSOLogin';
 import '../styles/floating-animations.css';
 
 function AdminLogin() {
@@ -15,7 +14,7 @@ function AdminLogin() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const [check, setCheck] = useState("Admin");
+  const [check, setCheck] = useState("Owner");
 
   const [message, setMessage] = useState({
     success: "",
@@ -47,6 +46,15 @@ function AdminLogin() {
           password: "",
         });
 
+        // Check if trial has expired
+        if (res.data.trialExpired) {
+          setMessage({
+            ...message,
+            danger: res.data.message,
+          });
+          return;
+        }
+
         if (res.data.user) {
           if (res.data.user.role === "Owner") {
             localStorage.setItem("userId", res.data.user._id);
@@ -57,10 +65,18 @@ function AdminLogin() {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("authType", "traditional");
 
+            // Store trial information if available
+            let daysRemainingInTrial = null;
+            if (res.data.user.daysRemainingInTrial !== undefined) {
+              localStorage.setItem("daysRemainingInTrial", res.data.user.daysRemainingInTrial);
+              daysRemainingInTrial = res.data.user.daysRemainingInTrial;
+            }
+
             dispatch(
               setAuthenticated({
                 userId: res.data.user._id,
                 isAuthenticated: !!res.data.token,
+                daysRemainingInTrial: daysRemainingInTrial, // Pass trial info to Redux store
               })
             );
 
@@ -87,6 +103,15 @@ function AdminLogin() {
           password: "",
         });
 
+        // Check if trial has expired (if applicable to clients)
+        if (res.data.trialExpired) {
+          setMessage({
+            ...message,
+            danger: res.data.message,
+          });
+          return;
+        }
+
         if (res.data.user) {
           if (res.data.user.role === "ClientMaster") {
             localStorage.setItem("clientId", res.data.user._id);
@@ -101,6 +126,7 @@ function AdminLogin() {
               setAuthenticated({
                 clientId: res.data.user._id,
                 isAuthenticated: !!res.data.token,
+                // Clients don't have trial info in this implementation
               })
             );
 
@@ -118,7 +144,7 @@ function AdminLogin() {
     } catch (error) {
       setMessage({
         ...message,
-        danger: error.message,
+        danger: error.response?.data?.message || error.message,
       });
 
       setFormData({
@@ -146,14 +172,6 @@ function AdminLogin() {
               <div class="radio-container">
                 <input
                   type="radio"
-                  value="SuperAdmin"
-                  checked={check === "Admin"}
-                  onChange={() => setCheck("Admin")}
-                  style={{ margin: "5px" }}
-                />{" "}
-                Admin &nbsp;
-                <input
-                  type="radio"
                   value="OwnerMaster"
                   checked={check === "Owner"}
                   onChange={() => setCheck("Owner")}
@@ -175,14 +193,7 @@ function AdminLogin() {
                         <h2 className="mb-2">Sign In</h2>
                         <p>Login to stay connected.</p>
                         {
-                          check === 'Admin' ? (
-                            <div>
-                              <SSOLogin />
-                              <p className="text-center mt-3 text-muted">
-                                Use your Microsoft account to sign in as Admin
-                              </p>
-                            </div>
-                          ) : check === 'Owner' ? (
+                          check === 'Owner' ? (
                             <form onSubmit={handleSubmit}>
                               <div className="row">
                                 <div className="col-lg-12">
@@ -260,12 +271,7 @@ function AdminLogin() {
                               </div>
                               <button type="submit" className="btn btn-primary">                                Sign In
                               </button>
-                              <p className="mt-3">
-                                Create an Account{" "}
-                                <Link className="text-primary" to="/register?type=client">
-                                  Sign Up
-                                </Link>
-                              </p>
+                              {/* Removed Sign Up option for clients */}
                             </form>
                           )
                         }
