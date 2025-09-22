@@ -1,0 +1,68 @@
+/* sidebar */
+
+.mobile-menu{
+  display: none;
+}
+
+.desktop-menu{
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .mobile-menu{
+    display: block;
+  }
+
+  .desktop-menu{
+    display: none;
+  }
+}
+
+/* List Property master */
+.desktop-only {
+  display: table-cell;
+}
+
+.mobile-only {
+  display: none;
+}
+
+
+@media (max-width: 600px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: table-cell;
+  }
+
+  .expanded-row td {
+    background-color: #f9f9f9;
+    padding: 10px;
+    font-size: 1em;
+    align-items: self-start;
+  }
+
+  .expanded-row div {
+    align-content: flex-start;
+    margin-bottom: 6px;
+  }
+
+  .list-action button {
+    margin-right: 8px;
+  }
+  .data-table{
+    width: 100%;
+  }
+
+  th:nth-child(1), td:nth-child(1) {
+      width: 40%;
+    }
+    th:nth-child(2), td:nth-child(2) {
+      width: 50%;
+    }
+    th:nth-child(3), td:nth-child(3) {
+      width: 10%;
+    }
+}

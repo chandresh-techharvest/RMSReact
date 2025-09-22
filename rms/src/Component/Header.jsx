@@ -5,6 +5,7 @@ import profilebg from "../assets/images/page-img/profile-bg.jpg";
 import { useDispatch } from "react-redux";
 import { setAuthenticated, setReset } from "../Redux/Slice/userSlice";
 import { useMsal } from "@azure/msal-react";
+import logo from "../assets/images/logo.png";
 
 function Header() {
   const navigate = useNavigate();
@@ -106,10 +107,10 @@ function Header() {
       <div className="iq-navbar-custom">
         <nav className="navbar navbar-expand-lg navbar-light p-0">
           <div className="iq-navbar-logo d-flex align-items-center justify-content-between">
-            <i className="ri-menu-line wrapper-menu"></i>
+            <i className="ri-menu-2-line wrapper-menu"></i>
             <a href="../backend/index.html" className="header-logo">
               <img
-                src="../assets/images/logo.png"
+                src={logo}
                 className="img-fluid rounded-normal"
                 alt="logo"
               />
@@ -140,7 +141,12 @@ function Header() {
               aria-controls="navbarSupportedContent"
               aria-label="Toggle navigation"
             >
-              <i className="ri-menu-3-line"></i>
+              {/* <i className="ri-menu-3-line"></i> */}
+              <img
+                src={profile}
+                alt="profile-img"
+                className="rounded profile-img img-fluid avatar-40"
+              />
             </button>
             <div
               className="collapse navbar-collapse"
