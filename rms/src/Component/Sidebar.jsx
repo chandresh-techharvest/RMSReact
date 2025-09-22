@@ -1,31 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchPropertyMaster,
+import {
+  fetchPropertyMaster,
   fetchRentMaster,
   fetchClientMaster,
   fetchOwnerMaster,
   fetchrentTranscation
 } from "../Redux/Slice/userSlice";
+import "../assets/css/style.css";
 
 function Sidebar() {
   const role = localStorage.getItem("role");
   const dispatch = useDispatch()
-  useEffect(()=>{
-    if(role === 'SuperAdmin'){
+  useEffect(() => {
+    if (role === 'SuperAdmin') {
       dispatch(fetchOwnerMaster())
-  }
-  else if(role === 'OwnerMaster')
-  {
-    dispatch(fetchRentMaster())
-    dispatch(fetchClientMaster())
-    dispatch(fetchPropertyMaster())
-  }
-  else{
-    dispatch(fetchClientMaster())
-    dispatch(fetchrentTranscation())
-  }
-},[dispatch])
+    }
+    else if (role === 'OwnerMaster') {
+      dispatch(fetchRentMaster())
+      dispatch(fetchClientMaster())
+      dispatch(fetchPropertyMaster())
+    }
+    else {
+      dispatch(fetchClientMaster())
+      dispatch(fetchrentTranscation())
+    }
+  }, [dispatch])
   return (
     <div className="iq-sidebar  sidebar-default ">
       <div className="iq-sidebar-logo d-flex align-items-center justify-content-between">
@@ -33,7 +34,8 @@ function Sidebar() {
           <h6 className="logo-title light-logo ml-3">Rent Management System</h6>
         </Link>
         <div className="iq-menu-bt-sidebar ml-0">
-          <i className="las la-bars wrapper-menu"></i>
+          <i className="desktop-menu ri-menu-2-line wrapper-menu"></i>
+          <i className="mobile-menu ri-close-line wrapper-menu"></i>
         </div>
       </div>
       <div

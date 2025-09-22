@@ -9,6 +9,10 @@ import {
   selectAllOwnerMaster,
 } from "../Redux/Slice/userSlice";
 
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import "../assets/css/style.css"
+
 function ListOwnerMaster() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -58,45 +62,68 @@ function ListOwnerMaster() {
     }
   };
 
+  const [expandedRow, setExpandedRow] = useState(null);
+
+  const toggleRow = (index) => {
+    setExpandedRow(expandedRow === index ? null : index);
+  };
+
   return (
     <>
       <table className="data-table table mb-0 tbl-server-info">
         <thead className="bg-white text-uppercase">
           <tr className="ligth ligth-data">
             <th>Name</th>
-            <th>Email Address</th>
-            <th>Phone</th>
-            <th>Created At</th>
+            <th className="desktop-only">Email Address</th>
+            <th className="desktop-only">Phone</th>
+            <th className="desktop-only">Created At</th>
             <th>Actions</th>
+            <th className="mobile-only">More</th>
           </tr>
         </thead>
         <tbody className="ligth-body">
           {data &&
             data.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  <Link>{item.name}</Link>
-                </td>
-                <td>{item.email}</td>
-                <td>{item.phone}</td>
-                <td>{item.createdAt.slice(0, 10)}</td>
-                <td>
-                  <div className="d-flex align-items-center list-action">
-                    <button
-                      className="badge bg-success mr-2"
-                      onClick={() => handleUpdate(item._id)}
-                    >
-                      <ModeOutlinedIcon />
+              <>
+                <tr key={index}>
+                  <td>
+                    <Link>{item.name}</Link>
+                  </td>
+                  <td className="desktop-only">{item.email}</td>
+                  <td className="desktop-only">{item.phone}</td>
+                  <td className="desktop-only">{item.createdAt.slice(0, 10)}</td>
+                  <td>
+                    <div className="d-flex align-items-center list-action">
+                      <button
+                        className="badge bg-success mr-2"
+                        onClick={() => handleUpdate(item._id)}
+                      >
+                        <ModeOutlinedIcon />
+                      </button>
+                      <button
+                        className="badge bg-warning mr-2"
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        <DeleteOutlineOutlinedIcon />
+                      </button>
+                    </div>
+                  </td>
+                  <td className="mobile-only">
+                    <button onClick={() => toggleRow(index)} className="btn btn-sm">
+                      {expandedRow === index ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                     </button>
-                    <button
-                      className="badge bg-warning mr-2"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      <DeleteOutlineOutlinedIcon />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+                {expandedRow === index && (
+                  <tr className="expanded-row">
+                    <td colSpan="6" style={{ textAlign: "left", paddingLeft: "12px" }}>
+                      <div>Email : {item.email}</div>
+                      <div>Phone : {item.phone}</div>
+                      <div>Created At : {item.createdAt.slice(0, 10)}</div>
+                    </td>
+                  </tr>
+                )}
+              </>
             ))}
         </tbody>
       </table>
